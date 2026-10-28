@@ -1,0 +1,6827 @@
+{
+  "n_questions": 1358,
+  "frame_accuracy": 0.606,
+  "frame_accuracy_ci95": [
+    0.5322,
+    0.6774
+  ],
+  "slot_micro": {
+    "tp": 1938,
+    "fp": 494,
+    "fn": 580,
+    "precision": 0.7969,
+    "recall": 0.7697,
+    "f1": 0.783
+  },
+  "slots": {
+    "period": {
+      "tp": 835,
+      "fp": 312,
+      "fn": 523,
+      "precision": 0.728,
+      "recall": 0.6149,
+      "f1": 0.6667
+    },
+    "merchant": {
+      "tp": 506,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "category": {
+      "tp": 232,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "account": {
+      "tp": 110,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 49,
+      "fp": 0,
+      "fn": 57,
+      "precision": 1.0,
+      "recall": 0.4623,
+      "f1": 0.6323
+    },
+    "n": {
+      "tp": 206,
+      "fp": 182,
+      "fn": 0,
+      "precision": 0.5309,
+      "recall": 1.0,
+      "f1": 0.6936
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 14,
+      "accuracy": 0.8571
+    },
+    "last_12_months": {
+      "n": 35,
+      "accuracy": 0.0
+    },
+    "last_30_days": {
+      "n": 27,
+      "accuracy": 0.0
+    },
+    "last_3_months": {
+      "n": 171,
+      "accuracy": 0.0
+    },
+    "last_6_months": {
+      "n": 20,
+      "accuracy": 0.0
+    },
+    "last_month": {
+      "n": 136,
+      "accuracy": 0.9265
+    },
+    "last_week": {
+      "n": 42,
+      "accuracy": 0.9524
+    },
+    "last_year": {
+      "n": 174,
+      "accuracy": 0.9425
+    },
+    "q2_2026": {
+      "n": 40,
+      "accuracy": 0.0
+    },
+    "q3_2026": {
+      "n": 172,
+      "accuracy": 0.1163
+    },
+    "this_month": {
+      "n": 171,
+      "accuracy": 0.9181
+    },
+    "this_week": {
+      "n": 172,
+      "accuracy": 0.9535
+    },
+    "this_year": {
+      "n": 184,
+      "accuracy": 0.8261
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "q0001",
+      "text": "How much money went to Lyft in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0002",
+      "text": "What did I pay Lyft in total in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0003",
+      "text": "How much did I spend at Lyft in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0004",
+      "text": "Sum of my purchases at Lyft in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0005",
+      "text": "How much money went to Lyft over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0006",
+      "text": "How much money went to Lyft in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0007",
+      "text": "How much did I spend at Lyft in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0008",
+      "text": "How much money went to Lyft in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0009",
+      "text": "How much money went to Uber in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "uber"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "uber"
+      },
+      "note": null
+    },
+    {
+      "id": "q0010",
+      "text": "Sum of my purchases at Uber in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "uber"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "uber"
+      },
+      "note": null
+    },
+    {
+      "id": "q0011",
+      "text": "How many times did I pay Lyft in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0012",
+      "text": "On average, how much did each purchase at Lyft cost in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0013",
+      "text": "How much money did Lyft give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lyft"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lyft"
+      },
+      "note": null
+    },
+    {
+      "id": "q0014",
+      "text": "Total expenses in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0023",
+      "text": "How much did I spend at Starbucks in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "starbucks"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "starbucks"
+      },
+      "note": null
+    },
+    {
+      "id": "q0030",
+      "text": "What was my total spending at Netflix in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0031",
+      "text": "How much money went to Netflix in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0032",
+      "text": "Sum of my purchases at Netflix in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0033",
+      "text": "Total spent at Netflix in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0035",
+      "text": "What was my total spending at Netflix in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0036",
+      "text": "Sum of my purchases at Netflix in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0037",
+      "text": "What was my total spending at Netflix in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0038",
+      "text": "What was my total spending at Spotify in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0039",
+      "text": "What did I pay Spotify in total in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0040",
+      "text": "Number of purchases at Netflix in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0041",
+      "text": "How much did I spend per transaction at Netflix in Q3 2026, on average?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0042",
+      "text": "What was the total of my returns to Netflix in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0043",
+      "text": "How much money did I spend in total in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0053",
+      "text": "Sum of my purchases at Home Depot in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0060",
+      "text": "What did I pay Spotify in total in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0061",
+      "text": "How much did I spend at Spotify in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0062",
+      "text": "What was my total spending at Spotify in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0063",
+      "text": "Total spent at Spotify in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0064",
+      "text": "What did I pay Spotify in total over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0065",
+      "text": "How much money went to Spotify in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0066",
+      "text": "What did I pay Spotify in total in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0067",
+      "text": "What did I pay Netflix in total in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0068",
+      "text": "How much did I spend at Netflix in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0069",
+      "text": "How many times did I pay Spotify in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0070",
+      "text": "On average, how much did each purchase at Spotify cost in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0071",
+      "text": "What was the total of my returns to Spotify in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0072",
+      "text": "What were my overall expenses in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0087",
+      "text": "How much money went to Target in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0088",
+      "text": "What was my total spending at Target in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0089",
+      "text": "Total spent at Target in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0090",
+      "text": "How much did I spend at Target in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0091",
+      "text": "How much money went to Target over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0092",
+      "text": "How much money went to Target in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0093",
+      "text": "What was my total spending at Target in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0094",
+      "text": "How much money went to Target in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0095",
+      "text": "How much money went to Walmart in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "walmart"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "walmart"
+      },
+      "note": null
+    },
+    {
+      "id": "q0096",
+      "text": "What was my total spending at Walmart in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "walmart"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "walmart"
+      },
+      "note": null
+    },
+    {
+      "id": "q0097",
+      "text": "How much money went to Costco in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "costco"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "costco"
+      },
+      "note": null
+    },
+    {
+      "id": "q0098",
+      "text": "How often did I buy from Target in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0099",
+      "text": "How much did I spend per transaction at Target in the last 3 months, on average?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0100",
+      "text": "How much money did Target give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0101",
+      "text": "How much did I spend in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0152",
+      "text": "Count my transactions at Uber in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "uber"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "uber"
+      },
+      "note": null
+    },
+    {
+      "id": "q0158",
+      "text": "Count my transactions at Amazon in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0159",
+      "text": "How many transactions did I have at Amazon in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0160",
+      "text": "Number of purchases at Amazon in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0161",
+      "text": "How many times did I pay Amazon in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0163",
+      "text": "Count my transactions at Amazon in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0164",
+      "text": "Number of purchases at Amazon in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0165",
+      "text": "Count my transactions at Amazon in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0166",
+      "text": "Count my transactions at Amazon.com in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0167",
+      "text": "Count my transactions at Target in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0168",
+      "text": "Number of purchases at Target in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0169",
+      "text": "What was my total spending at Amazon in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0170",
+      "text": "How much did I spend per transaction at Amazon in Q3 2026, on average?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0176",
+      "text": "Count my transactions at Home Depot year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0179",
+      "text": "Count my transactions at Home Depot in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0193",
+      "text": "How many transactions did I have at Walmart in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "walmart"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "walmart"
+      },
+      "note": null
+    },
+    {
+      "id": "q0207",
+      "text": "How many transactions did I have at Chevron in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "chevron"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "chevron"
+      },
+      "note": null
+    },
+    {
+      "id": "q0231",
+      "text": "Count my transactions at Starbucks in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "starbucks"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "starbucks"
+      },
+      "note": null
+    },
+    {
+      "id": "q0236",
+      "text": "Count my transactions at Lowe's in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0237",
+      "text": "Number of purchases at Lowe's in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0238",
+      "text": "How often did I buy from Lowe's in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0239",
+      "text": "How many times did I pay Lowe's in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0240",
+      "text": "Count my transactions at Lowe's over the past three months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0241",
+      "text": "Count my transactions at Lowe's in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0242",
+      "text": "How often did I buy from Lowe's in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0243",
+      "text": "Count my transactions at Lowe's in the last 6 months",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0244",
+      "text": "Count my transactions at Lowes in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0245",
+      "text": "Count my transactions at Home Depot in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0246",
+      "text": "How many times did I pay Home Depot in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0247",
+      "text": "Sum of my purchases at Lowe's in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0248",
+      "text": "How much did I spend per transaction at Lowe's in the last 3 months, on average?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0257",
+      "text": "How many transactions did I have at Amazon in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0268",
+      "text": "How many transactions did I have at Walmart year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "merchant": "walmart"
+      },
+      "pred": {
+        "merchant": "walmart"
+      },
+      "note": null
+    },
+    {
+      "id": "q0271",
+      "text": "How many transactions did I have at Walmart in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "walmart"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "walmart"
+      },
+      "note": null
+    },
+    {
+      "id": "q0285",
+      "text": "On average, how much did each purchase at Shell cost in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "shell"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "shell"
+      },
+      "note": null
+    },
+    {
+      "id": "q0290",
+      "text": "On average, how much did each purchase at Lowe's cost in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0291",
+      "text": "How much did I spend per transaction at Lowe's in Q3 2026, on average?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0292",
+      "text": "Average transaction amount at Lowe's in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0293",
+      "text": "What was my average purchase at Lowe's in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0295",
+      "text": "On average, how much did each purchase at Lowe's cost in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0296",
+      "text": "What was my average purchase at Lowe's in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0297",
+      "text": "On average, how much did each purchase at Lowe's cost in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0298",
+      "text": "On average, how much did each purchase at Lowes cost in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0299",
+      "text": "On average, how much did each purchase at Home Depot cost in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0300",
+      "text": "What was my average purchase at Home Depot in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0301",
+      "text": "How much did I spend at Lowe's in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0302",
+      "text": "How many times did I pay Lowe's in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "lowes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "lowes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0306",
+      "text": "How much did I spend per transaction at Shell year to date, on average?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "merchant": "shell"
+      },
+      "pred": {
+        "merchant": "shell"
+      },
+      "note": null
+    },
+    {
+      "id": "q0307",
+      "text": "How much did I spend per transaction at Shell in the last 12 months, on average?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "shell"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "shell"
+      },
+      "note": null
+    },
+    {
+      "id": "q0317",
+      "text": "What was my average purchase at Starbucks year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "merchant": "starbucks"
+      },
+      "pred": {
+        "merchant": "starbucks"
+      },
+      "note": null
+    },
+    {
+      "id": "q0319",
+      "text": "What was my average purchase at Starbucks in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "starbucks"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "starbucks"
+      },
+      "note": null
+    },
+    {
+      "id": "q0330",
+      "text": "How much did I spend per transaction at Uber in the last 30 days, on average?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "uber"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "uber"
+      },
+      "note": null
+    },
+    {
+      "id": "q0340",
+      "text": "How much did I spend per transaction at Amazon year to date, on average?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0342",
+      "text": "How much did I spend per transaction at Amazon in the last 12 months, on average?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0356",
+      "text": "Average transaction amount at Uber in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "uber"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "uber"
+      },
+      "note": null
+    },
+    {
+      "id": "q0369",
+      "text": "How much did I spend per transaction at Walmart in the last 12 months, on average?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "walmart"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "walmart"
+      },
+      "note": null
+    },
+    {
+      "id": "q0375",
+      "text": "How much did I spend per transaction at Spotify in Q3 2026, on average?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0376",
+      "text": "What was my average purchase at Spotify in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0377",
+      "text": "On average, how much did each purchase at Spotify cost in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0378",
+      "text": "Average transaction amount at Spotify in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0380",
+      "text": "How much did I spend per transaction at Spotify in Q2 2026, on average?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0381",
+      "text": "On average, how much did each purchase at Spotify cost in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0382",
+      "text": "How much did I spend per transaction at Spotify in the last 3 months, on average?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0383",
+      "text": "Average transaction amount at Netflix in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0384",
+      "text": "How often did I buy from Spotify in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0393",
+      "text": "On average, how much did each purchase at Trader Joe's cost in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0407",
+      "text": "How much did I get refunded from Target in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0420",
+      "text": "How much money did Spotify give back to me in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0431",
+      "text": "How much money did Home Depot give back to me in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "merchant": "home_depot"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "merchant": "home_depot"
+      },
+      "note": null
+    },
+    {
+      "id": "q0436",
+      "text": "How much money did Spotify give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0437",
+      "text": "Total refunds from Spotify in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0438",
+      "text": "How much did I get refunded from Spotify in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0439",
+      "text": "How much money did Spotify give back to me over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0440",
+      "text": "How much money did Spotify give back to me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0441",
+      "text": "What was the total of my returns to Spotify in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0442",
+      "text": "How much money did Spotify give back to me in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "spotify"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "spotify"
+      },
+      "note": null
+    },
+    {
+      "id": "q0443",
+      "text": "How much money did Netflix give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0444",
+      "text": "What was the total of my returns to Netflix in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "q0468",
+      "text": "What was the total of my returns to Amazon in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0469",
+      "text": "Total refunds from Amazon in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0470",
+      "text": "How much did I get refunded from Amazon in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0471",
+      "text": "How much money did Amazon give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0472",
+      "text": "What was the total of my returns to Amazon over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0473",
+      "text": "What was the total of my returns to Amazon in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0474",
+      "text": "How much money did Amazon give back to me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0475",
+      "text": "What was the total of my returns to Amazon in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0476",
+      "text": "What was the total of my returns to Amazon.com in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0477",
+      "text": "What was the total of my returns to Target in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "target"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "target"
+      },
+      "note": null
+    },
+    {
+      "id": "q0478",
+      "text": "What did I pay Amazon in total in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "amazon"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "amazon"
+      },
+      "note": null
+    },
+    {
+      "id": "q0479",
+      "text": "Total refunds from Dunkin' in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0480",
+      "text": "How much did I get refunded from Dunkin' in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0481",
+      "text": "What was the total of my returns to Dunkin' in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0482",
+      "text": "How much money did Dunkin' give back to me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0484",
+      "text": "Total refunds from Dunkin' in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0485",
+      "text": "How much money did Dunkin' give back to me in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 2,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0486",
+      "text": "Total refunds from Dunkin' in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0487",
+      "text": "Total refunds from Dunkin Donuts in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0488",
+      "text": "Total refunds from Starbucks in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "starbucks"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "starbucks"
+      },
+      "note": null
+    },
+    {
+      "id": "q0489",
+      "text": "How much did I get refunded from Starbucks in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "starbucks"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "starbucks"
+      },
+      "note": null
+    },
+    {
+      "id": "q0490",
+      "text": "Sum of my purchases at Dunkin' in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "dunkin"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "dunkin"
+      },
+      "note": null
+    },
+    {
+      "id": "q0499",
+      "text": "Total refunds from Shell in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "shell"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "merchant": "shell"
+      },
+      "note": null
+    },
+    {
+      "id": "q0503",
+      "text": "How much money did Trader Joe's give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0504",
+      "text": "Total refunds from Trader Joe's in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0505",
+      "text": "What was the total of my returns to Trader Joe's in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0506",
+      "text": "How much did I get refunded from Trader Joe's in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0507",
+      "text": "How much money did Trader Joe's give back to me over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0508",
+      "text": "How much money did Trader Joe's give back to me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0509",
+      "text": "Total refunds from Trader Joe's in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "n": 3,
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0510",
+      "text": "How much money did Trader Joe's give back to me in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0511",
+      "text": "How much money did Trader Joes give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0512",
+      "text": "How much money did Whole Foods give back to me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "whole_foods"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "whole_foods"
+      },
+      "note": null
+    },
+    {
+      "id": "q0513",
+      "text": "What was the total of my returns to Whole Foods in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "whole_foods"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "whole_foods"
+      },
+      "note": null
+    },
+    {
+      "id": "q0514",
+      "text": "What was my total spending at Trader Joe's in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "merchant": "trader_joes"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "merchant": "trader_joes"
+      },
+      "note": null
+    },
+    {
+      "id": "q0515",
+      "text": "Total spent on shopping in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 3,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0516",
+      "text": "What did shopping cost me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 3,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0517",
+      "text": "What was my spending on shopping in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 3,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0518",
+      "text": "How much did I spend on shopping in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 3,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0520",
+      "text": "Total spent on shopping in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 2,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0521",
+      "text": "How much money went to shopping in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 2,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0522",
+      "text": "Total spent on shopping in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0523",
+      "text": "Total spent on groceries in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0524",
+      "text": "What was my spending on groceries in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0525",
+      "text": "How much did I spend in Q3 2026 excluding shopping?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 3,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0526",
+      "text": "Total expenses in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0527",
+      "text": "What did groceries cost me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0528",
+      "text": "How much did I spend on groceries in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0530",
+      "text": "Total spent on groceries in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 2,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0531",
+      "text": "What did groceries cost me in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 2,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0532",
+      "text": "Total spent on groceries in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "groceries"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0533",
+      "text": "Total spent on grocery shopping in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0534",
+      "text": "Total spent on dining out in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0535",
+      "text": "How much did I spend on dining out in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0536",
+      "text": "Total spent on everything but groceries in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0537",
+      "text": "What was my total spending in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0546",
+      "text": "Total spent on gas in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0552",
+      "text": "Total spent on travel in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0553",
+      "text": "How much did I spend on travel in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0554",
+      "text": "How much money went to travel in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0555",
+      "text": "What was my spending on travel in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0556",
+      "text": "Total spent on travel over the past three months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0557",
+      "text": "Total spent on travel in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "pred": {
+        "n": 3,
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0558",
+      "text": "What was my spending on travel in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "pred": {
+        "n": 3,
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0559",
+      "text": "Total spent on travel in the last 6 months",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0560",
+      "text": "Total spent on gas in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0561",
+      "text": "What was my spending on gas in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0562",
+      "text": "What was my total spending in the last 3 months, not counting travel?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0568",
+      "text": "Total spent on shopping year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0571",
+      "text": "Total spent on shopping in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0576",
+      "text": "How much money went to shopping in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0577",
+      "text": "How much did I spend on shopping in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0578",
+      "text": "What did shopping cost me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0579",
+      "text": "How much money went to shopping over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0580",
+      "text": "How much money went to shopping in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "pred": {
+        "n": 3,
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0581",
+      "text": "How much money went to shopping in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0582",
+      "text": "How much money went to groceries in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "groceries"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0583",
+      "text": "What did groceries cost me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "groceries"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0584",
+      "text": "What was my total spending in the last 3 months, not counting shopping?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "shopping"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "shopping"
+      },
+      "note": null
+    },
+    {
+      "id": "q0585",
+      "text": "What was my total spending in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0594",
+      "text": "How much did I spend on groceries in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "category": "groceries"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0602",
+      "text": "How much did I spend on utilities in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0603",
+      "text": "Total spent on utilities in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0604",
+      "text": "What did utilities cost me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0605",
+      "text": "How much money went to utilities in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0606",
+      "text": "How much did I spend on utilities over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0607",
+      "text": "How much did I spend on utilities in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "pred": {
+        "n": 3,
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0608",
+      "text": "What did utilities cost me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "pred": {
+        "n": 3,
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0609",
+      "text": "How much did I spend on utilities in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0610",
+      "text": "How much did I spend on utility bills in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0611",
+      "text": "How much did I spend on subscriptions in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "subscriptions"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "subscriptions"
+      },
+      "note": null
+    },
+    {
+      "id": "q0612",
+      "text": "What did subscriptions cost me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "subscriptions"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "subscriptions"
+      },
+      "note": null
+    },
+    {
+      "id": "q0613",
+      "text": "How much did I spend on everything except utilities in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "utilities"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "utilities"
+      },
+      "note": null
+    },
+    {
+      "id": "q0626",
+      "text": "What did dining out cost me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0627",
+      "text": "What was my spending on dining out in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0629",
+      "text": "What did dining out cost me in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 2,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0630",
+      "text": "How much money went to dining out in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 2,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0631",
+      "text": "What did dining out cost me in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "dining"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0632",
+      "text": "What did restaurants cost me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0633",
+      "text": "What did eating out cost me in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0634",
+      "text": "How much money went to groceries in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "groceries"
+      },
+      "pred": {
+        "n": 3,
+        "category": "groceries"
+      },
+      "note": null
+    },
+    {
+      "id": "q0635",
+      "text": "What was my total spending in Q3 2026, not counting dining out?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "dining"
+      },
+      "pred": {
+        "n": 3,
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0636",
+      "text": "How much did I spend in the last 3 months excluding travel?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0637",
+      "text": "How much did I spend on everything except travel in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0638",
+      "text": "Total spent on everything but travel in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0639",
+      "text": "How much did I spend over the past three months excluding travel?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0640",
+      "text": "How much did I spend in Q3 2026 excluding travel?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "pred": {
+        "n": 3,
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0641",
+      "text": "What was my total spending in Q3 2026, not counting travel?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "travel"
+      },
+      "pred": {
+        "n": 3,
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0642",
+      "text": "How much did I spend in the last 6 months excluding travel?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "category": "travel"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0643",
+      "text": "How much did I spend in the last 3 months excluding gas?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0644",
+      "text": "How much did I spend on everything except gas in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0645",
+      "text": "What was my total spending in the last 3 months, not counting entertainment?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0646",
+      "text": "How much did I spend in the last 3 months excluding entertainment?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0647",
+      "text": "Total spent on everything but entertainment in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0648",
+      "text": "How much did I spend on everything except entertainment in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0649",
+      "text": "What was my total spending over the past three months, not counting entertainment?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0650",
+      "text": "What was my total spending in Q3 2026, not counting entertainment?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "pred": {
+        "n": 3,
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0651",
+      "text": "Total spent on everything but entertainment in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "pred": {
+        "n": 3,
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0652",
+      "text": "What was my total spending in the last 6 months, not counting entertainment?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0653",
+      "text": "What was my total spending in the last 3 months, not counting subscriptions?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "subscriptions"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "subscriptions"
+      },
+      "note": null
+    },
+    {
+      "id": "q0654",
+      "text": "How much did I spend on everything except subscriptions in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "subscriptions"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "subscriptions"
+      },
+      "note": null
+    },
+    {
+      "id": "q0655",
+      "text": "Total spent on entertainment in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0664",
+      "text": "Total spent on everything but dining out in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "category": "dining"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "category": "dining"
+      },
+      "note": null
+    },
+    {
+      "id": "q0678",
+      "text": "How much did I spend on everything except subscriptions in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "category": "subscriptions"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "category": "subscriptions"
+      },
+      "note": null
+    },
+    {
+      "id": "q0707",
+      "text": "Total spent on everything but gas year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0709",
+      "text": "Total spent on everything but gas in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0731",
+      "text": "How much did I spend on everything except gas in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "category": "gas"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "category": "gas"
+      },
+      "note": null
+    },
+    {
+      "id": "q0741",
+      "text": "Total spent on everything but entertainment year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0744",
+      "text": "Total spent on everything but entertainment in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "category": "entertainment"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "category": "entertainment"
+      },
+      "note": null
+    },
+    {
+      "id": "q0753",
+      "text": "Total outflows from my Amex card year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0756",
+      "text": "Total outflows from my Amex card in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0761",
+      "text": "Total outflows from my savings account in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0762",
+      "text": "How much money left my savings account in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0763",
+      "text": "How much did I spend from my savings account in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0764",
+      "text": "What went out of my savings account in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0765",
+      "text": "Total outflows from my savings account over the past three months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0766",
+      "text": "Total outflows from my savings account in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "pred": {
+        "n": 3,
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0767",
+      "text": "How much money left my savings account in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "pred": {
+        "n": 3,
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0768",
+      "text": "Total outflows from my savings account in the last 6 months",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0769",
+      "text": "Total outflows from my savings in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "savings"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0770",
+      "text": "Total outflows from my checking account in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "checking"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0771",
+      "text": "How much money left my checking account in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "checking"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0781",
+      "text": "How much money left my Amex card in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0786",
+      "text": "How much money left my Amex card in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0787",
+      "text": "What went out of my Amex card in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0788",
+      "text": "How much did I spend from my Amex card in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0789",
+      "text": "Total outflows from my Amex card in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0790",
+      "text": "How much money left my Amex card over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0791",
+      "text": "How much money left my Amex card in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "pred": {
+        "n": 3,
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0792",
+      "text": "Total outflows from my Amex card in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "pred": {
+        "n": 3,
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0793",
+      "text": "How much money left my Amex card in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0794",
+      "text": "How much money left my American Express card in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "amex"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0795",
+      "text": "How much money left my Visa card in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "visa"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0796",
+      "text": "Total outflows from my Visa card in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "visa"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0800",
+      "text": "What went out of my Visa card year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "account": "visa"
+      },
+      "pred": {
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0803",
+      "text": "What went out of my Visa card in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "account": "visa"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0817",
+      "text": "What went out of my checking account in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 3,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0818",
+      "text": "Total outflows from my checking account in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 3,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0819",
+      "text": "How much did I spend from my checking account in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 3,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0820",
+      "text": "How much money left my checking account in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 3,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0822",
+      "text": "What went out of my checking account in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 2,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0823",
+      "text": "Total outflows from my checking account in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 2,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0824",
+      "text": "What went out of my checking account in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "checking"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0825",
+      "text": "What went out of my checking in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "checking"
+      },
+      "pred": {
+        "n": 3,
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0826",
+      "text": "What went out of my savings account in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "pred": {
+        "n": 3,
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0827",
+      "text": "How much did I spend from my savings account in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "savings"
+      },
+      "pred": {
+        "n": 3,
+        "account": "savings"
+      },
+      "note": null
+    },
+    {
+      "id": "q0828",
+      "text": "What went out of my Visa card in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 3,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0829",
+      "text": "How much did I spend from my Visa card in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 3,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0830",
+      "text": "Total outflows from my Visa card in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 3,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0831",
+      "text": "How much money left my Visa card in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 3,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0833",
+      "text": "What went out of my Visa card in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 2,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0834",
+      "text": "How much did I spend from my Visa card in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 2,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0835",
+      "text": "What went out of my Visa card in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "account": "visa"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0836",
+      "text": "What went out of my Visa in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "visa"
+      },
+      "pred": {
+        "n": 3,
+        "account": "visa"
+      },
+      "note": null
+    },
+    {
+      "id": "q0837",
+      "text": "What went out of my Amex card in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "account": "amex"
+      },
+      "pred": {
+        "n": 3,
+        "account": "amex"
+      },
+      "note": null
+    },
+    {
+      "id": "q0838",
+      "text": "How much did I spend in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0858",
+      "text": "How much did I spend from my checking account in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "account": "checking"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "account": "checking"
+      },
+      "note": null
+    },
+    {
+      "id": "q0865",
+      "text": "What was my total spending year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {},
+      "note": null
+    },
+    {
+      "id": "q0867",
+      "text": "What was my total spending in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0870",
+      "text": "What was the biggest single thing I bought this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0875",
+      "text": "What were my overall expenses in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0887",
+      "text": "Total expenses in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q0893",
+      "text": "How much did I spend in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q0894",
+      "text": "What were my overall expenses in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q0895",
+      "text": "How much income did I receive in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0896",
+      "text": "What was my net cash flow in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0897",
+      "text": "Largest charge in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0898",
+      "text": "How much did I spend on travel in Q3 2026?",
+      "gold": {
+        "category": "travel",
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3,
+        "category": "travel"
+      },
+      "note": null
+    },
+    {
+      "id": "q0903",
+      "text": "What was my total spending in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q0917",
+      "text": "What was my total spending over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0918",
+      "text": "What was my total spending in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0919",
+      "text": "How much income did I receive in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0920",
+      "text": "How much more did I earn than I spent in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0921",
+      "text": "Show my most expensive transaction in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0929",
+      "text": "How much did I earn in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0930",
+      "text": "Total money coming in in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0931",
+      "text": "What was my total income in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0932",
+      "text": "How much did I earn over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0933",
+      "text": "How much did I earn in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0934",
+      "text": "Total money coming in in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0935",
+      "text": "How much did I earn in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0936",
+      "text": "Income minus expenses in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0943",
+      "text": "Total money coming in in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0948",
+      "text": "How much did I earn year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {},
+      "note": null
+    },
+    {
+      "id": "q0949",
+      "text": "How much did I earn in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0955",
+      "text": "Total money coming in in September 2026",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2027-09-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0958",
+      "text": "Total money coming in in August 2026",
+      "gold": {
+        "period": "2026-08-01/2026-08-31"
+      },
+      "pred": {
+        "period": "2027-08-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0959",
+      "text": "Total money coming in in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q0963",
+      "text": "How much income did I receive in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q0965",
+      "text": "What was my total income in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0967",
+      "text": "What was my total income in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q0968",
+      "text": "How much income did I receive in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q0969",
+      "text": "What was left over after expenses in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0975",
+      "text": "Income minus expenses in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0981",
+      "text": "How much more did I earn than I spent in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q0985",
+      "text": "How much more did I earn than I spent year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {},
+      "note": null
+    },
+    {
+      "id": "q0986",
+      "text": "How much more did I earn than I spent in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0991",
+      "text": "What was left over after expenses in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0992",
+      "text": "What was my net cash flow in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0993",
+      "text": "What was left over after expenses over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0994",
+      "text": "How much more did I earn than I spent in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q0995",
+      "text": "What was left over after expenses in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1001",
+      "text": "Income minus expenses in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1003",
+      "text": "Income minus expenses in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1004",
+      "text": "What was my net cash flow in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1005",
+      "text": "What was the biggest single thing I bought last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1008",
+      "text": "What was the biggest single thing I bought in 2025?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1009",
+      "text": "What was the biggest single thing I bought during 2025?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1011",
+      "text": "What was the biggest single thing I bought in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1012",
+      "text": "What was my largest purchase in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1013",
+      "text": "Show my most expensive transaction in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1014",
+      "text": "What was the biggest single thing I bought in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1016",
+      "text": "What was my largest purchase in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1017",
+      "text": "What was the biggest single thing I bought in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1018",
+      "text": "What was my largest purchase in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1019",
+      "text": "What was the biggest single thing I bought this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1022",
+      "text": "What was the biggest single thing I bought so far this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1023",
+      "text": "What was the biggest single thing I bought in October 2026?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1024",
+      "text": "What was the biggest single thing I bought last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1025",
+      "text": "What was the biggest single thing I bought in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1026",
+      "text": "What was the biggest single thing I bought this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1029",
+      "text": "What was the biggest single thing I bought in the previous month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1030",
+      "text": "What was the biggest single thing I bought in September 2026?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1031",
+      "text": "What was the biggest single thing I bought in August 2026?",
+      "gold": {
+        "period": "2026-08-01/2026-08-31"
+      },
+      "pred": {
+        "period": "2026-08-01/2026-08-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1035",
+      "text": "Show my most expensive transaction year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {},
+      "note": null
+    },
+    {
+      "id": "q1036",
+      "text": "Show my most expensive transaction in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1037",
+      "text": "What was the biggest single thing I bought in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1038",
+      "text": "Largest charge in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1039",
+      "text": "What was my largest purchase over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1040",
+      "text": "What was my largest purchase in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1041",
+      "text": "How much money did I spend in total in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q1068",
+      "text": "Show my 10 biggest merchants in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1081",
+      "text": "Top 3 places I spent money in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1086",
+      "text": "What were my top 3 merchants by spending in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1087",
+      "text": "Which 3 merchants did I spend the most at in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1088",
+      "text": "Show my 3 biggest merchants in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1089",
+      "text": "Top 3 places I spent money in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1090",
+      "text": "What were my top 3 merchants by spending over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1091",
+      "text": "What were my top 3 merchants by spending in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1092",
+      "text": "Which 3 merchants did I spend the most at in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1093",
+      "text": "What were my top 3 merchants by spending in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1094",
+      "text": "What were my top three merchants by spending in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1095",
+      "text": "What were my top 5 merchants by spending in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1096",
+      "text": "Show my 5 biggest merchants in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1097",
+      "text": "Top 3 categories by spending in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1098",
+      "text": "Show my 3 biggest merchants in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1099",
+      "text": "Top 3 places I spent money in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1101",
+      "text": "Show my 3 biggest merchants in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1102",
+      "text": "What were my top 3 merchants by spending in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1103",
+      "text": "Show my three biggest merchants in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1104",
+      "text": "Show my 5 biggest merchants in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1105",
+      "text": "What were my top 5 merchants by spending in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1106",
+      "text": "Top 3 categories by spending in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1114",
+      "text": "What were my top 5 merchants by spending in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1124",
+      "text": "Top 10 places I spent money year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1127",
+      "text": "Top 10 places I spent money in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1132",
+      "text": "Top 5 places I spent money in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1133",
+      "text": "Which 5 merchants did I spend the most at in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1135",
+      "text": "Top 5 places I spent money in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1136",
+      "text": "Show my 5 biggest merchants in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1137",
+      "text": "Top 5 places I spent money in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1138",
+      "text": "Top five places I spent money in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1139",
+      "text": "Top 10 places I spent money in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 10
+      },
+      "pred": {
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1140",
+      "text": "Which 5 categories did I spend the most on in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1154",
+      "text": "Top 3 places I spent money in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1176",
+      "text": "What were my top 10 spending categories in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1187",
+      "text": "Which 3 categories did I spend the most on in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1198",
+      "text": "Top 5 categories by spending in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1199",
+      "text": "Show my 5 biggest expense categories in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1200",
+      "text": "What were my top 5 spending categories in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1202",
+      "text": "Top 5 categories by spending in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1203",
+      "text": "What were my top 5 spending categories in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1204",
+      "text": "Top 5 categories by spending in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1205",
+      "text": "Top five categories by spending in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "pred": {
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1206",
+      "text": "Which 3 categories did I spend the most on in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1207",
+      "text": "Top 10 categories by spending in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 10
+      },
+      "pred": {
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1212",
+      "text": "Show my 10 biggest expense categories year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1215",
+      "text": "Show my 10 biggest expense categories in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1222",
+      "text": "Top 10 categories by spending in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1233",
+      "text": "Which 3 categories did I spend the most on in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1238",
+      "text": "Show my 5 biggest expense categories in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1239",
+      "text": "What were my top 5 spending categories in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1240",
+      "text": "Which 5 categories did I spend the most on in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1241",
+      "text": "Show my 5 biggest expense categories over the past three months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1242",
+      "text": "Show my 5 biggest expense categories in the last 6 months",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-04-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1243",
+      "text": "Show my five biggest expense categories in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1244",
+      "text": "Show my 3 biggest expense categories in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1245",
+      "text": "Which 3 categories did I spend the most on in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1246",
+      "text": "Show my 10 biggest expense categories in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 10
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 10
+      },
+      "note": null
+    },
+    {
+      "id": "q1250",
+      "text": "Which 3 categories did I spend the most on year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1253",
+      "text": "List every charge bigger than $100 last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1254",
+      "text": "Which purchases were above $100 last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1255",
+      "text": "Any spending above $100 last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1256",
+      "text": "Show me transactions over $100 last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1257",
+      "text": "List every charge bigger than $100 in 2025",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1258",
+      "text": "List every charge bigger than $100 during 2025",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1259",
+      "text": "List every charge bigger than $100 this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1260",
+      "text": "Any spending above $100 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1261",
+      "text": "List every charge bigger than $100 in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "amount": 100
+      },
+      "note": null
+    },
+    {
+      "id": "q1263",
+      "text": "List every charge bigger than $200 last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1264",
+      "text": "Which purchases were above $200 last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1265",
+      "text": "Which purchases were above $100 this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1266",
+      "text": "List every charge bigger than $100 this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1267",
+      "text": "Any spending above $100 this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1268",
+      "text": "Show me transactions over $100 this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1270",
+      "text": "Which purchases were above $100 last week?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-19"
+      },
+      "note": null
+    },
+    {
+      "id": "q1271",
+      "text": "List every charge bigger than $100 last week",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-19"
+      },
+      "note": null
+    },
+    {
+      "id": "q1272",
+      "text": "Which purchases were above $100 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1274",
+      "text": "Which purchases were above $200 this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1275",
+      "text": "Show me transactions over $200 this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1276",
+      "text": "Which purchases were above $500 last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1277",
+      "text": "Any spending above $500 last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1278",
+      "text": "Show me transactions over $500 last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1279",
+      "text": "List every charge bigger than $500 last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1281",
+      "text": "Which purchases were above $500 in September 2026?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1282",
+      "text": "Which purchases were above $500 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1283",
+      "text": "Show me transactions over $500 this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1284",
+      "text": "Which purchases were above $500 in August 2026?",
+      "gold": {
+        "period": "2026-08-01/2026-08-31",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-08-01/2026-08-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1285",
+      "text": "Which purchases were above $500 in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "amount": 500
+      },
+      "note": null
+    },
+    {
+      "id": "q1287",
+      "text": "Which purchases were above $200 last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1288",
+      "text": "Show me transactions over $200 last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1289",
+      "text": "Which purchases were above $1,000 last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 1000
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1290",
+      "text": "List every charge bigger than $100 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1291",
+      "text": "Show me transactions over $100 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1292",
+      "text": "Any spending above $100 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1293",
+      "text": "Which purchases were above $100 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1295",
+      "text": "List every charge bigger than $100 in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1296",
+      "text": "Which purchases were above $100 in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1297",
+      "text": "List every charge bigger than $100 in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 100
+      },
+      "note": null
+    },
+    {
+      "id": "q1298",
+      "text": "List every charge bigger than 100 dollars in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1299",
+      "text": "List every charge bigger than $200 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1300",
+      "text": "Any spending above $200 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1301",
+      "text": "Any spending above $200 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1302",
+      "text": "List every charge bigger than $200 this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1303",
+      "text": "Show me transactions over $200 this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1304",
+      "text": "Which purchases were above $200 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1306",
+      "text": "Any spending above $200 in October 2026?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1307",
+      "text": "Any spending above $200 last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1308",
+      "text": "Any spending above $200 in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-26",
+        "amount": 200
+      },
+      "note": null
+    },
+    {
+      "id": "q1309",
+      "text": "Any spending above $200 this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1311",
+      "text": "Any spending above $100 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1312",
+      "text": "List every charge bigger than $100 this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1313",
+      "text": "Any spending above $500 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1314",
+      "text": "Any spending above $1,000 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1315",
+      "text": "Which purchases were above $1,000 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1316",
+      "text": "List every charge bigger than $1,000 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1317",
+      "text": "Show me transactions over $1,000 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1319",
+      "text": "Any spending above $1,000 in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1320",
+      "text": "Which purchases were above $1,000 in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1321",
+      "text": "Any spending above $1,000 in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "amount": 1000
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 1000
+      },
+      "note": null
+    },
+    {
+      "id": "q1322",
+      "text": "Any spending above 1,000 dollars in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 1000
+      },
+      "pred": {
+        "amount": 1000,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1323",
+      "text": "Any spending above $500 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "amount": 500,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1324",
+      "text": "Show me transactions over $500 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 500
+      },
+      "pred": {
+        "amount": 500,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1325",
+      "text": "Show me transactions over $200 in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1326",
+      "text": "Which purchases were above $200 in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1328",
+      "text": "Any spending above $200 in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1329",
+      "text": "Which purchases were above $200 in Q2 2026?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1330",
+      "text": "Any spending above $200 in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 200
+      },
+      "note": null
+    },
+    {
+      "id": "q1331",
+      "text": "Any spending above 200 dollars in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "amount": 200
+      },
+      "pred": {
+        "amount": 200,
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1332",
+      "text": "Show me transactions over $100 this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1333",
+      "text": "Which purchases were above $100 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1335",
+      "text": "Show me transactions over $100 year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "amount": 100
+      },
+      "note": null
+    },
+    {
+      "id": "q1336",
+      "text": "Show me transactions over $100 in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "amount": 100
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "amount": 100
+      },
+      "note": null
+    },
+    {
+      "id": "q1338",
+      "text": "Show me transactions over $200 this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1339",
+      "text": "Which purchases were above $200 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1340",
+      "text": "List every charge bigger than $500 this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1342",
+      "text": "Which purchases were above $500 in October 2026?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1343",
+      "text": "Which purchases were above $500 this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-26"
+      },
+      "note": null
+    },
+    {
+      "id": "q1345",
+      "text": "Which purchases were above $1,000 this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "amount": 1000
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1346",
+      "text": "Any spending above $500 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1347",
+      "text": "Which purchases were above $500 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1348",
+      "text": "List every charge bigger than $500 this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1349",
+      "text": "Show me transactions over $500 this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1351",
+      "text": "Any spending above $500 year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "amount": 500
+      },
+      "note": null
+    },
+    {
+      "id": "q1352",
+      "text": "Any spending above $500 last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1353",
+      "text": "Show me transactions over $500 last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2025-01-01/2025-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1354",
+      "text": "Any spending above $500 in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2025-10-01/2026-09-30",
+        "amount": 500
+      },
+      "note": null
+    },
+    {
+      "id": "q1356",
+      "text": "Any spending above $200 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1357",
+      "text": "List every charge bigger than $200 this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 200
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    },
+    {
+      "id": "q1358",
+      "text": "Any spending above $1,000 this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 1000
+      },
+      "pred": {
+        "period": "2026-01-01/2026-01-01"
+      },
+      "note": null
+    }
+  ],
+  "extractor": "duckling"
+}

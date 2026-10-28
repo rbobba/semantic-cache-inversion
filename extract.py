@@ -17,6 +17,11 @@ Extractors:
                     construction, so this arm measures temporal and numeric
                     extraction only. Duckling is told nothing about the
                     dataset's date conventions; it applies its own.
+  gemini-rel:<model>
+                    The same call and prompt, except that the model labels
+                    the period ("last_n_days", n=30) instead of computing its
+                    dates, and code turns the label into dates, the way the
+                    application's SQL leaves that to CURRENT_DATE.
   gemini:<model>    Vertex AI the way the application calls Gemini:
                     temperature 0, JSON output enforced with
                     response_json_schema, location "global". The prompt states
@@ -37,8 +42,10 @@ from __future__ import annotations
 
 import argparse
 import json
+import random
 import re
 import sys
+import time
 import urllib.parse
 import urllib.request
 from collections import Counter, defaultdict
@@ -170,8 +177,13 @@ def extract_duckling(questions: list[dict], ref: date, url: str) -> dict[str, di
                 and "amount" not in params
                 and not taken[e["start"] : e["end"]].any()
             ):
-                params["amount"] = round(e["value"]["value"])
-                claim(e["start"], e["end"], "amount")
+                # "over $100" comes back as an open interval; its bound is the
+                # threshold the question is about.
+                v = e["value"]
+                bound = v.get("value", (v.get("from") or v.get("to") or {}).get("value"))
+                if bound is not None:
+                    params["amount"] = round(bound)
+                    claim(e["start"], e["end"], "amount")
         # Any number left over is read as the N of a top-N question. Duckling
         # has no notion of which number a question is about; this is the
         # generic mapping, not one tuned to the templates.
@@ -199,20 +211,10 @@ def extract_duckling(questions: list[dict], ref: date, url: str) -> dict[str, di
 # ── gemini ───────────────────────────────────────────────────────────────
 
 
-def _gemini_prompt(ref: date) -> str:
-    def ids(slot: str) -> str:
-        return ", ".join(f"{v} ({ss[0]})" for v, ss in SLOTS[slot][0].items())
-
-    return f"""\
-You extract the parameters of a question about the user's personal finances, so
-that a cached SQL query can be reused with the new values.
-
-Today is {ref.strftime("%A")} {ref.isoformat()}.
-
-For each parameter, return null if the question does not state it. Otherwise
-return "text": the exact span of the question that expresses it, copied
-character for character, plus its value.
-
+# The two period sections are the only difference between the absolute and
+# the relative arm; everything else in the prompt is shared, so a difference
+# in results can be put down to who does the date arithmetic.
+_PERIOD_ABSOLUTE = """\
 period (every question has one): "start" and "end" as YYYY-MM-DD, both inclusive.
 The span includes a leading preposition or qualifier ("in", "during", "over the",
 "so far") when the question has one.
@@ -228,7 +230,39 @@ The span includes a leading preposition or qualifier ("in", "during", "over the"
 - "the last N days", "the past N days": the N days ending today.
 - "the last 3 months" or "the past three months": start = today minus 91 days.
   "the last 6 months": today minus 182 days. "the last 12 months": today minus
-  364 days. Each ends today.
+  364 days. Each ends today."""
+
+_PERIOD_RELATIVE = """\
+period (every question has one): classify it; do not compute any dates.
+The span includes a leading preposition or qualifier ("in", "during", "over the",
+"so far") when the question has one. "kind" is one of:
+- this_week, this_month, this_year: the current week, month or year so far
+  ("this month", "so far this month", "year to date").
+- last_week, last_month, last_year: the whole previous calendar week, month or
+  year ("last month", "the previous month").
+- last_n_days, last_n_months: a rolling window ending today ("the last 30 days",
+  "the past three months"). Put N in "n".
+- calendar_month, calendar_quarter, calendar_year: a named period ("August 2026",
+  "Q2 2026", "the second quarter of 2026", "2025"). Put the year in "year", and
+  the month (1-12) or quarter (1-4) in "number".
+Use null for the fields a kind does not need."""
+
+
+def _gemini_prompt(ref: date, relative: bool = False) -> str:
+    def ids(slot: str) -> str:
+        return ", ".join(f"{v} ({ss[0]})" for v, ss in SLOTS[slot][0].items())
+
+    return f"""\
+You extract the parameters of a question about the user's personal finances, so
+that a cached SQL query can be reused with the new values.
+
+Today is {ref.strftime("%A")} {ref.isoformat()}.
+
+For each parameter, return null if the question does not state it. Otherwise
+return "text": the exact span of the question that expresses it, copied
+character for character, plus its value.
+
+{_PERIOD_RELATIVE if relative else _PERIOD_ABSOLUTE}
 
 merchant: one of {ids("merchant")}. Return the id.
 category: a spending category named in the question, one of {ids("category")}. Return the id.
@@ -238,7 +272,62 @@ n: the number of items asked for in a "top N" question, as an integer.
 """
 
 
-def _gemini_schema() -> dict:
+PERIOD_KINDS = [
+    "this_week",
+    "this_month",
+    "this_year",
+    "last_week",
+    "last_month",
+    "last_year",
+    "last_n_days",
+    "last_n_months",
+    "calendar_month",
+    "calendar_quarter",
+    "calendar_year",
+]
+
+
+def resolve_relative(v: dict, ref: date) -> str:
+    """A relative period label -> 'start/end', in code rather than in the model.
+
+    The conventions are the dataset's (generate_dataset._period_ranges), as an
+    application would hold its own in one place. In production the same job
+    is done by SQL such as DATE_TRUNC('month', CURRENT_DATE).
+    """
+    kind = v["kind"]
+    week = ref - timedelta(days=ref.weekday())
+    month = ref.replace(day=1)
+    if kind == "this_week":
+        return period_value(week, ref, ref)
+    if kind == "this_month":
+        return period_value(month, ref, ref)
+    if kind == "this_year":
+        return period_value(date(ref.year, 1, 1), ref, ref)
+    if kind == "last_week":
+        return period_value(week - timedelta(days=7), week - timedelta(days=1), ref)
+    if kind == "last_month":
+        start = (month - timedelta(days=1)).replace(day=1)
+        return period_value(start, month - timedelta(days=1), ref)
+    if kind == "last_year":
+        return period_value(date(ref.year - 1, 1, 1), date(ref.year - 1, 12, 31), ref)
+    if kind == "last_n_days":
+        return period_value(ref - timedelta(days=int(v["n"]) - 1), ref, ref)
+    if kind == "last_n_months":
+        # 91 days per quarter: 3 -> 91, 6 -> 182, 12 -> 364, as the dataset defines them.
+        return period_value(ref - timedelta(days=round(int(v["n"]) * 91 / 3)), ref, ref)
+    year = int(v["year"])
+    if kind == "calendar_year":
+        return period_value(date(year, 1, 1), date(year, 12, 31), ref)
+    if kind == "calendar_month":
+        start = date(year, int(v["number"]), 1)
+        return period_value(start, _grain_end(start, "month"), ref)
+    if kind == "calendar_quarter":
+        start = date(year, 3 * int(v["number"]) - 2, 1)
+        return period_value(start, _grain_end(start, "quarter"), ref)
+    raise ValueError(f"unknown period kind {kind!r}")
+
+
+def _gemini_schema(relative: bool = False) -> dict:
     def slot(value: dict) -> dict:
         return {
             "type": ["object", "null"],
@@ -249,18 +338,32 @@ def _gemini_schema() -> dict:
     def enum(slot_name: str) -> dict:
         return {"type": "string", "enum": list(SLOTS[slot_name][0])}
 
+    if relative:
+        period = {
+            "type": ["object", "null"],
+            "properties": {
+                "text": {"type": "string"},
+                "kind": {"type": "string", "enum": PERIOD_KINDS},
+                "n": {"type": ["integer", "null"]},
+                "year": {"type": ["integer", "null"]},
+                "number": {"type": ["integer", "null"]},
+            },
+            "required": ["text", "kind", "n", "year", "number"],
+        }
+    else:
+        period = {
+            "type": ["object", "null"],
+            "properties": {
+                "text": {"type": "string"},
+                "start": {"type": "string"},
+                "end": {"type": "string"},
+            },
+            "required": ["text", "start", "end"],
+        }
     return {
         "type": "object",
         "properties": {
-            "period": {
-                "type": ["object", "null"],
-                "properties": {
-                    "text": {"type": "string"},
-                    "start": {"type": "string"},
-                    "end": {"type": "string"},
-                },
-                "required": ["text", "start", "end"],
-            },
+            "period": period,
             "merchant": slot(enum("merchant")),
             "category": slot(enum("category")),
             "account": slot(enum("account")),
@@ -271,7 +374,7 @@ def _gemini_schema() -> dict:
     }
 
 
-def _from_llm_json(text: str, out: dict, ref: date) -> dict:
+def _from_llm_json(text: str, out: dict, ref: date, relative: bool = False) -> dict:
     """Model JSON -> gold-format params and masked text.
 
     A span the model did not copy exactly cannot be masked; the value is still
@@ -285,7 +388,9 @@ def _from_llm_json(text: str, out: dict, ref: date) -> dict:
         if not v:
             continue
         try:
-            if slot == "period":
+            if slot == "period" and relative:
+                params[slot] = resolve_relative(v, ref)
+            elif slot == "period":
                 params[slot] = period_value(
                     date.fromisoformat(v["start"]), date.fromisoformat(v["end"]), ref
                 )
@@ -314,7 +419,14 @@ def _from_llm_json(text: str, out: dict, ref: date) -> dict:
 
 
 def extract_gemini(
-    questions: list[dict], ref: date, model: str, project: str, location: str, raw_path: Path
+    questions: list[dict],
+    ref: date,
+    model: str,
+    project: str,
+    location: str,
+    raw_path: Path,
+    workers: int,
+    relative: bool = False,
 ) -> dict[str, dict]:
     from google import genai
     from google.genai import types
@@ -323,8 +435,8 @@ def extract_gemini(
     cfg = types.GenerateContentConfig(
         temperature=0.0,
         response_mime_type="application/json",
-        response_json_schema=_gemini_schema(),
-        system_instruction=_gemini_prompt(ref),
+        response_json_schema=_gemini_schema(relative),
+        system_instruction=_gemini_prompt(ref, relative),
         # Gemini 3 bills thinking against max_output_tokens (config.py notes
         # this for the agent); leave room so a long think cannot truncate JSON.
         max_output_tokens=4096,
@@ -340,7 +452,11 @@ def extract_gemini(
 
     def call(q: dict) -> dict:
         last = None
-        for _ in range(5):
+        for attempt in range(8):
+            if attempt:
+                # 429s on the global endpoint clear in seconds to a minute;
+                # retrying at once only spends the attempts. Capped at 60s.
+                time.sleep(min(60.0, 2.0**attempt) + random.uniform(0, 1))
             try:
                 res = client.models.generate_content(model=model, contents=q["text"], config=cfg)
                 u = res.usage_metadata
@@ -358,7 +474,7 @@ def extract_gemini(
         return {"id": q["id"], "response": None, "error": last}
 
     raw_path.parent.mkdir(parents=True, exist_ok=True)
-    with ThreadPoolExecutor(8) as pool, raw_path.open("a", encoding="utf-8") as f:
+    with ThreadPoolExecutor(workers) as pool, raw_path.open("a", encoding="utf-8") as f:
         for i, r in enumerate(pool.map(call, todo), 1):
             f.write(json.dumps(r) + "\n")
             f.flush()
@@ -370,8 +486,10 @@ def extract_gemini(
     failed = [q["id"] for q in questions if q["id"] not in done]
     if failed:
         raise SystemExit(f"{len(failed)} questions failed, e.g. {failed[0]}; rerun to resume")
-    by_id = {q["id"]: q for q in questions}
-    return {i: _from_llm_json(by_id[i]["text"], r["response"], ref) for i, r in done.items()}
+    return {
+        q["id"]: _from_llm_json(q["text"], done[q["id"]]["response"], ref, relative)
+        for q in questions
+    }
 
 
 # ── scoring ──────────────────────────────────────────────────────────────
@@ -508,25 +626,52 @@ def main() -> None:
     )
     ap.add_argument("--bootstrap", type=int, default=1000)
     ap.add_argument("--seed", type=int, default=7)
+    ap.add_argument(
+        "--workers", type=int, default=8, help="parallel Gemini calls; lower it on 429s"
+    )
+    ap.add_argument(
+        "--limit",
+        type=int,
+        default=None,
+        help="smoke test: extract the first N questions, print them, write no results",
+    )
     args = ap.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
 
     questions, ref = load(args.data)
+    if args.limit:
+        questions = questions[: args.limit]
     kind, _, model = args.extractor.partition(":")
     out_dir = args.out / re.sub(r"[^A-Za-z0-9._-]+", "_", args.extractor)
     if kind == "gold":
         ext = extract_gold(questions, ref)
     elif kind == "duckling":
         ext = extract_duckling(questions, ref, args.duckling_url)
-    elif kind == "gemini":
+    elif kind in ("gemini", "gemini-rel"):
         if not args.project:
             raise SystemExit("--project is required for gemini extractors")
         ext = extract_gemini(
-            questions, ref, model, args.project, args.location, out_dir / "raw.jsonl"
+            questions,
+            ref,
+            model,
+            args.project,
+            args.location,
+            out_dir / "raw.jsonl",
+            args.workers,
+            relative=kind == "gemini-rel",
         )
     else:
         raise SystemExit(f"unknown extractor {args.extractor!r}")
+
+    if args.limit:
+        # Responses already sit in raw.jsonl, so the full run reuses them.
+        for q in questions:
+            e = ext[q["id"]]
+            mark = "OK " if e["params"] == q["params"] else "BAD"
+            print(f"{mark} {q['text']}\n    gold {q['params']}\n    got  {e['params']}")
+            print(f"    masked {e['masked_text']!r}  note={e['note']}")
+        return
 
     out_dir.mkdir(parents=True, exist_ok=True)
     with (out_dir / "extracted.jsonl").open("w", encoding="utf-8") as f:

@@ -402,6 +402,60 @@ def pair_analysis(
     }
 
 
+_YEAR = re.compile(r"\b20\d\d\b")
+
+
+def ab_comparisons(
+    pairs: list[dict], qidx: dict[str, int], raw: np.ndarray, seed: int, n_boot: int
+) -> dict:
+    """Comparisons A and B (README section 8; pre-registered for v2 in section 11).
+
+    For each cached question, its best period swap in the SAME wording is
+    compared against:
+      A  the best reworded correct question (relation "paraphrase");
+      B  the best one-span correct rewording of the period that needs no
+         date knowledge (neither side, or both, name a year).
+    Each is the share of cached questions where the swap scores at or above.
+    Its own generator, so adding this changes no other number in a report.
+    """
+
+    def sim(p: dict) -> float:
+        return float(raw[qidx[p["anchor_id"]]] @ raw[qidx[p["candidate_id"]]])
+
+    def one_span_dateless(p: dict) -> bool:
+        return (
+            p["relation"] == "equivalent_surface"
+            and p["dimension"] == "period"
+            and bool(_YEAR.search(p["anchor_text"])) == bool(_YEAR.search(p["candidate_text"]))
+        )
+
+    by_anchor: dict[str, list[dict]] = defaultdict(list)
+    for p in pairs:
+        by_anchor[p["anchor_id"]].append(p)
+    flags: dict[str, list[float]] = {"A": [], "B": []}
+    for ps in by_anchor.values():
+        neg = [
+            sim(p)
+            for p in ps
+            if p["relation"] == "param_near_miss"
+            and p["dimension"] == "period"
+            and p["same_wording"]
+        ]
+        para = [sim(p) for p in ps if p["relation"] == "paraphrase"]
+        span = [sim(p) for p in ps if one_span_dateless(p)]
+        if neg and para:
+            flags["A"].append(float(max(neg) >= max(para)))
+        if neg and span:
+            flags["B"].append(float(max(neg) >= max(span)))
+    rng = np.random.default_rng(seed)
+    out = {}
+    for k, v in flags.items():
+        a = np.array(v)
+        boots = [float(a[rng.integers(0, a.size, a.size)].mean()) for _ in range(n_boot)]
+        out[k] = {"n": int(a.size), "rate": round(float(a.mean()), 4), "ci95": ci(boots)}
+    return out
+
+
 # ── C: cache simulation ──────────────────────────────────────────────────
 
 
@@ -413,9 +467,15 @@ def cache_simulation(
     n_boot: int,
     ext: dict[str, dict] | None = None,
     ext_masked: np.ndarray | None = None,
+    holdout: bool = False,
 ) -> dict:
     anchors = [q for q in questions if q["is_anchor"]]
-    queries = [q for q in questions if not q["is_anchor"]]
+    # --holdout (dataset v2): only queries worded with a template no cached
+    # entry of their intent uses, so no query can match a cached wording
+    # exactly — the closest the generated data gets to unseen phrasing.
+    queries = [
+        q for q in questions if not q["is_anchor"] and (not holdout or q.get("split") == "query")
+    ]
     a_index = {q["id"]: i for i, q in enumerate(anchors)}
     qpos = {q["id"]: i for i, q in enumerate(questions)}
     A, Q = len(anchors), len(queries)
@@ -445,6 +505,7 @@ def cache_simulation(
     }
     calibrate_from: dict[str, str] = {}
     params_right = np.ones(Q, dtype=bool)
+    slots_right = np.ones(Q, dtype=bool)
     if ext is not None:
 
         def ekey(q: dict) -> str:
@@ -465,9 +526,24 @@ def cache_simulation(
             e_same_slots,
             same_intent & params_right[:, None],
         )
+        # Template-slot scoring: the refilled SQL uses only the slots its
+        # template has, so an extra value ("top 1" on "biggest single
+        # purchase") cannot change it. Missing or wrong template values can.
+        slots_right = np.array(
+            [
+                all(ext[q["id"]]["params"].get(s) == q["params"][s] for s in q["slots"])
+                for q in queries
+            ]
+        )
+        designs["split_template_extracted_slots"] = (
+            S_ext,
+            e_same_slots,
+            same_intent & slots_right[:, None],
+        )
         calibrate_from = {
             "split_full_extracted": "split_full",
             "split_template_extracted": "split_template",
+            "split_template_extracted_slots": "split_template",
         }
     group = np.array([a_index[q["group"]] for q in queries])
 
@@ -560,6 +636,8 @@ def cache_simulation(
             # Full-SQL reuse is wrong when the gold parameters differ, whoever
             # extracted them as equal.
             wrong_values = ~same_params[bad, nn[bad]]
+        elif name == "split_template_extracted_slots":
+            wrong_values = ~slots_right[bad]
         else:
             wrong_values = ~params_right[bad]
         causes[name] = {
@@ -569,12 +647,81 @@ def cache_simulation(
             "wrong_values_only": int((~wrong_intent & wrong_values).sum()),
             "both": int((wrong_intent & wrong_values).sum()),
         }
+
+    # One row per query and extracted design, so two extractors run on the
+    # same queries can be compared pairwise (evaluate.py --compare).
+    per_query = {
+        name: [
+            {
+                "id": q["id"],
+                "group": q["group"],
+                "sim": round(float(routed[name][1][i]), 6)
+                if np.isfinite(routed[name][1][i])
+                else None,
+                "reused": bool(np.isfinite(routed[name][1][i]) and routed[name][1][i] >= t),
+                "ok": bool(routed[name][2][i]),
+            }
+            for i, q in enumerate(queries)
+        ]
+        for name, t in thresholds.items()
+    }
+
+    # Can similarity tell a value error from a correct extraction? Among
+    # queries routed to an entry of the right intent, compare the similarity
+    # of those whose template values were extracted wrong with those
+    # extracted right. AUC 0.5 means it carries no signal at all.
+    separability = {}
+    if ext is not None:
+        nn, best, _, _ = routed["split_template_extracted_slots"]
+        right_intent = np.isfinite(best) & same_intent[np.arange(Q), nn]
+        separability = _auc_by_group(
+            best[right_intent], ~slots_right[right_intent], group[right_intent], A, rng, n_boot
+        )
     return {
         "n_cached": A,
         "n_queries": Q,
+        "holdout": holdout,
         "designs": result,
         "calibrated": causes,
+        "separability": separability,
+        "per_query": per_query,
         "curves": curves,
+    }
+
+
+def _auc_by_group(
+    score: np.ndarray,
+    positive: np.ndarray,
+    group: np.ndarray,
+    n_groups: int,
+    rng: np.random.Generator,
+    n_boot: int,
+) -> dict:
+    """P(score of a positive > score of a negative), ties counted half, with a
+    cluster-bootstrap interval over query groups."""
+    pos, neg = np.flatnonzero(positive), np.flatnonzero(~positive)
+    if pos.size == 0 or neg.size == 0:
+        return {"n_positive": int(pos.size), "n_negative": int(neg.size), "auc": None}
+    sp, sn = score[pos][:, None], score[neg][None, :]
+    C = (sp > sn) + 0.5 * (sp == sn)
+
+    def auc(w: np.ndarray) -> float:
+        wp, wn = w[group[pos]], w[group[neg]]
+        den = wp.sum() * wn.sum()
+        return float(wp @ C @ wn / den) if den else float("nan")
+
+    point = auc(np.ones(n_groups))
+    boots = [
+        auc(np.bincount(rng.integers(0, n_groups, n_groups), minlength=n_groups))
+        for _ in range(n_boot)
+    ]
+    return {
+        "n_positive": int(pos.size),
+        "n_negative": int(neg.size),
+        "auc": round(point, 4),
+        "auc_ci95": ci(boots),
+        "positive_sim_median": round(float(np.median(score[pos])), 4),
+        "negative_sim_median": round(float(np.median(score[neg])), 4),
     }
 
 
@@ -680,6 +827,17 @@ def write_markdown(report: dict, path: Path) -> None:
         lines.append(
             f"| {k} | {v['anchors']} | {v['strong_rate']} | {v['strong_ci95']} | {v['weak_rate']} | {v['weak_ci95']} |"
         )
+    ab = report["pairs"].get("ab")
+    if ab:
+        lines += [
+            "",
+            "A: same-wording period swap ≥ best reworded correct question. "
+            "B: ≥ best one-span, date-free correct rewording.",
+            "",
+            "| Comparison | n | rate | 95% CI |",
+            "|---|---:|---:|---|",
+        ]
+        lines += [f"| {k} | {v['n']} | {v['rate']} | {v['ci95']} |" for k, v in ab.items()]
     lines += [
         "",
         "## C. Cache simulation — share of queries correctly reused",
@@ -717,6 +875,16 @@ def write_markdown(report: dict, path: Path) -> None:
                 f"{c['false_reuses']} | {c['wrong_template_only']} | {c['wrong_values_only']} | "
                 f"{c['both']} |"
             )
+        sep = report["cache"].get("separability") or {}
+        if sep.get("auc") is not None:
+            lines += [
+                "",
+                "Similarity as a detector of value errors (right-intent matches): "
+                f"AUC {sep['auc']} {sep['auc_ci95']}, {sep['n_positive']} with a template "
+                f"value wrong vs {sep['n_negative']} right; median similarity "
+                f"{sep['positive_sim_median']} vs {sep['negative_sim_median']}. "
+                "0.5 = no signal.",
+            ]
         lines += [""]
     lines += [
         "## Largest inversions",
@@ -758,11 +926,57 @@ def summarize(results_dir: Path) -> None:
     print(out)
 
 
+def compare(paths: list[Path], n_boot: int, seed: int) -> None:
+    """Paired comparison of two extracted runs on the same queries.
+
+    For each extracted design, the false share of reuses at the calibrated
+    threshold in A and in B, and B - A, with one cluster bootstrap that
+    redraws the same query groups for both — so the interval reflects the
+    difference between extractors, not the sampling of questions twice.
+    """
+    a, b = (json.loads(p.read_text(encoding="utf-8")) for p in paths)
+    rng = np.random.default_rng(seed)
+    print(f"A = {paths[0]}\nB = {paths[1]}\n")
+    print("| Design | A false share | B false share | B - A [95% CI] | A reuse | B reuse |")
+    print("|---|---:|---:|---|---:|---:|")
+    for name in a["cache"]["per_query"]:
+        ra = {r["id"]: r for r in a["cache"]["per_query"][name]}
+        rb = {r["id"]: r for r in b["cache"]["per_query"].get(name, [])}
+        if set(ra) != set(rb):
+            raise SystemExit(f"{name}: the two runs do not cover the same queries")
+        ids = sorted(ra)
+        gids = sorted({ra[i]["group"] for i in ids})
+        gpos = {g: k for k, g in enumerate(gids)}
+        g = np.array([gpos[ra[i]["group"]] for i in ids])
+
+        def arr(r: dict, f: str, ids: list[str] = ids) -> np.ndarray:
+            return np.array([r[i][f] for i in ids], dtype=bool)
+
+        reA, okA, reB, okB = arr(ra, "reused"), arr(ra, "ok"), arr(rb, "reused"), arr(rb, "ok")
+
+        def share(w: np.ndarray, re: np.ndarray, ok: np.ndarray) -> float:
+            n = (w * re).sum()
+            return float((w * (re & ~ok)).sum() / n) if n else 0.0
+
+        ones = np.ones(len(ids))
+        fa, fb = share(ones, reA, okA), share(ones, reB, okB)
+        diffs = []
+        for _ in range(n_boot):
+            w = np.bincount(rng.integers(0, len(gids), len(gids)), minlength=len(gids))[g]
+            diffs.append(share(w, reB, okB) - share(w, reA, okA))
+        print(
+            f"| {name} | {fa:.4f} | {fb:.4f} | {fb - fa:+.4f} {ci(diffs)} | "
+            f"{reA.mean():.3f} | {reB.mean():.3f} |"
+        )
+
+
 def summarize_extraction(extraction_dir: Path) -> None:
     rows = []
     for rp in sorted(extraction_dir.glob("*/*/report.json")):
         r = json.loads(rp.read_text(encoding="utf-8"))
         des = r["cache"]["designs"]
+        if "split_template_extracted_slots" not in des:
+            raise SystemExit(f"{rp} predates template-slot scoring; rerun it")
         acc = json.loads((rp.parent.parent / "accuracy.json").read_text(encoding="utf-8"))
 
         def v(name: str, m: str, des: dict = des) -> str:
@@ -772,16 +986,18 @@ def summarize_extraction(extraction_dir: Path) -> None:
         rows.append(
             f"| {acc['extractor']} | {r['embedder']} | {acc['frame_accuracy']:.3f} "
             f"| {v('split_template_extracted', 'calibrated_false_share')} "
+            f"| {v('split_template_extracted_slots', 'calibrated_false_share')} "
             f"| {v('split_template_extracted', 'calibrated_correct_reuse')} "
             f"| {v('split_template_extracted', 'correct_reuse_at_false_0.01')} "
             f"| {v('raw_global', 'correct_reuse_at_false_0.01')} "
             f"| {v('split_full_extracted', 'calibrated_false_share')} |"
         )
     header = [
-        "| Extractor | Embedder | frame acc. | template: false share @calibrated "
+        "| Extractor | Embedder | frame acc. | template: false share @calibrated (strict) "
+        "| template: false share (template slots) "
         "| template: correct reuse @calibrated | template: correct reuse @≤1% "
         "| raw_global: correct reuse @≤1% | full-SQL: false share @calibrated |",
-        "|---|---|---:|---|---|---|---|---|",
+        "|---|---|---:|---|---|---|---|---|---|",
     ]
     out = "\n".join(header + rows) + "\n"
     (extraction_dir / "SUMMARY.md").write_text(out, encoding="utf-8")
@@ -813,6 +1029,18 @@ def main() -> None:
         help="extracted.jsonl from extract.py: rerun the split designs on its parameters",
     )
     ap.add_argument("--summarize-extraction", action="store_true")
+    ap.add_argument(
+        "--holdout",
+        action="store_true",
+        help="dataset v2: simulate only queries worded with a template no cached entry uses",
+    )
+    ap.add_argument(
+        "--compare",
+        type=Path,
+        nargs=2,
+        metavar=("REPORT_A", "REPORT_B"),
+        help="paired comparison of two --extracted report.json files on the same queries",
+    )
     args = ap.parse_args()
     # Windows consoles default to cp1252, which cannot print the report's "≥".
     if hasattr(sys.stdout, "reconfigure"):
@@ -824,6 +1052,9 @@ def main() -> None:
     if args.summarize_extraction:
         summarize_extraction(args.out / "extraction")
         return
+    if args.compare:
+        compare(args.compare, args.bootstrap, args.seed)
+        return
 
     questions, pairs, manifest = load(args.data)
     label = (
@@ -832,9 +1063,10 @@ def main() -> None:
         + (f" task_type={args.task_type}" if args.task_type else "")
         + (f" dims={args.dimensions}" if args.dimensions else "")
     )
-    out_dir = args.out / slug(label)
+    report_label = label + (" holdout" if args.holdout else "")
     # Embeddings stay cached beside the embedder's own report either way.
-    emb_dir = out_dir
+    emb_dir = args.out / slug(label)
+    out_dir = args.out / slug(report_label)
 
     ext = None
     if args.extracted:
@@ -842,7 +1074,7 @@ def main() -> None:
             ext = {r["id"]: r for r in map(json.loads, f) if r}
         if set(ext) != {q["id"] for q in questions}:
             raise SystemExit(f"{args.extracted} does not cover exactly the dataset's questions")
-        out_dir = args.extracted.parent / slug(label)
+        out_dir = args.extracted.parent / slug(report_label)
 
     texts = {q["text"] for q in questions} | {q["masked_text"] for q in questions}
     if ext:
@@ -857,14 +1089,23 @@ def main() -> None:
 
     rng = np.random.default_rng(args.seed)
     report = {
-        "embedder": label,
+        "embedder": report_label,
         "dataset_sha256_pairs": manifest["sha256"]["pairs.jsonl"],
+        "generator_version": manifest.get("generator_version"),
         "bootstrap": args.bootstrap,
         "pairs": pair_analysis(pairs, qidx, raw, rng, args.bootstrap),
         "cache": cache_simulation(
-            questions, raw, masked, rng, args.bootstrap, ext=ext, ext_masked=ext_masked
+            questions,
+            raw,
+            masked,
+            rng,
+            args.bootstrap,
+            ext=ext,
+            ext_masked=ext_masked,
+            holdout=args.holdout,
         ),
     }
+    report["pairs"]["ab"] = ab_comparisons(pairs, qidx, raw, args.seed + 1, args.bootstrap)
     if args.extracted:
         report["extracted"] = str(args.extracted.as_posix())
     out_dir.mkdir(parents=True, exist_ok=True)

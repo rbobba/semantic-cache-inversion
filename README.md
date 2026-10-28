@@ -771,3 +771,334 @@ python extract.py --extractor gemini:gemini-3.5-flash --project <gcp-project>
 python evaluate.py --embedder <embedder> --extracted results/extraction/<extractor>/extracted.jsonl
 python evaluate.py --summarize-extraction
 ```
+
+---
+
+## 10. Step 5 results — 2026-10-28
+
+### Decision: O2, the risk moves to extraction
+
+The rule from section 9 was applied in the order it was written, to the
+primary extractor (`gemini-3.1-flash-lite`).
+
+| Embedder | O3: template @≤1% > raw @≤1%? | O1: F ≤ 1%? |
+|---|---|---|
+| MiniLM | 0.020 > 0.008, yes | F = 5.69% [3.70, 8.21], no |
+| mpnet | 0.000 > 0.018, no | F = 5.97% [3.91, 8.49], no |
+| bge | 0.022 > 0.005, yes | F = 5.82% [3.78, 8.40], no |
+| e5 | 0.000 > 0.009, no | F = 5.83% [3.82, 8.37], no |
+
+- O3 is not met, because it needs all four embedders.
+- O1 fails in all four.
+- **So the outcome is O2.**
+
+In every embedder, all 66–68 false reuses were caused by wrong extracted
+values. None came from a wrong template.
+
+Per section 9, O2 on templated v1 data is **strong** evidence: the design fails
+on input easier than real traffic.
+
+### Extraction accuracy
+
+| Extractor | Frame accuracy [95% CI] | Slot micro-F1 | Cost (from logged tokens, `pricing.py` rates) |
+|---|---|---:|---|
+| gemini-3.5-flash | 0.987 [0.979, 0.993] | 0.995 | ≈ $9; mean 444 thinking tokens per call |
+| **gemini-3.1-flash-lite** (primary) | **0.934 [0.909, 0.957]** | 0.977 | well under $1; 0 thinking tokens |
+| Duckling + entity oracle | 0.606 [0.532, 0.677] | 0.783 | free, local |
+
+### The template cache at the threshold calibrated on gold
+
+All four embedders agree to within 0.3 points.
+
+| Extractor | False share of reuses | Correct reuse | Full-SQL false share |
+|---|---|---|---|
+| gold | 0% | 0.97 | 0% |
+| gemini-3.5-flash | 0.68% [0.26, 1.22] | 0.94–0.95 | 0% |
+| gemini-3.1-flash-lite | 5.7–6.0% | 0.87–0.90 | 0% |
+| Duckling | 33% | 0.53–0.56 | 7–10% |
+
+### What the errors are (every one inspected)
+
+**gemini-3.1-flash-lite: 89 wrong questions**
+- 45 add "top 1" to "biggest single thing I bought" or "most expensive
+  transaction".
+- 27 compute "last 30 days" as 31 days (09-27 instead of 09-28). That is every
+  "last 30 days" question, although the prompt stated "the N days ending today".
+- 18 drop the excluded category in "…excluding travel" or "everything but fuel".
+
+**gemini-3.5-flash: 18 wrong questions**
+- 12 add "top 1", as above.
+- 5 start "last 3/12 months" one day late (today − 90 instead of today − 91),
+  although the prompt gave the exact rule.
+- 1 drops an excluded category.
+
+**Duckling: 535 wrong questions**
+- 47% are its own convention for rolling windows: "last 3 months" means whole
+  calendar months, Jul 1 – Sep 30.
+- 39% are periods it does not recognise ("Q3 2026", "year to date").
+- 11% are amounts absorbed into a time: "$500 last month" becomes 05:00 on
+  Sep 1.
+
+### The finding that matters: extraction errors are invisible to similarity
+
+For flash-lite and bge, **66 of the 68 false reuses had similarity ≥ 0.999**,
+and the lowest was 0.940.
+
+The masked question matches the cached one exactly. Only the values under the
+placeholders are wrong, and similarity never sees them. So no threshold, global
+or per-entry, can filter these errors; the gate they pass through is the
+extractor alone.
+
+That is the template-design counterpart of the raw-cache result. There, the
+wrong question scores *above* right ones. Here, it scores *identically*.
+
+> **Correction (2026-10-28, later the same day).** "Invisible" and "no
+> threshold can filter them" overstate it. A direct test was added: among
+> matches of the right intent, the AUC of similarity for separating
+> value-error reuses from correct ones is **0.36–0.41**, with confidence
+> intervals reaching about 0.50, across the four embedders. AUC 0.5 would mean
+> no signal.
+>
+> - **What the signal is:** value errors score slightly *lower* on average.
+>   Some errors leave words unmasked — "excluding travel" stays in the text when
+>   the category is dropped — and that lowers similarity.
+> - **What it is not:** a usable filter. Both medians are 1.0. In
+>   `split_template_extracted`, cutting false reuses to 1% or less with a
+>   label-chosen threshold leaves only 0–2.2% correct reuse, under strict and
+>   template-slot scoring alike (section 10 table).
+>
+> The accurate claim: similarity carries only a weak signal about extraction
+> errors, and no threshold separates them without discarding almost all reuse.
+>
+> Two further caveats:
+> - On v1, most queries share an exact cached wording, which is why so many
+>   matches sit at 1.0. Dataset v2's held-out split tests this (section 11).
+> - The "≥ 0.999" figure in the paragraph above is partly that artefact.
+
+### Full-SQL reuse on exact extracted keys was safe for both Gemini models
+
+Both Gemini extractors produced 0 false reuses, at 0.19–0.21 correct reuse. A
+consistent extraction error such as "30 days → 31 days" produces a key that no
+other question shares, so it misses instead of matching wrongly.
+
+It is **not** safe against an extractor whose convention merges two different
+periods. Duckling maps "last 3 months" and "Q3 2026" to the same range. 20 of
+its keys merge `last_3_months` with `q3_2026`, which is where its 7–10% comes
+from.
+
+### Sensitivity analyses (post-hoc, labelled as such)
+
+**1. The "top 1" class is arguably not an error.** It is extracted the same way
+for the cached and the new question, so the refilled SQL is likely identical.
+Even so, a refilled template with a slot the template lacks is not well defined.
+Treating these as correct:
+- flash-lite (bge): 30 of 1,169 reuses remain false, **2.6%**, still above 1%.
+- 3.5-flash: 4 remain, all off-by-one date errors, about **0.34%**.
+
+**O2 does not depend on this class.**
+
+**2. Duckling's overlap order** (time before amount) caused the 11% amount
+errors. It was not changed after seeing the results.
+
+### Deviations from section 9, all infrastructure only
+
+- The Duckling parser crashed on interval amounts ("over $100" is an open
+  interval). It was fixed to read the interval's bound before the Duckling
+  results were produced.
+- The first flash-lite run hit 789 Vertex 429s, because the retry did not back
+  off. Backoff and `--workers` were added, and the run was resumed with 2
+  workers.
+  - The prompt, schema, model and settings did not change.
+  - The 569 responses already received were kept.
+- `--limit` was added as a smoke-test mode. It writes no results.
+
+### What this does and does not show
+
+**Shown, on v1:**
+- Parameter-split caching moves the safety problem out of the embedding and into
+  the extractor.
+- A threshold cannot catch extractor errors.
+- The cheap model you would put on the query path errs on 5.8% of reuses, which
+  exceeds both published bars.
+- The errors are date arithmetic ("30 days", "3 months") and implicit or negated
+  parameters ("excluding X", "single").
+
+**Not shown:**
+- Whether the cache *adds* error compared with fresh generation. The
+  production NLQ writes relative SQL (`CURRENT_DATE - INTERVAL`) and may not make
+  the same arithmetic mistakes. Measuring that needs step 4d (execution
+  equivalence).
+- Anything about human-written questions (step 4a), which should make every
+  extractor worse.
+
+---
+
+## 11. Pre-registration: the relative-date arm and dataset v2 (frozen 2026-10-28)
+
+Written before any run it covers. No Gemini model has been run in relative mode
+or on v2, and no embedder has been run on v2.
+
+### Why this step
+
+Section 10's template-slot errors from the primary extractor were mostly date
+arithmetic: 26 of bge's 30 were "last 30 days" computed as 31 days. The
+application never asks a model for dates; its SQL leaves them to
+`CURRENT_DATE`. So it is open whether the template cache's risk is **LLM
+extraction** in general or **LLM date arithmetic** in particular. A reviewer
+from industry would raise this first.
+
+### Part 1: the relative-date arm (v1, the same 1,358 questions as section 10)
+
+**What changes, and what does not:**
+- `extract.py --extractor gemini-rel:<model>`. The model *labels* the period
+  (`last_n_days`, n = 30; `calendar_quarter`, 2026, 3; …) instead of computing
+  it. `resolve_relative()` turns the label into dates in code.
+- Verified before freezing:
+  - `resolve_relative()` reproduces the dataset's ranges for all 13 periods and
+    the 4 named equivalents ("October 2026" = this month, and so on).
+  - The prompt outside the period section is byte-identical between the two
+    arms.
+  - The absolute prompt and schema are byte-identical to the section 10 run
+    (commit `c79d064`).
+- **The period is the only thing that differs.**
+
+**Arms:**
+- `gemini-rel:gemini-3.1-flash-lite`: primary.
+- `gemini-rel:gemini-3.5-flash`: secondary and optional, not part of the
+  decision.
+
+**Primary metric: F_slots.** The calibrated false share of reuses for
+`split_template_extracted_slots`.
+- That design uses **template-slot scoring**: a reuse is correct if the cached
+  intent matches and every slot of the template was extracted exactly. Values
+  the template has no slot for are ignored, because the refilled SQL never uses
+  them.
+- This rule was defined after section 10's "top 1" cases. It is fixed here,
+  before the relative run.
+- Strict scoring is reported alongside.
+
+**Known before freezing (disclosed):**
+- F_slots for the *absolute* run (section 10) is 2.50–2.72% across the four
+  embedders.
+- Its strict values are 5.69–5.97%.
+
+**Comparison:** `evaluate.py --compare` gives the paired difference, relative
+minus absolute, with one cluster bootstrap over the same query groups.
+
+**Decision.** The four open embedders must all agree.
+
+| Outcome | Condition | Claim |
+|---|---|---|
+| **R1: the risk was date arithmetic** | F_slots(relative) ≤ 1% **and** the paired difference's 95% CI lies entirely below 0 | Keep date arithmetic out of the model (label it, resolve in code or SQL), and template reuse meets the 1% bar on this data. The residual risk is implicit and negated parameters. |
+| **R2: the risk is broader than dates** | F_slots(relative) > 1% | Extraction is unsafe beyond date arithmetic. |
+| **R3: mixed** | anything else | Report as is; no claim either way. |
+
+**Prediction, written down but not part of the rule:** R1.
+- The relative arm should remove the 26 "last 30 days" errors.
+- It should leave about 4 category-drop errors, roughly 0.3%.
+- If R1 fails, that prediction was wrong, and the README will say so.
+
+### Part 2: dataset v2
+
+**Generated with:**
+- `python generate_dataset.py --v2 --out data_v2`, generator 2.0.0, seed 20261027.
+- 1,295 questions, 128 cached, 1,406 pairs, 527 held-out queries.
+- SHA-256 hashes:
+  - `questions.jsonl`: `7eabef42…a032`
+  - `pairs.jsonl`: `8b64ae31…6b10`
+  - `human_spec_sheet.csv`: `32b292b5…8398`
+- v1 still regenerates byte-for-byte; all three of its files were verified.
+
+**What changed from v1:**
+- "Last year" gains a date-free alias ("in the previous year"), so it now has
+  13 one-span, date-free aliases.
+- All aliases are used, not just the first two.
+- Each intent's templates are split into a cache half and a query half.
+  - Cached questions use only the cache half.
+  - Paraphrases, the reworded near-miss, intent near-misses and filter changes
+    use only the query half.
+- Verified properties:
+  - 0 held-out queries use a cached wording.
+  - All 128 cached questions have a held-out paraphrase.
+
+**Runs on v2, and what each must show:**
+
+| Run | Rule |
+|---|---|
+| (a) Inversion plus comparisons A and B, on the four open models | **H-A (confirmatory):** A's 95% CI lower bound > 0.5 in all four. A is the share of cached questions whose same-wording period swap scores at or above the best reworded correct question. B is descriptive only; it now covers "last year". |
+| (b) `gemini:` and `gemini-rel:` flash-lite on v2, evaluated with `--holdout` on the four open models | **Replication:** Part 1's outcome replicates if its condition also holds here for all four. F_slots, strict F and the similarity AUC are reported either way. |
+| (c) Human-written questions (`human_spec_sheet.csv`, 128 specs: 64 same meaning, 64 neighbouring period) | Analysed only after its own pre-registration, written before the filled sheets are opened. |
+
+### Commands
+
+```
+# Part 1 (needs GCP credentials)
+python extract.py --extractor gemini-rel:gemini-3.1-flash-lite --project <project> --workers 2
+python extract.py --extractor gemini-rel:gemini-3.5-flash --project <project> --workers 2   # optional
+
+# Part 2b (needs GCP credentials)
+python extract.py --data data_v2 --out results_v2/extraction --extractor gemini:gemini-3.1-flash-lite --project <project> --workers 2
+python extract.py --data data_v2 --out results_v2/extraction --extractor gemini-rel:gemini-3.1-flash-lite --project <project> --workers 2
+
+# Local: evaluation, comparison, v2 inversion
+python evaluate.py --embedder <e> --extracted results/extraction/<x>/extracted.jsonl
+python evaluate.py --compare <absolute report.json> <relative report.json>
+python evaluate.py --data data_v2 --out results_v2 --embedder <e> [--holdout --extracted ...]
+```
+
+The SHA-256 of this section, from its heading to the end of the commands
+block, was recorded in the working session before any run it covers:
+`544f3d7e0da7af7f66747d44878177fbc370322728a9d89bcb47062bef4f3d0d`.
+
+---
+
+## 12. Section 11 results, so far (2026-10-28)
+
+### Part 2a: H-A is confirmed on v2
+
+These are the four open models, on 128 cached questions each.
+
+| Model | A [95% CI] | B [95% CI] | Strong inversion [95% CI] |
+|---|---|---|---|
+| MiniLM | 0.984 [0.961, 1.000] | 0.625 [0.547, 0.711] | 0.516 [0.430, 0.602] |
+| mpnet | 0.992 [0.977, 1.000] | 0.727 [0.656, 0.789] | 0.539 [0.453, 0.625] |
+| bge | 0.875 [0.813, 0.930] | 0.672 [0.594, 0.750] | 0.555 [0.469, 0.641] |
+| e5 | 0.922 [0.875, 0.969] | 0.633 [0.547, 0.719] | 0.562 [0.477, 0.648] |
+
+- Every lower bound for A is above 0.5, so **H-A holds as registered**.
+- B now covers all 128 cached questions, up from 111, because "last year" has
+  a date-free alias.
+- The A/B split was exploratory on v1 and is now confirmed on a dataset built
+  after it was defined.
+
+### Observed in the v2 gold check (not a registered hypothesis)
+
+On held-out wording, the template cache fails even with perfect extraction.
+The `--holdout` run covers 527 queries, each worded with a template no cached
+entry uses. It was given the gold parameters.
+
+| Model | raw_global @0 | split_full @0 | split_template @0 (v1: 0.97) |
+|---|---:|---:|---:|
+| MiniLM | 0.000 | 0.000 | **0.000** |
+| mpnet | 0.008 | 0.004 | 0.294 |
+| bge | 0.002 | 0.015 | 0.260 |
+| e5 | 0.004 | 0.038 | 0.167 |
+
+- v1's 0.97 was the template artefact flagged as threat 1.
+- The false matches that set the threshold are **intent near-misses**:
+  - aggregation: "**Sum** of my purchases at [MERCHANT]" against "**Number** of
+    purchases at [MERCHANT]", 0.927 for bge
+  - negation: "spend on [CATEGORY]" against "spend on everything **except**
+    [CATEGORY]", 0.955 for MiniLM
+  - direction: refunds against spending
+- On held-out wording, the top match has the wrong intent for **92 of 527**
+  queries (bge) and **157 of 527** (MiniLM).
+
+**What this changes.** Masking the values fixes the period problem but not the
+intent problem.
+- Similarity cannot reliably tell sum from count, "X" from "everything except
+  X", or money in from money out, once the wording differs.
+- Section 4 called this H3 and found it "by construction" on v1. On held-out
+  wording it is the dominant failure.
+
+Part 1 and Part 2b are waiting for the Gemini runs.

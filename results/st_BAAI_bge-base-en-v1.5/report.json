@@ -1,6 +1,7 @@
 {
   "embedder": "st:BAAI/bge-base-en-v1.5",
   "dataset_sha256_pairs": "2fbf585caab5daaa70283afbd96f1e960dd8abcf509d9969129cfd3cadfd75bb",
+  "generator_version": "1.0.0",
   "bootstrap": 1000,
   "pairs": {
     "similarity_by_pair_type": {
@@ -521,11 +522,30 @@
         "best_correct": "How much money did Home Depot give back to me so far this month?",
         "correct_sim": 0.9724
       }
-    ]
+    ],
+    "ab": {
+      "A": {
+        "n": 128,
+        "rate": 0.875,
+        "ci95": [
+          0.8201,
+          0.9297
+        ]
+      },
+      "B": {
+        "n": 111,
+        "rate": 0.7027,
+        "ci95": [
+          0.6216,
+          0.7838
+        ]
+      }
+    }
   },
   "cache": {
     "n_cached": 128,
     "n_queries": 1230,
+    "holdout": false,
     "designs": {
       "raw_global": {
         "correct_reuse_at_false_0": {
@@ -635,6 +655,8 @@
       }
     },
     "calibrated": {},
+    "separability": {},
+    "per_query": {},
     "curves": {
       "raw_global": [
         {

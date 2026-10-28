@@ -1,2 +1,3 @@
 # Cached vectors are reproducible from the dataset and the model; reports are kept.
 results/*/embeddings_*.npy
+results_v2/*/embeddings_*.npy

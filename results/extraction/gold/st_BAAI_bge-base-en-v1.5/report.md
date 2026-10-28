@@ -60,6 +60,13 @@ Strong: the best wrong question scores ≥ the best correct one. Weak: ≥ the w
 | entity_near_miss | 100 | 0.02 | [0.0, 0.05] | 0.86 | [0.79, 0.93] |
 | intent_near_miss | 118 | 0.0085 | [0.0, 0.0254] | 0.6017 | [0.5169, 0.6864] |
 
+A: same-wording period swap ≥ best reworded correct question. B: ≥ best one-span, date-free correct rewording.
+
+| Comparison | n | rate | 95% CI |
+|---|---:|---:|---|
+| A | 128 | 0.875 | [0.8201, 0.9297] |
+| B | 111 | 0.7027 | [0.6216, 0.7838] |
+
 ## C. Cache simulation — share of queries correctly reused
 
 | Design | at 0% false reuse | 95% CI | at ≤1% | at ≤5% | possible |
@@ -70,6 +77,7 @@ Strong: the best wrong question scores ≥ the best correct one. Weak: ≥ the w
 | split_template | 0.9732 | [0.9599, 0.9844] | 0.9732 | 0.9886 | 1.0 |
 | split_full_extracted | 0.2179 | [0.2034, 0.2317] | 0.2195 | 0.2496 | 0.5317 |
 | split_template_extracted | 0.9732 | [0.9599, 0.9844] | 0.9732 | 0.9886 | 1.0 |
+| split_template_extracted_slots | 0.9732 | [0.9599, 0.9844] | 0.9732 | 0.9886 | 1.0 |
 
 split_* use gold parameters (oracle extraction). split_template counts a reuse as correct when the intent matches, because the template is refilled with the new parameters.
 
@@ -79,6 +87,7 @@ split_* use gold parameters (oracle extraction). split_template counts a reuse a
 |---|---:|---:|---|---|---:|---:|---:|---:|
 | split_full_extracted | 0.9535 | 0.2179 | 0.2179 [0.2032, 0.2316] | 0.0 [0.0, 0.0] | 0 | 0 | 0 | 0 |
 | split_template_extracted | 0.9371 | 0.9732 | 0.9732 [0.9599, 0.9844] | 0.0 [0.0, 0.0] | 0 | 0 | 0 | 0 |
+| split_template_extracted_slots | 0.9371 | 0.9732 | 0.9732 [0.9599, 0.9844] | 0.0 [0.0, 0.0] | 0 | 0 | 0 | 0 |
 
 ## Largest inversions
 

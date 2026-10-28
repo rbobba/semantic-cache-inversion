@@ -16,7 +16,19 @@ anyone has seen a similarity score. Freeze the output (see README step 1)
 before embedding anything.
 
 Usage:
-    python generate_dataset.py --out data
+    python generate_dataset.py --out data                # v1, frozen
+    python generate_dataset.py --v2 --out data_v2        # v2, README section 11
+
+v2 changes, each answering a defect v1 exposed (v1 itself is never altered):
+  - "last year" gains a date-free alias ("in the previous year"). v1 had none,
+    so comparison B could not test its 17 cached questions.
+  - Every alias is used, not just the first two.
+  - Each intent's templates are split into a cache half and a query half.
+    Cached questions use only the first; reworded queries only the second, and
+    are marked split="query", so `evaluate.py --holdout` can run the cache on
+    wording it has never stored (threat 1).
+  - A spec sheet for human-written questions (README step 4a) is written
+    beside the dataset.
 """
 
 from __future__ import annotations
@@ -369,6 +381,8 @@ class Builder:
     ranges: dict[str, tuple[date, date]]
     questions: dict[str, dict] = field(default_factory=dict)  # text -> record
     pairs: list[dict] = field(default_factory=list)
+    # v2 only: intent -> template ids reserved for cached questions.
+    cache_templates: dict[str, set[int]] | None = None
 
     def add(self, q: Question, *, is_anchor: bool, group: str) -> dict:
         text = q.text()
@@ -391,6 +405,8 @@ class Builder:
             "is_anchor": is_anchor,
             "group": group,
         }
+        if self.cache_templates is not None:
+            rec["split"] = "cache" if q.template_id in self.cache_templates[q.intent] else "query"
         self.questions[text] = rec
         return rec
 
@@ -429,24 +445,41 @@ def _other_template(rng: random.Random, intent: str, exclude: int) -> int:
     return rng.choice(choices)
 
 
-def build(seed: int, anchors_per_intent: int) -> Builder:
+def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
     rng = random.Random(seed)
     b = Builder(rng=rng, ranges=_period_ranges(REFERENCE_DATE))
+    query_templates: dict[str, list[int]] = {}
+    if v2:
+        b.cache_templates = {}
+        for intent, templates in INTENTS.items():
+            ids = list(range(len(templates)))
+            rng.shuffle(ids)
+            k = (len(ids) + 1) // 2
+            b.cache_templates[intent] = set(ids[:k])
+            query_templates[intent] = sorted(ids[k:])
+
+    def query_template(intent: str) -> int:
+        return rng.choice(query_templates[intent])
 
     for intent, templates in INTENTS.items():
         slots = slots_of(templates[0])
         combos = list(itertools.product(*(SLOTS[s][2] for s in slots)))
         rng.shuffle(combos)
         for combo in combos[:anchors_per_intent]:
-            t0 = rng.randrange(len(templates))
+            if v2:
+                t0 = rng.choice(sorted(b.cache_templates[intent]))
+            else:
+                t0 = rng.randrange(len(templates))
             values = tuple(zip(slots, combo, strict=True))
             anchor_q = Question(intent, t0, values, tuple((s, 0) for s in slots))
             anchor = b.add(anchor_q, is_anchor=True, group="")
             anchor["group"] = anchor["id"]
 
-            # 1. Paraphrases: other wordings, same meaning.
+            # 1. Paraphrases: other wordings, same meaning. In v2, every
+            #    query-half wording and none the cache uses.
             others = [i for i in range(len(templates)) if i != t0]
-            for t in rng.sample(others, min(3, len(others))):
+            chosen = query_templates[intent] if v2 else rng.sample(others, min(3, len(others)))
+            for t in chosen:
                 b.pair(
                     anchor,
                     Question(intent, t, values, anchor_q.surface_idx),
@@ -461,7 +494,8 @@ def build(seed: int, anchors_per_intent: int) -> Builder:
                 # 2. Equivalent surface: one span reworded, same value, SAME
                 #    template — a one-span positive to set against the
                 #    one-span negatives below.
-                for si in range(1, min(3, len(surfaces[value]))):
+                n_surfaces = len(surfaces[value]) if v2 else min(3, len(surfaces[value]))
+                for si in range(1, n_surfaces):
                     b.pair(
                         anchor,
                         _with_value(anchor_q, slot, value, si),
@@ -485,7 +519,7 @@ def build(seed: int, anchors_per_intent: int) -> Builder:
                             anchor, _with_value(anchor_q, slot, nv), "param_near_miss", slot, kind
                         )
                         if first:
-                            t = _other_template(rng, intent, t0)
+                            t = query_template(intent) if v2 else _other_template(rng, intent, t0)
                             b.pair(
                                 anchor,
                                 _with_value(anchor_q, slot, nv, template_id=t),
@@ -500,7 +534,7 @@ def build(seed: int, anchors_per_intent: int) -> Builder:
                 if intent not in (a, c):
                     continue
                 other = c if intent == a else a
-                t = rng.randrange(len(INTENTS[other]))
+                t = query_template(other) if v2 else rng.randrange(len(INTENTS[other]))
                 b.pair(
                     anchor,
                     Question(other, t, values, anchor_q.surface_idx),
@@ -512,12 +546,20 @@ def build(seed: int, anchors_per_intent: int) -> Builder:
             # 5. Filter change: drop the filter, or add one.
             vals = dict(values)
             if intent in FILTERED_INTENTS:
-                t = rng.randrange(len(INTENTS["total_spend"]))
+                t = (
+                    query_template("total_spend")
+                    if v2
+                    else rng.randrange(len(INTENTS["total_spend"]))
+                )
                 q = Question("total_spend", t, (("period", vals["period"]),), (("period", 0),))
                 b.pair(anchor, q, "filter_change", "filter_dropped", "total_spend")
             if intent == "total_spend":
                 cat = rng.choice(list(CATEGORY_SURFACES))
-                t = rng.randrange(len(INTENTS["category_spend_total"]))
+                t = (
+                    query_template("category_spend_total")
+                    if v2
+                    else rng.randrange(len(INTENTS["category_spend_total"]))
+                )
                 q = Question(
                     "category_spend_total",
                     t,
@@ -532,7 +574,124 @@ def _sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
-def write(b: Builder, out: Path, seed: int, anchors_per_intent: int) -> None:
+# ── v2: human-written questions (README step 4a) ─────────────────────────
+#
+# Writers get the MEANING of a question — a goal and its values — never a
+# template, so their wording is their own. Goals are terse noun phrases on
+# purpose: a full sentence would be copied.
+
+HUMAN_GOALS = {
+    "merchant_spend_total": "total amount spent at a merchant",
+    "merchant_txn_count": "number of transactions at a merchant",
+    "merchant_avg": "average amount per transaction at a merchant",
+    "merchant_refunds": "total refunds received from a merchant",
+    "category_spend_total": "total spent in one spending category",
+    "category_spend_excluding": "total spending on everything EXCEPT one category",
+    "account_spend_total": "total money that went out of one account",
+    "total_spend": "total spending overall",
+    "income_total": "total income received",
+    "net_cash_flow": "income minus spending",
+    "largest_purchase": "the single largest purchase",
+    "top_merchants": "the top N merchants by amount spent",
+    "top_categories": "the top N spending categories by amount",
+    "large_transactions": "every transaction above a dollar amount",
+}
+
+HUMAN_PERIODS = {
+    "this_month": "the current month so far (Oct 1 - Oct 27, 2026)",
+    "last_month": "the previous calendar month (Sep 1 - Sep 30, 2026)",
+    "aug_2026": "August 2026 (Aug 1 - Aug 31)",
+    "this_year": "this calendar year so far (Jan 1 - Oct 27, 2026)",
+    "last_year": "the previous calendar year (all of 2025)",
+    "last_12_months": "a rolling 12-month window ending today (Oct 28, 2025 - Oct 27, 2026)",
+    "this_week": "the current week so far (Mon Oct 26 - Tue Oct 27, 2026)",
+    "last_week": "the previous calendar week (Mon Oct 19 - Sun Oct 25, 2026)",
+    "last_30_days": "a rolling 30-day window ending today (Sep 28 - Oct 27, 2026)",
+    "last_3_months": "a rolling 3-month window ending today (Jul 28 - Oct 27, 2026)",
+    "last_6_months": "a rolling 6-month window ending today (Apr 28 - Oct 27, 2026)",
+    "q3_2026": "the third quarter of 2026 (Jul 1 - Sep 30)",
+    "q2_2026": "the second quarter of 2026 (Apr 1 - Jun 30)",
+}
+
+HUMAN_INSTRUCTIONS = """\
+# Writing questions for the personal-finance study
+
+Thank you for helping. This takes about an hour.
+
+Imagine a personal-finance app that has read your bank and card statements.
+You can type questions to it in plain English.
+
+**Today is Tuesday, October 27, 2026.**
+
+Each row of `human_spec_sheet.csv` describes something you want to know:
+a goal, the values involved (a merchant, a category, an account, an amount or a
+number N), and a time period. Write **one question** in the `question` column,
+the way you would actually type it into the app.
+
+- **Use your own words.** Do not copy the wording of the goal or the period.
+  Ask it however feels natural, short or long, casual or precise.
+- **Say the time period however you naturally would.** "Last month",
+  "September" and "in Sep" are all fine if they mean the period described. The
+  dates are there so you know exactly which period is meant.
+- **Keep the meaning exact.** If the row says "everything EXCEPT groceries",
+  the question must exclude groceries. If it says "top 5", ask for five.
+- **Work alone.** Do not look at anyone else's sheet, and do not ask an AI
+  assistant to write or reword the questions.
+- Put your initials in the `writer` column of every row.
+
+There are no wrong answers except questions that change the meaning.
+"""
+
+
+def write_human_specs(b: Builder, out: Path, seed: int) -> None:
+    """One spec per cached question: even positions ask the same thing (a
+    positive), odd positions the same thing over a neighbouring period (a
+    near-miss). Labels come from the spec, so the writer cannot change them."""
+    rng = random.Random(seed + 2)
+    anchors = sorted((r for r in b.questions.values() if r["is_anchor"]), key=lambda r: r["id"])
+    rows = []
+    for i, a in enumerate(anchors):
+        values = dict(a["values"])
+        kind = "same_meaning"
+        if i % 2 == 1:
+            options = [v for vs in PERIOD_NEIGHBORS.get(values["period"], {}).values() for v in vs]
+            if options:
+                values["period"] = rng.choice(options)
+                kind = "different_period"
+        detail = []
+        for slot in ("merchant", "category", "account", "amount", "n"):
+            if slot in values:
+                surface = SLOTS[slot][0][values[slot]][0]
+                detail.append(f"{'N' if slot == 'n' else slot}: {surface}")
+        rows.append(
+            {
+                "spec_id": f"s{i + 1:03d}",
+                "anchor_id": a["id"],
+                "kind": kind,
+                "intent": a["intent"],
+                "values": json.dumps(values),
+                "goal": HUMAN_GOALS[a["intent"]],
+                "details": "; ".join(detail),
+                "period": HUMAN_PERIODS[values["period"]],
+            }
+        )
+    # The writer's sheet hides everything that would hint at the study design.
+    shuffled = rows[:]
+    rng.shuffle(shuffled)
+    with (out / "human_spec_sheet.csv").open("w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["spec_id", "goal", "details", "period", "question", "writer"])
+        for r in shuffled:
+            w.writerow([r["spec_id"], r["goal"], r["details"], r["period"], "", ""])
+    with (out / "human_spec_key.jsonl").open("w", encoding="utf-8", newline="\n") as f:
+        for r in rows:
+            f.write(json.dumps(r) + "\n")
+    (out / "human_writer_instructions.md").write_text(HUMAN_INSTRUCTIONS, encoding="utf-8")
+
+
+def write(
+    b: Builder, out: Path, seed: int, anchors_per_intent: int, version: str = GENERATOR_VERSION
+) -> None:
     out.mkdir(parents=True, exist_ok=True)
     questions = sorted(b.questions.values(), key=lambda r: r["id"])
 
@@ -554,8 +713,12 @@ def write(b: Builder, out: Path, seed: int, anchors_per_intent: int) -> None:
             w.writerow([p["pair_id"], p["anchor_text"], p["candidate_text"], ""])
 
     counts = Counter((p["relation"], p["dimension"], p["kind"]) for p in b.pairs)
+    files = ["questions.jsonl", "pairs.jsonl", "review_sheet.csv"]
+    if b.cache_templates is not None:
+        write_human_specs(b, out, seed)
+        files += ["human_spec_sheet.csv", "human_spec_key.jsonl"]
     manifest = {
-        "generator_version": GENERATOR_VERSION,
+        "generator_version": version,
         "seed": seed,
         "anchors_per_intent": anchors_per_intent,
         "reference_date": REFERENCE_DATE.isoformat(),
@@ -569,11 +732,13 @@ def write(b: Builder, out: Path, seed: int, anchors_per_intent: int) -> None:
             "same_sql": "same intent AND equal normalised params (periods as absolute date ranges vs reference_date)",
             "same_template": "same intent",
         },
-        "sha256": {
-            name: _sha256(out / name)
-            for name in ("questions.jsonl", "pairs.jsonl", "review_sheet.csv")
-        },
+        "sha256": {name: _sha256(out / name) for name in files},
     }
+    if b.cache_templates is not None:
+        manifest["cache_templates"] = {k: sorted(v) for k, v in b.cache_templates.items()}
+        manifest["n_queries_holdout"] = sum(
+            1 for r in questions if not r["is_anchor"] and r.get("split") == "query"
+        )
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(
         json.dumps(
@@ -589,9 +754,16 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=Path(__file__).parent / "data")
     ap.add_argument("--seed", type=int, default=20261027)
     ap.add_argument("--anchors-per-intent", type=int, default=10)
+    ap.add_argument("--v2", action="store_true", help="dataset v2 (see the module docstring)")
     args = ap.parse_args()
-    b = build(args.seed, args.anchors_per_intent)
-    write(b, args.out, args.seed, args.anchors_per_intent)
+    if args.v2:
+        # A date-free alias for "last year", which v1 lacked. Appended, so
+        # surfaces[0] stays the canonical wording.
+        PERIOD_SURFACES["last_year"].append("in the previous year")
+    b = build(args.seed, args.anchors_per_intent, v2=args.v2)
+    write(
+        b, args.out, args.seed, args.anchors_per_intent, "2.0.0" if args.v2 else GENERATOR_VERSION
+    )
 
 
 if __name__ == "__main__":
