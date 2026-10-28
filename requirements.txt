@@ -1,0 +1,8 @@
+# Always needed (generate_dataset.py uses only the standard library)
+numpy>=1.26
+
+# Open embedding models: --embedder st:<model>
+sentence-transformers>=3.0
+
+# Vertex AI models: --embedder vertex:<model>  (needs your own GCP credentials)
+google-genai>=1.0
