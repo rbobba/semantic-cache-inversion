@@ -606,35 +606,36 @@
       },
       "split_template": {
         "correct_reuse_at_false_0": {
-          "value": 0.9683,
+          "value": 0.9732,
           "ci95": [
-            0.9549,
-            0.98
+            0.9599,
+            0.9844
           ]
         },
         "correct_reuse_at_false_0.01": {
-          "value": 0.9683,
+          "value": 0.9732,
           "ci95": [
-            0.9549,
-            0.98
+            0.9599,
+            0.9844
           ]
         },
         "correct_reuse_at_false_0.05": {
-          "value": 0.9683,
+          "value": 0.9732,
           "ci95": [
-            0.9549,
-            0.98
+            0.9599,
+            0.9844
           ]
         },
         "possible": {
-          "value": 0.9951,
+          "value": 1.0,
           "ci95": [
-            0.9911,
-            0.9984
+            1.0,
+            1.0
           ]
         }
       }
     },
+    "calibrated": {},
     "curves": {
       "raw_global": [
         {
@@ -1855,608 +1856,608 @@
       "split_template": [
         {
           "threshold": 0.5,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.505,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.51,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.515,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.52,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.525,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.53,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.535,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.54,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.545,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.55,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.555,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.56,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.565,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.57,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.575,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.58,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.585,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.59,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.595,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.6,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.605,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.61,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.615,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.62,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.625,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.63,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.635,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.64,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.645,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.65,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.655,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.66,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.665,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.67,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.675,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.68,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.685,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.69,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.695,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.7,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.705,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.71,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.715,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.72,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.725,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.73,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.735,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.74,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.745,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.75,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.755,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.76,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.765,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.77,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.775,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.78,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.785,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.79,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.795,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.8,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.805,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.81,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.815,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.82,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.825,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.83,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.835,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.84,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.845,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.85,
-          "reuse_rate": 0.9951219512195122,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.02696078431372549
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.026829268292682926
         },
         {
           "threshold": 0.855,
-          "reuse_rate": 0.983739837398374,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.015702479338842976
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.015625
         },
         {
           "threshold": 0.86,
-          "reuse_rate": 0.983739837398374,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.015702479338842976
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.015625
         },
         {
           "threshold": 0.865,
-          "reuse_rate": 0.983739837398374,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.015702479338842976
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.015625
         },
         {
           "threshold": 0.87,
-          "reuse_rate": 0.983739837398374,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.015702479338842976
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.015625
         },
         {
           "threshold": 0.875,
-          "reuse_rate": 0.983739837398374,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.015702479338842976
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.015625
         },
         {
           "threshold": 0.88,
-          "reuse_rate": 0.983739837398374,
-          "correct_reuse_rate": 0.9682926829268292,
-          "false_reuse_share": 0.015702479338842976
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.015625
         },
         {
           "threshold": 0.885,
-          "reuse_rate": 0.9682926829268292,
-          "correct_reuse_rate": 0.9682926829268292,
+          "reuse_rate": 0.973170731707317,
+          "correct_reuse_rate": 0.973170731707317,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.89,
-          "reuse_rate": 0.9682926829268292,
-          "correct_reuse_rate": 0.9682926829268292,
+          "reuse_rate": 0.973170731707317,
+          "correct_reuse_rate": 0.973170731707317,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.895,
-          "reuse_rate": 0.9682926829268292,
-          "correct_reuse_rate": 0.9682926829268292,
+          "reuse_rate": 0.973170731707317,
+          "correct_reuse_rate": 0.973170731707317,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.9,
-          "reuse_rate": 0.9682926829268292,
-          "correct_reuse_rate": 0.9682926829268292,
+          "reuse_rate": 0.973170731707317,
+          "correct_reuse_rate": 0.973170731707317,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.905,
+          "reuse_rate": 0.973170731707317,
+          "correct_reuse_rate": 0.973170731707317,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.91,
           "reuse_rate": 0.9682926829268292,
           "correct_reuse_rate": 0.9682926829268292,
           "false_reuse_share": 0.0
         },
         {
-          "threshold": 0.91,
-          "reuse_rate": 0.9634146341463414,
-          "correct_reuse_rate": 0.9634146341463414,
-          "false_reuse_share": 0.0
-        },
-        {
           "threshold": 0.915,
-          "reuse_rate": 0.9634146341463414,
-          "correct_reuse_rate": 0.9634146341463414,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.92,
-          "reuse_rate": 0.9634146341463414,
-          "correct_reuse_rate": 0.9634146341463414,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.925,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.93,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.935,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.94,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.945,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.95,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.955,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.96,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.965,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.97,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.975,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.98,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.985,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.99,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 0.995,
-          "reuse_rate": 0.9520325203252032,
-          "correct_reuse_rate": 0.9520325203252032,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
           "false_reuse_share": 0.0
         },
         {
           "threshold": 1.0,
-          "reuse_rate": 0.7292682926829268,
-          "correct_reuse_rate": 0.7292682926829268,
+          "reuse_rate": 0.7341463414634146,
+          "correct_reuse_rate": 0.7341463414634146,
           "false_reuse_share": 0.0
         }
       ]

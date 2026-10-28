@@ -20,6 +20,12 @@ one embedding model, and reports:
                         refilled with the new question's parameters
      The split designs use the gold parameters (oracle extraction). A real
      extractor can only do worse; README step 5 measures by how much.
+     With --extracted, both split designs are rerun on a real extractor's
+     parameters and masked text (from extract.py) and reported beside the
+     oracle ones. Routing then sees only extracted values; correctness is
+     still judged against gold. Each extracted design is also evaluated at
+     the threshold its oracle twin needed for zero false reuse: the
+     threshold a team would have calibrated in the lab, then deployed.
 
 Every headline number carries a 95% bootstrap interval, resampling cached
 questions together with the queries generated from them, because queries
@@ -40,6 +46,9 @@ Usage:
 Voyage input_type, Cohere input_type. `--dimensions` is passed through only
 when given, except Vertex, which defaults to the application's 768.
     python evaluate.py --summarize
+    python evaluate.py --embedder st:BAAI/bge-base-en-v1.5 \\
+        --extracted results/extraction/gemini_gemini-3.1-flash-lite/extracted.jsonl
+    python evaluate.py --summarize-extraction
 """
 
 from __future__ import annotations
@@ -402,6 +411,8 @@ def cache_simulation(
     masked: np.ndarray,
     rng: np.random.Generator,
     n_boot: int,
+    ext: dict[str, dict] | None = None,
+    ext_masked: np.ndarray | None = None,
 ) -> dict:
     anchors = [q for q in questions if q["is_anchor"]]
     queries = [q for q in questions if not q["is_anchor"]]
@@ -419,7 +430,11 @@ def cache_simulation(
 
     same_intent = np.array([[q["intent"] == a["intent"] for a in anchors] for q in queries])
     same_params = np.array([[key(q) == key(a) for a in anchors] for q in queries])
-    same_slots = np.array([[q["slots"] == a["slots"] for a in anchors] for q in queries])
+    # A set, not the template's order: "{period}, not counting {category}"
+    # and "except {category} {period}" fill the same two slots.
+    same_slots = np.array(
+        [[sorted(q["slots"]) == sorted(a["slots"]) for a in anchors] for q in queries]
+    )
     same_sql = same_intent & same_params
 
     designs = {
@@ -428,6 +443,32 @@ def cache_simulation(
         "split_full": (S_mask, same_slots & same_params, same_sql),
         "split_template": (S_mask, same_slots, same_intent),
     }
+    calibrate_from: dict[str, str] = {}
+    params_right = np.ones(Q, dtype=bool)
+    if ext is not None:
+
+        def ekey(q: dict) -> str:
+            return json.dumps(ext[q["id"]]["params"], sort_keys=True)
+
+        def eslots(q: dict) -> list[str]:
+            return sorted(ext[q["id"]]["params"])
+
+        S_ext = ext_masked[qi] @ ext_masked[ai].T
+        e_same_params = np.array([[ekey(q) == ekey(a) for a in anchors] for q in queries])
+        e_same_slots = np.array([[eslots(q) == eslots(a) for a in anchors] for q in queries])
+        # The refilled template is right only if the query's own values were
+        # extracted right; the cached entry contributes only its template.
+        params_right = np.array([ekey(q) == key(q) for q in queries])
+        designs["split_full_extracted"] = (S_ext, e_same_slots & e_same_params, same_sql)
+        designs["split_template_extracted"] = (
+            S_ext,
+            e_same_slots,
+            same_intent & params_right[:, None],
+        )
+        calibrate_from = {
+            "split_full_extracted": "split_full",
+            "split_template_extracted": "split_template",
+        }
     group = np.array([a_index[q["group"]] for q in queries])
 
     # Routing does not depend on the resample — the cache is fixed and only
@@ -440,6 +481,13 @@ def cache_simulation(
         ok = correct[np.arange(Q), nn] & np.isfinite(best)
         possible = (correct & elig).any(axis=1)
         routed[name] = (nn, best, ok, possible)
+
+    # Calibration happens once, on the full oracle run, as it would in a lab;
+    # the bootstrap then varies only the traffic the threshold meets.
+    thresholds = {
+        name: _zero_threshold(routed[src][1], routed[src][2])
+        for name, src in calibrate_from.items()
+    }
 
     def run(weights_g: np.ndarray) -> dict[str, dict]:
         """One evaluation. weights_g[i] = how many times anchor i's query group was drawn.
@@ -454,6 +502,13 @@ def cache_simulation(
         for name, (nn, best, ok, possible) in routed.items():
             out[name] = _zero_and_budget(best, ok, w_q, total)
             out[name]["possible"] = float((w_q * possible).sum() / total)
+            if name in thresholds:
+                reused = np.isfinite(best) & (best >= thresholds[name])
+                n_re = float((w_q * reused).sum())
+                wrong = float((w_q * (reused & ~ok)).sum())
+                out[name]["calibrated_reuse"] = n_re / total
+                out[name]["calibrated_correct_reuse"] = (n_re - wrong) / total
+                out[name]["calibrated_false_share"] = wrong / n_re if n_re else 0.0
             if name == "raw_global":
                 out["raw_oracle_entry"] = _oracle_per_entry(best, ok, nn, w_q, total, A)
                 out["raw_oracle_entry"]["possible"] = out[name]["possible"]
@@ -493,7 +548,45 @@ def cache_simulation(
                 }
             )
         curves[name] = rows
-    return {"n_cached": A, "n_queries": Q, "designs": result, "curves": curves}
+
+    # Why each false reuse at the calibrated threshold was false: the wrong
+    # template, the wrong extracted values, or both.
+    causes = {}
+    for name, t in thresholds.items():
+        nn, best, ok, _ = routed[name]
+        bad = np.flatnonzero(np.isfinite(best) & (best >= t) & ~ok)
+        wrong_intent = ~same_intent[bad, nn[bad]]
+        if name == "split_full_extracted":
+            # Full-SQL reuse is wrong when the gold parameters differ, whoever
+            # extracted them as equal.
+            wrong_values = ~same_params[bad, nn[bad]]
+        else:
+            wrong_values = ~params_right[bad]
+        causes[name] = {
+            "threshold": round(float(t), 4),
+            "false_reuses": int(bad.size),
+            "wrong_template_only": int((wrong_intent & ~wrong_values).sum()),
+            "wrong_values_only": int((~wrong_intent & wrong_values).sum()),
+            "both": int((wrong_intent & wrong_values).sum()),
+        }
+    return {
+        "n_cached": A,
+        "n_queries": Q,
+        "designs": result,
+        "calibrated": causes,
+        "curves": curves,
+    }
+
+
+def _zero_threshold(best: np.ndarray, ok: np.ndarray) -> float:
+    """The threshold _zero_and_budget uses at budget 0: the lowest similarity
+    strictly above the highest-scoring false match. inf if nothing qualifies."""
+    finite = np.isfinite(best)
+    b, o = best[finite], ok[finite]
+    if not (~o).any():
+        return float(b.min()) if b.size else float("inf")
+    above = b[b > b[~o].max()]
+    return float(above.min()) if above.size else float("inf")
 
 
 def _zero_and_budget(best: np.ndarray, ok: np.ndarray, w: np.ndarray, total: float) -> dict:
@@ -606,6 +699,26 @@ def write_markdown(report: dict, path: Path) -> None:
         "split_* use gold parameters (oracle extraction). split_template counts a reuse as correct "
         "when the intent matches, because the template is refilled with the new parameters.",
         "",
+    ]
+    if report["cache"].get("calibrated"):
+        lines += [
+            "## D. Real extraction at the oracle-calibrated threshold",
+            "",
+            "| Design | threshold | reuse | correct reuse [CI] | false share of reuses [CI] "
+            "| false reuses | wrong template only | wrong values only | both |",
+            "|---|---:|---:|---|---|---:|---:|---:|---:|",
+        ]
+        for name, c in report["cache"]["calibrated"].items():
+            m = des[name]
+            lines.append(
+                f"| {name} | {c['threshold']} | {m['calibrated_reuse']['value']} | "
+                f"{m['calibrated_correct_reuse']['value']} {m['calibrated_correct_reuse']['ci95']} | "
+                f"{m['calibrated_false_share']['value']} {m['calibrated_false_share']['ci95']} | "
+                f"{c['false_reuses']} | {c['wrong_template_only']} | {c['wrong_values_only']} | "
+                f"{c['both']} |"
+            )
+        lines += [""]
+    lines += [
         "## Largest inversions",
         "",
         "| Cached | Wrong match | sim | Best correct | sim |",
@@ -645,6 +758,36 @@ def summarize(results_dir: Path) -> None:
     print(out)
 
 
+def summarize_extraction(extraction_dir: Path) -> None:
+    rows = []
+    for rp in sorted(extraction_dir.glob("*/*/report.json")):
+        r = json.loads(rp.read_text(encoding="utf-8"))
+        des = r["cache"]["designs"]
+        acc = json.loads((rp.parent.parent / "accuracy.json").read_text(encoding="utf-8"))
+
+        def v(name: str, m: str, des: dict = des) -> str:
+            x = des[name][m]
+            return f"{x['value']:.4f} {x['ci95']}"
+
+        rows.append(
+            f"| {acc['extractor']} | {r['embedder']} | {acc['frame_accuracy']:.3f} "
+            f"| {v('split_template_extracted', 'calibrated_false_share')} "
+            f"| {v('split_template_extracted', 'calibrated_correct_reuse')} "
+            f"| {v('split_template_extracted', 'correct_reuse_at_false_0.01')} "
+            f"| {v('raw_global', 'correct_reuse_at_false_0.01')} "
+            f"| {v('split_full_extracted', 'calibrated_false_share')} |"
+        )
+    header = [
+        "| Extractor | Embedder | frame acc. | template: false share @calibrated "
+        "| template: correct reuse @calibrated | template: correct reuse @≤1% "
+        "| raw_global: correct reuse @≤1% | full-SQL: false share @calibrated |",
+        "|---|---|---:|---|---|---|---|---|",
+    ]
+    out = "\n".join(header + rows) + "\n"
+    (extraction_dir / "SUMMARY.md").write_text(out, encoding="utf-8")
+    print(out)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser(
         description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter
@@ -663,6 +806,13 @@ def main() -> None:
     ap.add_argument("--bootstrap", type=int, default=1000)
     ap.add_argument("--seed", type=int, default=7)
     ap.add_argument("--summarize", action="store_true")
+    ap.add_argument(
+        "--extracted",
+        type=Path,
+        default=None,
+        help="extracted.jsonl from extract.py: rerun the split designs on its parameters",
+    )
+    ap.add_argument("--summarize-extraction", action="store_true")
     args = ap.parse_args()
     # Windows consoles default to cp1252, which cannot print the report's "≥".
     if hasattr(sys.stdout, "reconfigure"):
@@ -670,6 +820,9 @@ def main() -> None:
 
     if args.summarize:
         summarize(args.out)
+        return
+    if args.summarize_extraction:
+        summarize_extraction(args.out / "extraction")
         return
 
     questions, pairs, manifest = load(args.data)
@@ -680,12 +833,26 @@ def main() -> None:
         + (f" dims={args.dimensions}" if args.dimensions else "")
     )
     out_dir = args.out / slug(label)
+    # Embeddings stay cached beside the embedder's own report either way.
+    emb_dir = out_dir
 
-    texts = sorted({q["text"] for q in questions} | {q["masked_text"] for q in questions})
+    ext = None
+    if args.extracted:
+        with args.extracted.open(encoding="utf-8") as f:
+            ext = {r["id"]: r for r in map(json.loads, f) if r}
+        if set(ext) != {q["id"] for q in questions}:
+            raise SystemExit(f"{args.extracted} does not cover exactly the dataset's questions")
+        out_dir = args.extracted.parent / slug(label)
+
+    texts = {q["text"] for q in questions} | {q["masked_text"] for q in questions}
+    if ext:
+        texts |= {e["masked_text"] for e in ext.values()}
+    texts = sorted(texts)
     tindex = {t: i for i, t in enumerate(texts)}
-    vecs = embed(texts, args, out_dir)
+    vecs = embed(texts, args, emb_dir)
     raw = vecs[[tindex[q["text"]] for q in questions]]
     masked = vecs[[tindex[q["masked_text"]] for q in questions]]
+    ext_masked = vecs[[tindex[ext[q["id"]]["masked_text"]] for q in questions]] if ext else None
     qidx = {q["id"]: i for i, q in enumerate(questions)}
 
     rng = np.random.default_rng(args.seed)
@@ -694,8 +861,12 @@ def main() -> None:
         "dataset_sha256_pairs": manifest["sha256"]["pairs.jsonl"],
         "bootstrap": args.bootstrap,
         "pairs": pair_analysis(pairs, qidx, raw, rng, args.bootstrap),
-        "cache": cache_simulation(questions, raw, masked, rng, args.bootstrap),
+        "cache": cache_simulation(
+            questions, raw, masked, rng, args.bootstrap, ext=ext, ext_masked=ext_masked
+        ),
     }
+    if args.extracted:
+        report["extracted"] = str(args.extracted.as_posix())
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     write_markdown(report, out_dir / "report.md")

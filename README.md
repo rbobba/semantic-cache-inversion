@@ -219,9 +219,17 @@ Run 2026-10-27 on dataset `pairs.jsonl` SHA-256 `2fbf585c…`, 1,000 resamples:
 | raw_global | 0.000 [0.000, 0.000] | 0.532 |
 | raw_oracle_entry | 0.002 [0.001, 0.011] | 0.532 |
 | split_full (oracle params) | 0.225 [0.210, 0.242] | 0.532 |
-| split_template (oracle params) | 0.952 [0.937, 0.965] | 0.995 |
+| split_template (oracle params) | 0.952 [0.937, 0.965] → **0.957 [0.942, 0.970]** | 0.995 → **1.000** |
 
 Strong inversion against parameter near-misses: 0.992 [0.977, 1.000].
+
+*Correction, 2026-10-28:* `split_template` compared slot lists in template
+order, so "…{period}, not counting {category}" and "…except {category}
+{period}" counted as different slots and some valid reuses were skipped. It now
+compares slot sets. The error was conservative: it never caused a false reuse.
+It changed only the `split_template` column, by +0.005 in every model; every
+other number was rerun and is identical. Found by the gold-extraction
+sanity check in section 9.
 
 **This proves nothing about embeddings** — a word-overlap model is bound to score
 "this month" close to "last month". It is here to verify the harness, and as the
@@ -232,7 +240,7 @@ noticing, though:
    exact, what still forces the threshold up is intent near-misses: "How much did
    I spend at [MERCHANT] [PERIOD]?" against "How many transactions did I have at
    [MERCHANT] [PERIOD]?". That is H3, showing up in the control already.
-2. `split_template` at 0.952 is **inflated by construction** — see threat 1.
+2. `split_template` at 0.957 is **inflated by construction** — see threat 1.
 
 ---
 
@@ -487,7 +495,8 @@ templated wording):
   remaining false candidates are intent near-misses, and they hold `split_full`
   to about 0.22–0.27 of a possible 0.53.
 - `split_template`'s 0.96 is the template artefact described in section 5
-  (threat 1), and supports no claim.
+  (threat 1), and supports no claim. (After the slot-order correction in
+  section 4, it is 0.96–1.00.)
 
 ### Consequence for the problem statement
 
@@ -620,3 +629,145 @@ dataset is not allowed.
 Comparisons A and B were defined after seeing results. They are exploratory, and
 the paper must present them that way. Confirm them on dataset v2 with
 human-written questions (step 4a), with A and B pre-registered before that run.
+
+---
+
+## 9. Step 5 pre-registration — real parameter extraction (frozen 2026-10-28)
+
+Written and committed before any LLM extractor was run on any dataset question.
+The one exception, Duckling on the period wordings, is disclosed below.
+
+### Question
+
+How often does the template cache reuse SQL wrongly, and why, when the
+parameters come from a real extractor rather than the gold labels? This is the
+second half of RQ3. Industry practice has moved to this design (see the sources
+below), but none of the sources found reports a false-reuse rate for it.
+
+### Extractors (`extract.py`)
+
+| Arm | Role | What it is |
+|---|---|---|
+| `gemini:gemini-3.1-flash-lite` | **primary** | The application's query-path model (`rewriter_model`, `backend/src/fin_insights/config.py:123`), called the way the app calls Gemini: temperature 0, `response_json_schema` enforced (`vertex_client.py:1618-1625`), location `global` (`config.py:105`). |
+| `gemini:gemini-3.5-flash` | secondary | The application's `nlq_model` (`config.py:121`), called the same way. |
+| `duckling` | secondary | Rule-based. Image `rasa/duckling@sha256:459e6033f87b0f3f525ed0d0066ae89cfe31d512f32ac1d469431fa6ce1bdef5` (built 2022-04-21). Handles period, amount and top-N; it is not told the dataset's conventions. Merchants, categories and accounts come from a gazetteer of the dataset's own wordings, which is an **entity oracle**, so this arm measures temporal and numeric extraction only. |
+| `gold` | sanity check | The labels. It must reproduce the oracle designs exactly, and it does (bge, every number identical). |
+
+**What the Gemini prompt states:**
+- the reference date
+- the dataset's date conventions, as a production prompt states its own
+- the canonical ids of merchants, categories and accounts, since an app knows its own taxonomy and the user's accounts
+
+Aliases ("Costco Wholesale", "fuel", "American Express card") are **not** listed;
+mapping them is part of the task.
+
+### Metrics
+
+**Extraction**
+- Slot precision, recall and F1 on exact normalised values, plus frame
+  accuracy (every slot of a question right). These are the standard pair for
+  slot filling on ATIS and SNIPS ([survey, arXiv 2103.03095](https://arxiv.org/pdf/2103.03095)).
+- A wrong value counts as one false positive and one false negative.
+- Cluster-bootstrap 95% CIs.
+
+**Cache (`evaluate.py --extracted`)**
+- `split_full_extracted` and `split_template_extracted` route on extracted
+  values and extracted masked text only. Correctness is judged against gold.
+- A template reuse is correct only if two things hold: the cached entry has the
+  query's intent, **and** the query's own values were extracted exactly.
+
+**Operating point**
+- The threshold at which the design's oracle twin had zero false reuse. It is
+  calibrated once on gold and then frozen: what a team would calibrate in the
+  lab and then deploy.
+- Reported at that threshold:
+  - the false share of reuses
+  - correct reuse
+  - the cause of every false reuse: wrong template, wrong values, or both
+
+**Embedders**
+- The four open gate models (MiniLM, mpnet, bge, and e5 with `query: `) decide.
+- text-embedding-004 (production) is reported but does not count toward the
+  decision.
+
+### Where the 1% bar comes from
+
+- Portkey (Swetha Sridhar, 18 Apr 2026) recommends backtesting on about 5,000
+  real queries and tuning "until accuracy consistently stays above 99%"
+  ([source](https://portkey.ai/blog/semantic-caching-thresholds/)).
+- A production NL-to-SQL cache reports 98.7% accuracy on direct cache returns,
+  i.e. 1.3% wrong ([arXiv 2601.11687](https://arxiv.org/html/2601.11687v1)).
+
+A false share of at most 1% is at least as strict as both.
+
+### Decision rule
+
+Let F be the calibrated false share of `split_template_extracted` under the
+primary extractor. The outcomes are checked in this order, and each must hold
+for all four open embedders.
+
+| Outcome | Condition | Claim |
+|---|---|---|
+| **O3: no advantage** | `split_template_extracted`'s correct reuse at ≤1% false reuse is not above `raw_global`'s at ≤1% | Neither design reuses this kind of question safely. |
+| **O1: extraction adds no measurable risk** | F ≤ 1% | The parameter-split design survives real extraction on this data. |
+| **O2: the risk moves to extraction** | otherwise | Named by the dominant cause in the breakdown and the slots and periods behind it. |
+
+### How each outcome may be read (fixed in advance)
+
+The v1 questions come from 4–6 templates per intent with a closed vocabulary
+(threat 1). That makes **both** extraction and template matching easier than
+they are in real traffic. So the outcomes are not symmetric:
+
+- **O2 or O3 on v1 is strong evidence.** The design fails even on easy input.
+- **O1 on v1 is weak evidence.** It shows extraction did not break on templated
+  questions, and says nothing about real ones. "Template caching is safe" may
+  not be claimed until step 4a (human-written questions) or 4b (template
+  hold-out).
+
+### Disclosed before freezing
+
+**Duckling was probed** on the dataset's 28 period wordings (not on full
+questions) while `extract.py` was being designed, so its period behaviour is
+known in advance:
+- "year to date", "in Q3 2026" and "in Q2 2026" are not parsed.
+- "last N months" becomes whole calendar months ending last month. For example,
+  "last 3 months" is 07-01 to 09-30, where the dataset uses the rolling
+  07-28 to 10-27.
+- "last 30 days" becomes 09-27 to 10-26, which excludes today; the dataset uses
+  09-28 to 10-27.
+- "this month" and "this year" become the whole month or year, which
+  `extract.py` clips to the reference date.
+
+Duckling's period accuracy is therefore largely predictable, which is why it is
+secondary.
+
+**Other disclosures:**
+- No Gemini model has been run on any dataset question.
+- The gold sanity check found the slot-order bug corrected in section 4.
+- The routing and cause attribution were checked on a synthetic extraction with
+  5% of periods corrupted (run in a scratch directory, not committed). It
+  produced 62 false template reuses, all attributed to wrong values. The
+  full-SQL design stayed at 0 false reuses, because a corrupted key simply
+  misses.
+
+### Out of scope here
+
+- **Date conventions are genuinely ambiguous.** "Last 3 months" can be calendar
+  or rolling: Duckling and the dataset disagree, and both are defensible. The
+  Gemini prompt states the dataset's convention.
+- **Relative SQL is not tested.** The production NLQ writes relative SQL
+  (`CURRENT_DATE`, `backend/src/fin_insights/adapters/llm/prompts/v1/nlq/_examples.py:29`).
+  A cache keyed on relative tokens ("last_month") instead of absolute ranges is
+  an alternative design not tested here.
+
+### Commands
+
+```
+docker run -d --name duckling-research -p 8010:8000 rasa/duckling@sha256:459e6033f87b0f3f525ed0d0066ae89cfe31d512f32ac1d469431fa6ce1bdef5
+python extract.py --extractor duckling
+python extract.py --extractor gemini:gemini-3.1-flash-lite --project <gcp-project>
+python extract.py --extractor gemini:gemini-3.5-flash --project <gcp-project>
+# for each extractor x {MiniLM, mpnet, bge, e5 --prefix "query: "}:
+python evaluate.py --embedder <embedder> --extracted results/extraction/<extractor>/extracted.jsonl
+python evaluate.py --summarize-extraction
+```

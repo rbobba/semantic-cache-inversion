@@ -67,7 +67,7 @@ Strong: the best wrong question scores ≥ the best correct one. Weak: ≥ the w
 | raw_global | 0.0106 | [0.0056, 0.0263] | 0.0106 | 0.0187 | 0.5317 |
 | raw_oracle_entry | 0.1122 | [0.103, 0.1378] | — | — | 0.5317 |
 | split_full | 0.2154 | [0.2016, 0.2295] | 0.2154 | 0.3163 | 0.5317 |
-| split_template | 0.9683 | [0.9549, 0.98] | 0.9683 | 0.9683 | 0.9951 |
+| split_template | 0.9732 | [0.9599, 0.9844] | 0.9732 | 0.9732 | 1.0 |
 
 split_* use gold parameters (oracle extraction). split_template counts a reuse as correct when the intent matches, because the template is refilled with the new parameters.
 
