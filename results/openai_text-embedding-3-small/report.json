@@ -1,0 +1,2462 @@
+{
+  "embedder": "openai:text-embedding-3-small",
+  "dataset_sha256_pairs": "2fbf585caab5daaa70283afbd96f1e960dd8abcf509d9969129cfd3cadfd75bb",
+  "bootstrap": 1000,
+  "pairs": {
+    "similarity_by_pair_type": {
+      "equivalent_surface": {
+        "n": 262,
+        "mean": 0.9322,
+        "p10": 0.8421,
+        "median": 0.9586,
+        "p90": 0.9826,
+        "max": 0.9947
+      },
+      "equivalent_surface (same wording=True)": {
+        "n": 262,
+        "mean": 0.9322,
+        "p10": 0.8421,
+        "median": 0.9586,
+        "p90": 0.9826,
+        "max": 0.9947
+      },
+      "equivalent_surface/account/alias": {
+        "n": 10,
+        "mean": 0.9548,
+        "p10": 0.9448,
+        "median": 0.955,
+        "p90": 0.9718,
+        "max": 0.9835
+      },
+      "equivalent_surface/amount/alias": {
+        "n": 10,
+        "mean": 0.974,
+        "p10": 0.9673,
+        "median": 0.9731,
+        "p90": 0.9805,
+        "max": 0.9824
+      },
+      "equivalent_surface/category/alias": {
+        "n": 15,
+        "mean": 0.9431,
+        "p10": 0.8907,
+        "median": 0.9521,
+        "p90": 0.9733,
+        "max": 0.9798
+      },
+      "equivalent_surface/merchant/alias": {
+        "n": 12,
+        "mean": 0.9744,
+        "p10": 0.9644,
+        "median": 0.9752,
+        "p90": 0.9879,
+        "max": 0.9898
+      },
+      "equivalent_surface/n/alias": {
+        "n": 20,
+        "mean": 0.986,
+        "p10": 0.9818,
+        "median": 0.9869,
+        "p90": 0.9906,
+        "max": 0.9947
+      },
+      "equivalent_surface/period/alias": {
+        "n": 195,
+        "mean": 0.9199,
+        "p10": 0.8193,
+        "median": 0.9471,
+        "p90": 0.9768,
+        "max": 0.9926
+      },
+      "filter_change": {
+        "n": 37,
+        "mean": 0.671,
+        "p10": 0.5714,
+        "median": 0.6648,
+        "p90": 0.7786,
+        "max": 0.8838
+      },
+      "filter_change/filter_added/category_spend_total": {
+        "n": 7,
+        "mean": 0.738,
+        "p10": 0.6513,
+        "median": 0.7298,
+        "p90": 0.8408,
+        "max": 0.8838
+      },
+      "filter_change/filter_dropped/total_spend": {
+        "n": 30,
+        "mean": 0.6554,
+        "p10": 0.5675,
+        "median": 0.6467,
+        "p90": 0.7593,
+        "max": 0.803
+      },
+      "intent_near_miss": {
+        "n": 176,
+        "mean": 0.7431,
+        "p10": 0.6235,
+        "median": 0.7616,
+        "p90": 0.8423,
+        "max": 0.9148
+      },
+      "intent_near_miss (same wording=False)": {
+        "n": 176,
+        "mean": 0.7431,
+        "p10": 0.6235,
+        "median": 0.7616,
+        "p90": 0.8423,
+        "max": 0.9148
+      },
+      "intent_near_miss/aggregation/largest_purchase": {
+        "n": 7,
+        "mean": 0.5759,
+        "p10": 0.4736,
+        "median": 0.5829,
+        "p90": 0.666,
+        "max": 0.7209
+      },
+      "intent_near_miss/aggregation/merchant_avg": {
+        "n": 20,
+        "mean": 0.7962,
+        "p10": 0.7367,
+        "median": 0.7983,
+        "p90": 0.8627,
+        "max": 0.8688
+      },
+      "intent_near_miss/aggregation/merchant_spend_total": {
+        "n": 20,
+        "mean": 0.8002,
+        "p10": 0.7371,
+        "median": 0.7831,
+        "p90": 0.8784,
+        "max": 0.9065
+      },
+      "intent_near_miss/aggregation/merchant_txn_count": {
+        "n": 20,
+        "mean": 0.7923,
+        "p10": 0.7326,
+        "median": 0.7936,
+        "p90": 0.8578,
+        "max": 0.9113
+      },
+      "intent_near_miss/aggregation/total_spend": {
+        "n": 7,
+        "mean": 0.6191,
+        "p10": 0.476,
+        "median": 0.6348,
+        "p90": 0.7459,
+        "max": 0.7825
+      },
+      "intent_near_miss/direction/income_total": {
+        "n": 7,
+        "mean": 0.6781,
+        "p10": 0.5922,
+        "median": 0.6437,
+        "p90": 0.776,
+        "max": 0.7967
+      },
+      "intent_near_miss/direction/merchant_refunds": {
+        "n": 10,
+        "mean": 0.8045,
+        "p10": 0.7649,
+        "median": 0.8078,
+        "p90": 0.8461,
+        "max": 0.8695
+      },
+      "intent_near_miss/direction/merchant_spend_total": {
+        "n": 10,
+        "mean": 0.7917,
+        "p10": 0.7717,
+        "median": 0.7958,
+        "p90": 0.8142,
+        "max": 0.8208
+      },
+      "intent_near_miss/direction/total_spend": {
+        "n": 7,
+        "mean": 0.6873,
+        "p10": 0.6455,
+        "median": 0.6681,
+        "p90": 0.7533,
+        "max": 0.7533
+      },
+      "intent_near_miss/grouping/top_categories": {
+        "n": 10,
+        "mean": 0.7001,
+        "p10": 0.587,
+        "median": 0.75,
+        "p90": 0.7654,
+        "max": 0.7814
+      },
+      "intent_near_miss/grouping/top_merchants": {
+        "n": 10,
+        "mean": 0.7253,
+        "p10": 0.655,
+        "median": 0.7514,
+        "p90": 0.7804,
+        "max": 0.8037
+      },
+      "intent_near_miss/measure/income_total": {
+        "n": 7,
+        "mean": 0.6782,
+        "p10": 0.604,
+        "median": 0.6753,
+        "p90": 0.7615,
+        "max": 0.8201
+      },
+      "intent_near_miss/measure/net_cash_flow": {
+        "n": 14,
+        "mean": 0.6685,
+        "p10": 0.5766,
+        "median": 0.6653,
+        "p90": 0.7274,
+        "max": 0.8232
+      },
+      "intent_near_miss/measure/total_spend": {
+        "n": 7,
+        "mean": 0.6849,
+        "p10": 0.6256,
+        "median": 0.6695,
+        "p90": 0.7697,
+        "max": 0.7928
+      },
+      "intent_near_miss/negation/category_spend_excluding": {
+        "n": 10,
+        "mean": 0.8214,
+        "p10": 0.7492,
+        "median": 0.8126,
+        "p90": 0.9052,
+        "max": 0.9148
+      },
+      "intent_near_miss/negation/category_spend_total": {
+        "n": 10,
+        "mean": 0.7753,
+        "p10": 0.7336,
+        "median": 0.7732,
+        "p90": 0.8278,
+        "max": 0.8495
+      },
+      "param_near_miss": {
+        "n": 637,
+        "mean": 0.833,
+        "p10": 0.6535,
+        "median": 0.8553,
+        "p90": 0.972,
+        "max": 0.9919
+      },
+      "param_near_miss (same wording=False)": {
+        "n": 228,
+        "mean": 0.7167,
+        "p10": 0.5902,
+        "median": 0.7168,
+        "p90": 0.8483,
+        "max": 0.9313
+      },
+      "param_near_miss (same wording=True)": {
+        "n": 409,
+        "mean": 0.8978,
+        "p10": 0.784,
+        "median": 0.9231,
+        "p90": 0.9799,
+        "max": 0.9919
+      },
+      "param_near_miss/account/neighbor": {
+        "n": 20,
+        "mean": 0.7742,
+        "p10": 0.6607,
+        "median": 0.7968,
+        "p90": 0.8965,
+        "max": 0.9046
+      },
+      "param_near_miss/amount/neighbor": {
+        "n": 25,
+        "mean": 0.8092,
+        "p10": 0.5904,
+        "median": 0.9263,
+        "p90": 0.96,
+        "max": 0.9697
+      },
+      "param_near_miss/category/neighbor": {
+        "n": 45,
+        "mean": 0.782,
+        "p10": 0.663,
+        "median": 0.7852,
+        "p90": 0.8937,
+        "max": 0.9578
+      },
+      "param_near_miss/merchant/neighbor": {
+        "n": 87,
+        "mean": 0.7266,
+        "p10": 0.6132,
+        "median": 0.7353,
+        "p90": 0.8288,
+        "max": 0.9044
+      },
+      "param_near_miss/n/neighbor": {
+        "n": 45,
+        "mean": 0.8413,
+        "p10": 0.6845,
+        "median": 0.9017,
+        "p90": 0.9483,
+        "max": 0.9636
+      },
+      "param_near_miss/period/adjacent": {
+        "n": 230,
+        "mean": 0.8649,
+        "p10": 0.6958,
+        "median": 0.8826,
+        "p90": 0.9841,
+        "max": 0.9919
+      },
+      "param_near_miss/period/granularity": {
+        "n": 185,
+        "mean": 0.8633,
+        "p10": 0.7226,
+        "median": 0.8923,
+        "p90": 0.9491,
+        "max": 0.9916
+      },
+      "paraphrase": {
+        "n": 384,
+        "mean": 0.792,
+        "p10": 0.6465,
+        "median": 0.8116,
+        "p90": 0.8945,
+        "max": 0.9736
+      },
+      "paraphrase/wording/template": {
+        "n": 384,
+        "mean": 0.792,
+        "p10": 0.6465,
+        "median": 0.8116,
+        "p90": 0.8945,
+        "max": 0.9736
+      }
+    },
+    "inversion": {
+      "any_negative": {
+        "anchors": 128,
+        "strong_rate": 0.5625,
+        "strong_ci95": [
+          0.4766,
+          0.6408
+        ],
+        "weak_rate": 1.0,
+        "weak_ci95": [
+          1.0,
+          1.0
+        ],
+        "strong_culprits": {
+          "param_near_miss/period": 72
+        }
+      },
+      "param_near_miss": {
+        "anchors": 128,
+        "strong_rate": 0.5625,
+        "strong_ci95": [
+          0.4766,
+          0.6484
+        ],
+        "weak_rate": 1.0,
+        "weak_ci95": [
+          1.0,
+          1.0
+        ],
+        "strong_culprits": {
+          "param_near_miss/period": 72
+        }
+      },
+      "period_near_miss": {
+        "anchors": 128,
+        "strong_rate": 0.5625,
+        "strong_ci95": [
+          0.4766,
+          0.6484
+        ],
+        "weak_rate": 1.0,
+        "weak_ci95": [
+          1.0,
+          1.0
+        ],
+        "strong_culprits": {
+          "param_near_miss/period": 72
+        }
+      },
+      "entity_near_miss": {
+        "anchors": 100,
+        "strong_rate": 0.01,
+        "strong_ci95": [
+          0.0,
+          0.04
+        ],
+        "weak_rate": 0.72,
+        "weak_ci95": [
+          0.63,
+          0.8
+        ],
+        "strong_culprits": {
+          "param_near_miss/category": 1
+        }
+      },
+      "intent_near_miss": {
+        "anchors": 118,
+        "strong_rate": 0.0,
+        "strong_ci95": [
+          0.0,
+          0.0
+        ],
+        "weak_rate": 0.5085,
+        "weak_ci95": [
+          0.4153,
+          0.6017
+        ],
+        "strong_culprits": {}
+      }
+    },
+    "top_inversions": [
+      {
+        "cached": "Total money coming in last year",
+        "wrong": "Total money coming in this year",
+        "wrong_sim": 0.9103,
+        "best_correct": "Total money coming in during 2025",
+        "correct_sim": 0.7515
+      },
+      {
+        "cached": "What were my overall expenses last year?",
+        "wrong": "What were my overall expenses this year?",
+        "wrong_sim": 0.9569,
+        "best_correct": "What was my total spending last year?",
+        "correct_sim": 0.8419
+      },
+      {
+        "cached": "Income minus expenses last year",
+        "wrong": "Income minus expenses this year",
+        "wrong_sim": 0.9527,
+        "best_correct": "Income minus expenses during 2025",
+        "correct_sim": 0.8515
+      },
+      {
+        "cached": "Total spent on gas last year",
+        "wrong": "Total spent on gas this year",
+        "wrong_sim": 0.9509,
+        "best_correct": "Total spent on fuel last year",
+        "correct_sim": 0.8498
+      },
+      {
+        "cached": "Average transaction amount at Uber last year",
+        "wrong": "Average transaction amount at Uber this year",
+        "wrong_sim": 0.9782,
+        "best_correct": "Average transaction amount at Uber during 2025",
+        "correct_sim": 0.8858
+      },
+      {
+        "cached": "How much money did Spotify give back to me last year?",
+        "wrong": "How much money did Spotify give back to me this year?",
+        "wrong_sim": 0.9845,
+        "best_correct": "How much money did Spotify give back to me during 2025?",
+        "correct_sim": 0.9003
+      },
+      {
+        "cached": "On average, how much did each purchase at Shell cost last year?",
+        "wrong": "On average, how much did each purchase at Shell cost this year?",
+        "wrong_sim": 0.9854,
+        "best_correct": "What was my average purchase at Shell last year?",
+        "correct_sim": 0.903
+      },
+      {
+        "cached": "How much did I spend per transaction at Walmart last year, on average?",
+        "wrong": "How much did I spend per transaction at Walmart this year, on average?",
+        "wrong_sim": 0.9847,
+        "best_correct": "How much did I spend per transaction at Walmart during 2025, on average?",
+        "correct_sim": 0.9049
+      },
+      {
+        "cached": "Total refunds from Shell last year",
+        "wrong": "Total refunds from Shell this year",
+        "wrong_sim": 0.9714,
+        "best_correct": "Total refunds from Shell during 2025",
+        "correct_sim": 0.8922
+      },
+      {
+        "cached": "Count my transactions at Starbucks last year",
+        "wrong": "Count my transactions at Starbucks this year",
+        "wrong_sim": 0.9766,
+        "best_correct": "Count my transactions at Starbucks during 2025",
+        "correct_sim": 0.9006
+      },
+      {
+        "cached": "What was the biggest single thing I bought last year?",
+        "wrong": "What was the biggest single thing I bought this year?",
+        "wrong_sim": 0.9639,
+        "best_correct": "What was my largest purchase last year?",
+        "correct_sim": 0.8892
+      },
+      {
+        "cached": "How much did I spend at Starbucks last year?",
+        "wrong": "How much did I spend at Starbucks this year?",
+        "wrong_sim": 0.9715,
+        "best_correct": "What did I pay Starbucks in total last year?",
+        "correct_sim": 0.8968
+      },
+      {
+        "cached": "How much did I earn this year?",
+        "wrong": "How much did I earn last year?",
+        "wrong_sim": 0.949,
+        "best_correct": "How much did I earn so far this year?",
+        "correct_sim": 0.8796
+      },
+      {
+        "cached": "How much income did I receive this month?",
+        "wrong": "How much income did I receive last month?",
+        "wrong_sim": 0.958,
+        "best_correct": "How much income did I receive so far this month?",
+        "correct_sim": 0.9068
+      },
+      {
+        "cached": "Total money coming in last month",
+        "wrong": "Total money coming in this month",
+        "wrong_sim": 0.9411,
+        "best_correct": "Total money coming in in the previous month",
+        "correct_sim": 0.9048
+      }
+    ]
+  },
+  "cache": {
+    "n_cached": 128,
+    "n_queries": 1230,
+    "designs": {
+      "raw_global": {
+        "correct_reuse_at_false_0": {
+          "value": 0.0016,
+          "ci95": [
+            0.0,
+            0.0042
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.0016,
+          "ci95": [
+            0.0,
+            0.0042
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.0016,
+          "ci95": [
+            0.0,
+            0.0042
+          ]
+        },
+        "possible": {
+          "value": 0.5317,
+          "ci95": [
+            0.5084,
+            0.5538
+          ]
+        }
+      },
+      "raw_oracle_entry": {
+        "correct_reuse_at_false_0": {
+          "value": 0.0642,
+          "ci95": [
+            0.0571,
+            0.0905
+          ]
+        },
+        "possible": {
+          "value": 0.5317,
+          "ci95": [
+            0.5084,
+            0.5538
+          ]
+        }
+      },
+      "split_full": {
+        "correct_reuse_at_false_0": {
+          "value": 0.2138,
+          "ci95": [
+            0.2002,
+            0.227
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.2138,
+          "ci95": [
+            0.2008,
+            0.2331
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.3,
+          "ci95": [
+            0.2537,
+            0.3275
+          ]
+        },
+        "possible": {
+          "value": 0.5317,
+          "ci95": [
+            0.5084,
+            0.5538
+          ]
+        }
+      },
+      "split_template": {
+        "correct_reuse_at_false_0": {
+          "value": 0.9683,
+          "ci95": [
+            0.9549,
+            0.98
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.9683,
+          "ci95": [
+            0.9549,
+            0.98
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.9683,
+          "ci95": [
+            0.9549,
+            0.98
+          ]
+        },
+        "possible": {
+          "value": 0.9951,
+          "ci95": [
+            0.9911,
+            0.9984
+          ]
+        }
+      }
+    },
+    "curves": {
+      "raw_global": [
+        {
+          "threshold": 0.5,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.505,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.51,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.515,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.52,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.525,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.53,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.535,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.54,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.545,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.55,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.555,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.56,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.565,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.57,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.575,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.58,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.585,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.59,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.595,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.6,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.605,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.61,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.615,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.62,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.625,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.63,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.635,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.64,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.645,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.65,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.655,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.66,
+          "reuse_rate": 1.0,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6487804878048781
+        },
+        {
+          "threshold": 0.665,
+          "reuse_rate": 0.9991869918699187,
+          "correct_reuse_rate": 0.35121951219512193,
+          "false_reuse_share": 0.6484947111472742
+        },
+        {
+          "threshold": 0.67,
+          "reuse_rate": 0.9983739837398374,
+          "correct_reuse_rate": 0.35040650406504065,
+          "false_reuse_share": 0.6490228013029316
+        },
+        {
+          "threshold": 0.675,
+          "reuse_rate": 0.9983739837398374,
+          "correct_reuse_rate": 0.35040650406504065,
+          "false_reuse_share": 0.6490228013029316
+        },
+        {
+          "threshold": 0.68,
+          "reuse_rate": 0.9975609756097561,
+          "correct_reuse_rate": 0.35040650406504065,
+          "false_reuse_share": 0.6487367563162184
+        },
+        {
+          "threshold": 0.685,
+          "reuse_rate": 0.9959349593495935,
+          "correct_reuse_rate": 0.35040650406504065,
+          "false_reuse_share": 0.6481632653061224
+        },
+        {
+          "threshold": 0.69,
+          "reuse_rate": 0.9943089430894309,
+          "correct_reuse_rate": 0.35040650406504065,
+          "false_reuse_share": 0.6475878986099755
+        },
+        {
+          "threshold": 0.695,
+          "reuse_rate": 0.9926829268292683,
+          "correct_reuse_rate": 0.35040650406504065,
+          "false_reuse_share": 0.647010647010647
+        },
+        {
+          "threshold": 0.7,
+          "reuse_rate": 0.9902439024390244,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6469622331691297
+        },
+        {
+          "threshold": 0.705,
+          "reuse_rate": 0.9886178861788618,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6463815789473685
+        },
+        {
+          "threshold": 0.71,
+          "reuse_rate": 0.9878048780487805,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6460905349794238
+        },
+        {
+          "threshold": 0.715,
+          "reuse_rate": 0.9845528455284552,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6449215524360034
+        },
+        {
+          "threshold": 0.72,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6446280991735537
+        },
+        {
+          "threshold": 0.725,
+          "reuse_rate": 0.9829268292682927,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6443341604631927
+        },
+        {
+          "threshold": 0.73,
+          "reuse_rate": 0.9796747967479674,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6431535269709544
+        },
+        {
+          "threshold": 0.735,
+          "reuse_rate": 0.975609756097561,
+          "correct_reuse_rate": 0.34959349593495936,
+          "false_reuse_share": 0.6416666666666667
+        },
+        {
+          "threshold": 0.74,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.348780487804878,
+          "false_reuse_share": 0.6397984886649875
+        },
+        {
+          "threshold": 0.745,
+          "reuse_rate": 0.9658536585365853,
+          "correct_reuse_rate": 0.348780487804878,
+          "false_reuse_share": 0.6388888888888888
+        },
+        {
+          "threshold": 0.75,
+          "reuse_rate": 0.959349593495935,
+          "correct_reuse_rate": 0.34796747967479674,
+          "false_reuse_share": 0.6372881355932203
+        },
+        {
+          "threshold": 0.755,
+          "reuse_rate": 0.9495934959349593,
+          "correct_reuse_rate": 0.3439024390243902,
+          "false_reuse_share": 0.6378424657534246
+        },
+        {
+          "threshold": 0.76,
+          "reuse_rate": 0.9479674796747968,
+          "correct_reuse_rate": 0.34308943089430893,
+          "false_reuse_share": 0.6380789022298456
+        },
+        {
+          "threshold": 0.765,
+          "reuse_rate": 0.9349593495934959,
+          "correct_reuse_rate": 0.34065040650406503,
+          "false_reuse_share": 0.6356521739130435
+        },
+        {
+          "threshold": 0.77,
+          "reuse_rate": 0.9284552845528455,
+          "correct_reuse_rate": 0.33983739837398375,
+          "false_reuse_share": 0.6339754816112084
+        },
+        {
+          "threshold": 0.775,
+          "reuse_rate": 0.9186991869918699,
+          "correct_reuse_rate": 0.33658536585365856,
+          "false_reuse_share": 0.6336283185840708
+        },
+        {
+          "threshold": 0.78,
+          "reuse_rate": 0.9065040650406504,
+          "correct_reuse_rate": 0.3333333333333333,
+          "false_reuse_share": 0.6322869955156951
+        },
+        {
+          "threshold": 0.785,
+          "reuse_rate": 0.8910569105691057,
+          "correct_reuse_rate": 0.3308943089430894,
+          "false_reuse_share": 0.6286496350364964
+        },
+        {
+          "threshold": 0.79,
+          "reuse_rate": 0.8747967479674796,
+          "correct_reuse_rate": 0.3276422764227642,
+          "false_reuse_share": 0.6254646840148699
+        },
+        {
+          "threshold": 0.795,
+          "reuse_rate": 0.8634146341463415,
+          "correct_reuse_rate": 0.3260162601626016,
+          "false_reuse_share": 0.6224105461393596
+        },
+        {
+          "threshold": 0.8,
+          "reuse_rate": 0.8471544715447155,
+          "correct_reuse_rate": 0.32113821138211385,
+          "false_reuse_share": 0.6209213051823417
+        },
+        {
+          "threshold": 0.805,
+          "reuse_rate": 0.8292682926829268,
+          "correct_reuse_rate": 0.3178861788617886,
+          "false_reuse_share": 0.6166666666666667
+        },
+        {
+          "threshold": 0.81,
+          "reuse_rate": 0.808130081300813,
+          "correct_reuse_rate": 0.31138211382113823,
+          "false_reuse_share": 0.6146881287726358
+        },
+        {
+          "threshold": 0.815,
+          "reuse_rate": 0.7943089430894309,
+          "correct_reuse_rate": 0.3056910569105691,
+          "false_reuse_share": 0.6151484135107472
+        },
+        {
+          "threshold": 0.82,
+          "reuse_rate": 0.7739837398373983,
+          "correct_reuse_rate": 0.2991869918699187,
+          "false_reuse_share": 0.6134453781512605
+        },
+        {
+          "threshold": 0.825,
+          "reuse_rate": 0.7544715447154472,
+          "correct_reuse_rate": 0.291869918699187,
+          "false_reuse_share": 0.6131465517241379
+        },
+        {
+          "threshold": 0.83,
+          "reuse_rate": 0.734959349593496,
+          "correct_reuse_rate": 0.28780487804878047,
+          "false_reuse_share": 0.6084070796460177
+        },
+        {
+          "threshold": 0.835,
+          "reuse_rate": 0.7146341463414634,
+          "correct_reuse_rate": 0.2845528455284553,
+          "false_reuse_share": 0.6018202502844141
+        },
+        {
+          "threshold": 0.84,
+          "reuse_rate": 0.6943089430894309,
+          "correct_reuse_rate": 0.2780487804878049,
+          "false_reuse_share": 0.5995316159250585
+        },
+        {
+          "threshold": 0.845,
+          "reuse_rate": 0.6804878048780488,
+          "correct_reuse_rate": 0.27235772357723576,
+          "false_reuse_share": 0.5997610513739546
+        },
+        {
+          "threshold": 0.85,
+          "reuse_rate": 0.6666666666666666,
+          "correct_reuse_rate": 0.26747967479674795,
+          "false_reuse_share": 0.598780487804878
+        },
+        {
+          "threshold": 0.855,
+          "reuse_rate": 0.6487804878048781,
+          "correct_reuse_rate": 0.26097560975609757,
+          "false_reuse_share": 0.5977443609022557
+        },
+        {
+          "threshold": 0.86,
+          "reuse_rate": 0.6284552845528455,
+          "correct_reuse_rate": 0.25447154471544714,
+          "false_reuse_share": 0.5950840879689522
+        },
+        {
+          "threshold": 0.865,
+          "reuse_rate": 0.6048780487804878,
+          "correct_reuse_rate": 0.24308943089430896,
+          "false_reuse_share": 0.5981182795698925
+        },
+        {
+          "threshold": 0.87,
+          "reuse_rate": 0.5756097560975609,
+          "correct_reuse_rate": 0.23333333333333334,
+          "false_reuse_share": 0.594632768361582
+        },
+        {
+          "threshold": 0.875,
+          "reuse_rate": 0.5455284552845528,
+          "correct_reuse_rate": 0.22276422764227644,
+          "false_reuse_share": 0.5916542473919523
+        },
+        {
+          "threshold": 0.88,
+          "reuse_rate": 0.5284552845528455,
+          "correct_reuse_rate": 0.21788617886178863,
+          "false_reuse_share": 0.5876923076923077
+        },
+        {
+          "threshold": 0.885,
+          "reuse_rate": 0.508130081300813,
+          "correct_reuse_rate": 0.2073170731707317,
+          "false_reuse_share": 0.592
+        },
+        {
+          "threshold": 0.89,
+          "reuse_rate": 0.4902439024390244,
+          "correct_reuse_rate": 0.1983739837398374,
+          "false_reuse_share": 0.5953565505804311
+        },
+        {
+          "threshold": 0.895,
+          "reuse_rate": 0.4682926829268293,
+          "correct_reuse_rate": 0.1926829268292683,
+          "false_reuse_share": 0.5885416666666666
+        },
+        {
+          "threshold": 0.9,
+          "reuse_rate": 0.44065040650406506,
+          "correct_reuse_rate": 0.1861788617886179,
+          "false_reuse_share": 0.577490774907749
+        },
+        {
+          "threshold": 0.905,
+          "reuse_rate": 0.4105691056910569,
+          "correct_reuse_rate": 0.17804878048780487,
+          "false_reuse_share": 0.5663366336633663
+        },
+        {
+          "threshold": 0.91,
+          "reuse_rate": 0.3983739837398374,
+          "correct_reuse_rate": 0.17398373983739837,
+          "false_reuse_share": 0.563265306122449
+        },
+        {
+          "threshold": 0.915,
+          "reuse_rate": 0.3796747967479675,
+          "correct_reuse_rate": 0.16747967479674797,
+          "false_reuse_share": 0.5588865096359743
+        },
+        {
+          "threshold": 0.92,
+          "reuse_rate": 0.3699186991869919,
+          "correct_reuse_rate": 0.16504065040650406,
+          "false_reuse_share": 0.5538461538461539
+        },
+        {
+          "threshold": 0.925,
+          "reuse_rate": 0.34471544715447155,
+          "correct_reuse_rate": 0.15528455284552845,
+          "false_reuse_share": 0.5495283018867925
+        },
+        {
+          "threshold": 0.93,
+          "reuse_rate": 0.3235772357723577,
+          "correct_reuse_rate": 0.15365853658536585,
+          "false_reuse_share": 0.5251256281407035
+        },
+        {
+          "threshold": 0.935,
+          "reuse_rate": 0.2943089430894309,
+          "correct_reuse_rate": 0.14308943089430895,
+          "false_reuse_share": 0.5138121546961326
+        },
+        {
+          "threshold": 0.94,
+          "reuse_rate": 0.27235772357723576,
+          "correct_reuse_rate": 0.13658536585365855,
+          "false_reuse_share": 0.49850746268656715
+        },
+        {
+          "threshold": 0.945,
+          "reuse_rate": 0.24878048780487805,
+          "correct_reuse_rate": 0.13252032520325202,
+          "false_reuse_share": 0.4673202614379085
+        },
+        {
+          "threshold": 0.95,
+          "reuse_rate": 0.23008130081300812,
+          "correct_reuse_rate": 0.12520325203252033,
+          "false_reuse_share": 0.4558303886925795
+        },
+        {
+          "threshold": 0.955,
+          "reuse_rate": 0.2073170731707317,
+          "correct_reuse_rate": 0.11544715447154472,
+          "false_reuse_share": 0.44313725490196076
+        },
+        {
+          "threshold": 0.96,
+          "reuse_rate": 0.18130081300813009,
+          "correct_reuse_rate": 0.1024390243902439,
+          "false_reuse_share": 0.4349775784753363
+        },
+        {
+          "threshold": 0.965,
+          "reuse_rate": 0.15284552845528454,
+          "correct_reuse_rate": 0.08699186991869919,
+          "false_reuse_share": 0.4308510638297872
+        },
+        {
+          "threshold": 0.97,
+          "reuse_rate": 0.12113821138211382,
+          "correct_reuse_rate": 0.06829268292682927,
+          "false_reuse_share": 0.436241610738255
+        },
+        {
+          "threshold": 0.975,
+          "reuse_rate": 0.09268292682926829,
+          "correct_reuse_rate": 0.04878048780487805,
+          "false_reuse_share": 0.47368421052631576
+        },
+        {
+          "threshold": 0.98,
+          "reuse_rate": 0.05934959349593496,
+          "correct_reuse_rate": 0.02926829268292683,
+          "false_reuse_share": 0.5068493150684932
+        },
+        {
+          "threshold": 0.985,
+          "reuse_rate": 0.03008130081300813,
+          "correct_reuse_rate": 0.014634146341463415,
+          "false_reuse_share": 0.5135135135135135
+        },
+        {
+          "threshold": 0.99,
+          "reuse_rate": 0.007317073170731708,
+          "correct_reuse_rate": 0.0040650406504065045,
+          "false_reuse_share": 0.4444444444444444
+        },
+        {
+          "threshold": 0.995,
+          "reuse_rate": 0.0,
+          "correct_reuse_rate": 0.0,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 1.0,
+          "reuse_rate": 0.0,
+          "correct_reuse_rate": 0.0,
+          "false_reuse_share": 0.0
+        }
+      ],
+      "split_full": [
+        {
+          "threshold": 0.5,
+          "reuse_rate": 0.6536585365853659,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26616915422885573
+        },
+        {
+          "threshold": 0.505,
+          "reuse_rate": 0.6536585365853659,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26616915422885573
+        },
+        {
+          "threshold": 0.51,
+          "reuse_rate": 0.6536585365853659,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26616915422885573
+        },
+        {
+          "threshold": 0.515,
+          "reuse_rate": 0.6536585365853659,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26616915422885573
+        },
+        {
+          "threshold": 0.52,
+          "reuse_rate": 0.6536585365853659,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26616915422885573
+        },
+        {
+          "threshold": 0.525,
+          "reuse_rate": 0.6536585365853659,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26616915422885573
+        },
+        {
+          "threshold": 0.53,
+          "reuse_rate": 0.6528455284552845,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26525529265255293
+        },
+        {
+          "threshold": 0.535,
+          "reuse_rate": 0.6528455284552845,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26525529265255293
+        },
+        {
+          "threshold": 0.54,
+          "reuse_rate": 0.6528455284552845,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26525529265255293
+        },
+        {
+          "threshold": 0.545,
+          "reuse_rate": 0.6528455284552845,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26525529265255293
+        },
+        {
+          "threshold": 0.55,
+          "reuse_rate": 0.6528455284552845,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26525529265255293
+        },
+        {
+          "threshold": 0.555,
+          "reuse_rate": 0.6520325203252032,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26433915211970077
+        },
+        {
+          "threshold": 0.56,
+          "reuse_rate": 0.6520325203252032,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.26433915211970077
+        },
+        {
+          "threshold": 0.565,
+          "reuse_rate": 0.651219512195122,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.2634207240948814
+        },
+        {
+          "threshold": 0.57,
+          "reuse_rate": 0.651219512195122,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.2634207240948814
+        },
+        {
+          "threshold": 0.575,
+          "reuse_rate": 0.651219512195122,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.2634207240948814
+        },
+        {
+          "threshold": 0.58,
+          "reuse_rate": 0.6504065040650406,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.2625
+        },
+        {
+          "threshold": 0.585,
+          "reuse_rate": 0.6495934959349593,
+          "correct_reuse_rate": 0.4796747967479675,
+          "false_reuse_share": 0.2615769712140175
+        },
+        {
+          "threshold": 0.59,
+          "reuse_rate": 0.6414634146341464,
+          "correct_reuse_rate": 0.47317073170731705,
+          "false_reuse_share": 0.2623574144486692
+        },
+        {
+          "threshold": 0.595,
+          "reuse_rate": 0.6414634146341464,
+          "correct_reuse_rate": 0.47317073170731705,
+          "false_reuse_share": 0.2623574144486692
+        },
+        {
+          "threshold": 0.6,
+          "reuse_rate": 0.6414634146341464,
+          "correct_reuse_rate": 0.47317073170731705,
+          "false_reuse_share": 0.2623574144486692
+        },
+        {
+          "threshold": 0.605,
+          "reuse_rate": 0.6398373983739838,
+          "correct_reuse_rate": 0.47317073170731705,
+          "false_reuse_share": 0.2604828462515883
+        },
+        {
+          "threshold": 0.61,
+          "reuse_rate": 0.634959349593496,
+          "correct_reuse_rate": 0.4682926829268293,
+          "false_reuse_share": 0.26248399487836105
+        },
+        {
+          "threshold": 0.615,
+          "reuse_rate": 0.634959349593496,
+          "correct_reuse_rate": 0.4682926829268293,
+          "false_reuse_share": 0.26248399487836105
+        },
+        {
+          "threshold": 0.62,
+          "reuse_rate": 0.6308943089430894,
+          "correct_reuse_rate": 0.46504065040650405,
+          "false_reuse_share": 0.26288659793814434
+        },
+        {
+          "threshold": 0.625,
+          "reuse_rate": 0.6308943089430894,
+          "correct_reuse_rate": 0.46504065040650405,
+          "false_reuse_share": 0.26288659793814434
+        },
+        {
+          "threshold": 0.63,
+          "reuse_rate": 0.6260162601626016,
+          "correct_reuse_rate": 0.4634146341463415,
+          "false_reuse_share": 0.2597402597402597
+        },
+        {
+          "threshold": 0.635,
+          "reuse_rate": 0.6219512195121951,
+          "correct_reuse_rate": 0.45934959349593496,
+          "false_reuse_share": 0.26143790849673204
+        },
+        {
+          "threshold": 0.64,
+          "reuse_rate": 0.6203252032520326,
+          "correct_reuse_rate": 0.45934959349593496,
+          "false_reuse_share": 0.2595019659239843
+        },
+        {
+          "threshold": 0.645,
+          "reuse_rate": 0.6203252032520326,
+          "correct_reuse_rate": 0.45934959349593496,
+          "false_reuse_share": 0.2595019659239843
+        },
+        {
+          "threshold": 0.65,
+          "reuse_rate": 0.6195121951219512,
+          "correct_reuse_rate": 0.45934959349593496,
+          "false_reuse_share": 0.2585301837270341
+        },
+        {
+          "threshold": 0.655,
+          "reuse_rate": 0.6178861788617886,
+          "correct_reuse_rate": 0.45772357723577234,
+          "false_reuse_share": 0.25921052631578945
+        },
+        {
+          "threshold": 0.66,
+          "reuse_rate": 0.6146341463414634,
+          "correct_reuse_rate": 0.45447154471544715,
+          "false_reuse_share": 0.2605820105820106
+        },
+        {
+          "threshold": 0.665,
+          "reuse_rate": 0.6113821138211382,
+          "correct_reuse_rate": 0.45447154471544715,
+          "false_reuse_share": 0.2566489361702128
+        },
+        {
+          "threshold": 0.67,
+          "reuse_rate": 0.6097560975609756,
+          "correct_reuse_rate": 0.45447154471544715,
+          "false_reuse_share": 0.25466666666666665
+        },
+        {
+          "threshold": 0.675,
+          "reuse_rate": 0.6089430894308943,
+          "correct_reuse_rate": 0.45447154471544715,
+          "false_reuse_share": 0.253671562082777
+        },
+        {
+          "threshold": 0.68,
+          "reuse_rate": 0.6008130081300813,
+          "correct_reuse_rate": 0.4504065040650406,
+          "false_reuse_share": 0.2503382949932341
+        },
+        {
+          "threshold": 0.685,
+          "reuse_rate": 0.5991869918699188,
+          "correct_reuse_rate": 0.4504065040650406,
+          "false_reuse_share": 0.24830393487109906
+        },
+        {
+          "threshold": 0.69,
+          "reuse_rate": 0.5983739837398374,
+          "correct_reuse_rate": 0.44959349593495934,
+          "false_reuse_share": 0.24864130434782608
+        },
+        {
+          "threshold": 0.695,
+          "reuse_rate": 0.5951219512195122,
+          "correct_reuse_rate": 0.4479674796747967,
+          "false_reuse_share": 0.24726775956284153
+        },
+        {
+          "threshold": 0.7,
+          "reuse_rate": 0.5878048780487805,
+          "correct_reuse_rate": 0.4479674796747967,
+          "false_reuse_share": 0.23789764868603042
+        },
+        {
+          "threshold": 0.705,
+          "reuse_rate": 0.5861788617886179,
+          "correct_reuse_rate": 0.4479674796747967,
+          "false_reuse_share": 0.23578363384188628
+        },
+        {
+          "threshold": 0.71,
+          "reuse_rate": 0.5804878048780487,
+          "correct_reuse_rate": 0.44471544715447153,
+          "false_reuse_share": 0.2338935574229692
+        },
+        {
+          "threshold": 0.715,
+          "reuse_rate": 0.5756097560975609,
+          "correct_reuse_rate": 0.44065040650406506,
+          "false_reuse_share": 0.2344632768361582
+        },
+        {
+          "threshold": 0.72,
+          "reuse_rate": 0.5626016260162602,
+          "correct_reuse_rate": 0.4317073170731707,
+          "false_reuse_share": 0.23265895953757226
+        },
+        {
+          "threshold": 0.725,
+          "reuse_rate": 0.5577235772357724,
+          "correct_reuse_rate": 0.4317073170731707,
+          "false_reuse_share": 0.2259475218658892
+        },
+        {
+          "threshold": 0.73,
+          "reuse_rate": 0.5398373983739837,
+          "correct_reuse_rate": 0.424390243902439,
+          "false_reuse_share": 0.21385542168674698
+        },
+        {
+          "threshold": 0.735,
+          "reuse_rate": 0.5341463414634147,
+          "correct_reuse_rate": 0.4211382113821138,
+          "false_reuse_share": 0.2115677321156773
+        },
+        {
+          "threshold": 0.74,
+          "reuse_rate": 0.5333333333333333,
+          "correct_reuse_rate": 0.4211382113821138,
+          "false_reuse_share": 0.21036585365853658
+        },
+        {
+          "threshold": 0.745,
+          "reuse_rate": 0.5260162601626016,
+          "correct_reuse_rate": 0.41544715447154473,
+          "false_reuse_share": 0.21020092735703247
+        },
+        {
+          "threshold": 0.75,
+          "reuse_rate": 0.5065040650406504,
+          "correct_reuse_rate": 0.408130081300813,
+          "false_reuse_share": 0.1942215088282504
+        },
+        {
+          "threshold": 0.755,
+          "reuse_rate": 0.4975609756097561,
+          "correct_reuse_rate": 0.4008130081300813,
+          "false_reuse_share": 0.19444444444444445
+        },
+        {
+          "threshold": 0.76,
+          "reuse_rate": 0.49105691056910566,
+          "correct_reuse_rate": 0.3959349593495935,
+          "false_reuse_share": 0.19370860927152317
+        },
+        {
+          "threshold": 0.765,
+          "reuse_rate": 0.4739837398373984,
+          "correct_reuse_rate": 0.3878048780487805,
+          "false_reuse_share": 0.18181818181818182
+        },
+        {
+          "threshold": 0.77,
+          "reuse_rate": 0.47073170731707314,
+          "correct_reuse_rate": 0.3861788617886179,
+          "false_reuse_share": 0.17962003454231434
+        },
+        {
+          "threshold": 0.775,
+          "reuse_rate": 0.45934959349593496,
+          "correct_reuse_rate": 0.3829268292682927,
+          "false_reuse_share": 0.1663716814159292
+        },
+        {
+          "threshold": 0.78,
+          "reuse_rate": 0.45203252032520325,
+          "correct_reuse_rate": 0.3804878048780488,
+          "false_reuse_share": 0.15827338129496402
+        },
+        {
+          "threshold": 0.785,
+          "reuse_rate": 0.45121951219512196,
+          "correct_reuse_rate": 0.3804878048780488,
+          "false_reuse_share": 0.15675675675675677
+        },
+        {
+          "threshold": 0.79,
+          "reuse_rate": 0.43658536585365854,
+          "correct_reuse_rate": 0.36910569105691055,
+          "false_reuse_share": 0.15456238361266295
+        },
+        {
+          "threshold": 0.795,
+          "reuse_rate": 0.42276422764227645,
+          "correct_reuse_rate": 0.3642276422764228,
+          "false_reuse_share": 0.13846153846153847
+        },
+        {
+          "threshold": 0.8,
+          "reuse_rate": 0.4138211382113821,
+          "correct_reuse_rate": 0.36260162601626017,
+          "false_reuse_share": 0.1237721021611002
+        },
+        {
+          "threshold": 0.805,
+          "reuse_rate": 0.4040650406504065,
+          "correct_reuse_rate": 0.3569105691056911,
+          "false_reuse_share": 0.11670020120724346
+        },
+        {
+          "threshold": 0.81,
+          "reuse_rate": 0.39186991869918697,
+          "correct_reuse_rate": 0.3463414634146341,
+          "false_reuse_share": 0.11618257261410789
+        },
+        {
+          "threshold": 0.815,
+          "reuse_rate": 0.37317073170731707,
+          "correct_reuse_rate": 0.33495934959349594,
+          "false_reuse_share": 0.10239651416122005
+        },
+        {
+          "threshold": 0.82,
+          "reuse_rate": 0.36341463414634145,
+          "correct_reuse_rate": 0.3284552845528455,
+          "false_reuse_share": 0.09619686800894854
+        },
+        {
+          "threshold": 0.825,
+          "reuse_rate": 0.359349593495935,
+          "correct_reuse_rate": 0.3284552845528455,
+          "false_reuse_share": 0.08597285067873303
+        },
+        {
+          "threshold": 0.83,
+          "reuse_rate": 0.35203252032520327,
+          "correct_reuse_rate": 0.32439024390243903,
+          "false_reuse_share": 0.07852193995381063
+        },
+        {
+          "threshold": 0.835,
+          "reuse_rate": 0.34065040650406503,
+          "correct_reuse_rate": 0.3178861788617886,
+          "false_reuse_share": 0.06682577565632458
+        },
+        {
+          "threshold": 0.84,
+          "reuse_rate": 0.3333333333333333,
+          "correct_reuse_rate": 0.3105691056910569,
+          "false_reuse_share": 0.06829268292682927
+        },
+        {
+          "threshold": 0.845,
+          "reuse_rate": 0.3170731707317073,
+          "correct_reuse_rate": 0.3,
+          "false_reuse_share": 0.05384615384615385
+        },
+        {
+          "threshold": 0.85,
+          "reuse_rate": 0.3105691056910569,
+          "correct_reuse_rate": 0.2951219512195122,
+          "false_reuse_share": 0.049738219895287955
+        },
+        {
+          "threshold": 0.855,
+          "reuse_rate": 0.3073170731707317,
+          "correct_reuse_rate": 0.291869918699187,
+          "false_reuse_share": 0.05026455026455026
+        },
+        {
+          "threshold": 0.86,
+          "reuse_rate": 0.2983739837398374,
+          "correct_reuse_rate": 0.2845528455284553,
+          "false_reuse_share": 0.04632152588555858
+        },
+        {
+          "threshold": 0.865,
+          "reuse_rate": 0.2951219512195122,
+          "correct_reuse_rate": 0.2821138211382114,
+          "false_reuse_share": 0.0440771349862259
+        },
+        {
+          "threshold": 0.87,
+          "reuse_rate": 0.26747967479674795,
+          "correct_reuse_rate": 0.2577235772357724,
+          "false_reuse_share": 0.0364741641337386
+        },
+        {
+          "threshold": 0.875,
+          "reuse_rate": 0.2658536585365854,
+          "correct_reuse_rate": 0.2577235772357724,
+          "false_reuse_share": 0.03058103975535168
+        },
+        {
+          "threshold": 0.88,
+          "reuse_rate": 0.26178861788617885,
+          "correct_reuse_rate": 0.25447154471544714,
+          "false_reuse_share": 0.027950310559006212
+        },
+        {
+          "threshold": 0.885,
+          "reuse_rate": 0.25040650406504067,
+          "correct_reuse_rate": 0.24308943089430896,
+          "false_reuse_share": 0.02922077922077922
+        },
+        {
+          "threshold": 0.89,
+          "reuse_rate": 0.23739837398373984,
+          "correct_reuse_rate": 0.23008130081300812,
+          "false_reuse_share": 0.030821917808219176
+        },
+        {
+          "threshold": 0.895,
+          "reuse_rate": 0.23658536585365852,
+          "correct_reuse_rate": 0.23008130081300812,
+          "false_reuse_share": 0.027491408934707903
+        },
+        {
+          "threshold": 0.9,
+          "reuse_rate": 0.23658536585365852,
+          "correct_reuse_rate": 0.23008130081300812,
+          "false_reuse_share": 0.027491408934707903
+        },
+        {
+          "threshold": 0.905,
+          "reuse_rate": 0.23089430894308943,
+          "correct_reuse_rate": 0.22439024390243903,
+          "false_reuse_share": 0.028169014084507043
+        },
+        {
+          "threshold": 0.91,
+          "reuse_rate": 0.22601626016260162,
+          "correct_reuse_rate": 0.22113821138211381,
+          "false_reuse_share": 0.02158273381294964
+        },
+        {
+          "threshold": 0.915,
+          "reuse_rate": 0.22032520325203253,
+          "correct_reuse_rate": 0.21544715447154472,
+          "false_reuse_share": 0.02214022140221402
+        },
+        {
+          "threshold": 0.92,
+          "reuse_rate": 0.21707317073170732,
+          "correct_reuse_rate": 0.2138211382113821,
+          "false_reuse_share": 0.0149812734082397
+        },
+        {
+          "threshold": 0.925,
+          "reuse_rate": 0.21707317073170732,
+          "correct_reuse_rate": 0.2138211382113821,
+          "false_reuse_share": 0.0149812734082397
+        },
+        {
+          "threshold": 0.93,
+          "reuse_rate": 0.21707317073170732,
+          "correct_reuse_rate": 0.2138211382113821,
+          "false_reuse_share": 0.0149812734082397
+        },
+        {
+          "threshold": 0.935,
+          "reuse_rate": 0.2138211382113821,
+          "correct_reuse_rate": 0.2138211382113821,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.94,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.945,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.95,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.955,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.96,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.965,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.97,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.975,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.98,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.985,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.99,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.995,
+          "reuse_rate": 0.21300813008130082,
+          "correct_reuse_rate": 0.21300813008130082,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 1.0,
+          "reuse_rate": 0.12764227642276424,
+          "correct_reuse_rate": 0.12764227642276424,
+          "false_reuse_share": 0.0
+        }
+      ],
+      "split_template": [
+        {
+          "threshold": 0.5,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.505,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.51,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.515,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.52,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.525,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.53,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.535,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.54,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.545,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.55,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.555,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.56,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.565,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.57,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.575,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.58,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.585,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.59,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.595,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.6,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.605,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.61,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.615,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.62,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.625,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.63,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.635,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.64,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.645,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.65,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.655,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.66,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.665,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.67,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.675,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.68,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.685,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.69,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.695,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.7,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.705,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.71,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.715,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.72,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.725,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.73,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.735,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.74,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.745,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.75,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.755,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.76,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.765,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.77,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.775,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.78,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.785,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.79,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.795,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.8,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.805,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.81,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.815,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.82,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.825,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.83,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.835,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.84,
+          "reuse_rate": 0.9951219512195122,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.02696078431372549
+        },
+        {
+          "threshold": 0.845,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.015702479338842976
+        },
+        {
+          "threshold": 0.85,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.015702479338842976
+        },
+        {
+          "threshold": 0.855,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.015702479338842976
+        },
+        {
+          "threshold": 0.86,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.015702479338842976
+        },
+        {
+          "threshold": 0.865,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.015702479338842976
+        },
+        {
+          "threshold": 0.87,
+          "reuse_rate": 0.983739837398374,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.015702479338842976
+        },
+        {
+          "threshold": 0.875,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.88,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.885,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.89,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.895,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.9,
+          "reuse_rate": 0.9682926829268292,
+          "correct_reuse_rate": 0.9682926829268292,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.905,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.91,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.915,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.92,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.925,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.93,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.935,
+          "reuse_rate": 0.9569105691056911,
+          "correct_reuse_rate": 0.9569105691056911,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.94,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.945,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.95,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.955,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.96,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.965,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.97,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.975,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.98,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.985,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.99,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 0.995,
+          "reuse_rate": 0.9520325203252032,
+          "correct_reuse_rate": 0.9520325203252032,
+          "false_reuse_share": 0.0
+        },
+        {
+          "threshold": 1.0,
+          "reuse_rate": 0.6284552845528455,
+          "correct_reuse_rate": 0.6284552845528455,
+          "false_reuse_share": 0.0
+        }
+      ]
+    }
+  }
+}

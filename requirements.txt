@@ -6,3 +6,11 @@ sentence-transformers>=3.0
 
 # Vertex AI models: --embedder vertex:<model>  (needs your own GCP credentials)
 google-genai>=1.0
+
+# Commercial providers, each with your own credentials:
+#   --embedder openai:<model>    OPENAI_API_KEY
+#   --embedder voyage:<model>    VOYAGE_API_KEY  (Anthropic has no embedding model; its docs point to Voyage)
+#   --embedder bedrock:<model>   AWS credential chain, --region
+openai>=1.0
+voyageai>=0.3
+boto3>=1.34

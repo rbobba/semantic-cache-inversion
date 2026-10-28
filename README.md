@@ -413,3 +413,210 @@ and a stronger novel method than parameter separation.
   has already reported the inversion.
 - Kappa in step 2 stays below about 0.7 after one round of rule fixes. That
   means the task itself is ambiguous, which is a different paper.
+
+---
+
+## 7. Gate result — 2026-10-28: **GO**
+
+Judged against the H1 rule pre-registered in commit `7ca986a`, on dataset
+`pairs.jsonl` `2fbf585c…`, with 1,000 cluster-bootstrap resamples.
+
+The table shows strong inversion against parameter near-misses. **Rule: ≥ 0.30,
+with the CI lower bound > 0.20, in all 4 open models.**
+
+| Model | Counts toward rule | Strong inversion [95% CI] | Passes |
+|---|---|---|---|
+| all-MiniLM-L6-v2 | yes | 0.469 [0.383, 0.555] | ✔ |
+| all-mpnet-base-v2 | yes | 0.586 [0.508, 0.672] | ✔ |
+| bge-base-en-v1.5 | yes | 0.562 [0.477, 0.648] | ✔ |
+| e5-base-v2 (`query: `) | yes | 0.547 [0.461, 0.641] | ✔ |
+| text-embedding-004 (production configuration) | no | 0.523 [0.438, 0.617] | — |
+| text-embedding-004, `SEMANTIC_SIMILARITY` | no | 0.484 [0.398, 0.578] | — |
+| TF-IDF (lexical control) | no | 0.992 [0.977, 1.000] | — |
+
+H1 holds in all four. The production model and its similarity task type agree,
+so the task type does not remove the effect.
+
+### What the result is — and is not
+
+**1. It is temporal, not "parameters" in general.**
+- In every neural model, every strong inversion was caused by a **period**
+  near-miss.
+- Entity near-misses (merchant, category, account, amount, top-N) invert for
+  only 0–2% of cached questions.
+- Entities do still **overlap** with correct rephrasings. Their weak inversion is
+  61–88%, so a threshold that keeps every rephrasing admits them. They are
+  unsafe, but they are not inverted.
+- The registered metric passed as registered. The paper's claim, however, must
+  be about time expressions, not about "dates, merchants and accounts".
+
+**2. Specifically, it is relative ("this" ↔ "last") time expressions.** The table
+shows strong inversion by the cached question's period. Six of the seven periods
+are shown; the seventh, `last_month`, ranges from 0.57 to 0.71.
+
+| Cached period | MiniLM | mpnet | bge | e5 | text-emb-004 |
+|---|---:|---:|---:|---:|---:|
+| this_week | 0.38 | 0.71 | 0.81 | 0.81 | 0.81 |
+| this_month | 0.59 | 0.76 | 0.76 | 0.82 | 0.76 |
+| this_year | 0.42 | 0.63 | 0.84 | 0.84 | 0.74 |
+| last_year | 0.88 | 0.76 | 0.76 | 0.82 | 0.76 |
+| q3_2026 (neighbour Q2 2026) | 0.55 | 0.65 | 0.15 | 0.00 | 0.00 |
+| last_3_months (only granularity neighbours) | 0.00 | 0.00 | 0.00 | 0.00 | 0.00 |
+
+- **Relative calendar periods invert in every model.**
+- **Explicit quarters** ("Q3 2026" → "Q2 2026") are separated correctly by three
+  of the five neural models.
+- **Granularity changes** ("last 3 months" → "last 6 months" or "Q3 2026") never
+  invert.
+
+**3. The "embeddings can't know today's date" objection does not explain it.**
+- 65 of the 646 correct pairs need the reference date to be equivalent, such as
+  "last year" ↔ "during 2025".
+- Recomputing inversion without them leaves every rate **unchanged**, in every
+  model.
+- So each inverted question's near-miss outscores even the rephrasings that need
+  no date knowledge. For example: "What were my overall expenses **this** year?"
+  scores 0.984 against "… **last** year?", while "What was my total spending last
+  year?" scores 0.875 (mpnet).
+
+**4. Secondary hypotheses, under the step-5 caveats** (oracle parameters,
+templated wording):
+- **H2 holds.** At zero false reuse, the per-entry oracle reuses 6.6–11.0% of
+  queries; `split_full` reuses 21.3–27.3%. A global threshold reuses 0.5–1.8%.
+- **H3 holds by construction of `split_full`.** With parameters exact, the only
+  remaining false candidates are intent near-misses, and they hold `split_full`
+  to about 0.22–0.27 of a possible 0.53.
+- `split_template`'s 0.96 is the template artefact described in section 5
+  (threat 1), and supports no claim.
+
+### Consequence for the problem statement
+
+> Relative time expressions ("this month" / "last month") invert the similarity
+> ordering that threshold-based semantic caches rely on, in all six neural
+> embedding configurations tested. For about half of cached questions, the
+> wrong-period question scores at or above every correct rephrasing, so no
+> threshold of any kind reuses them safely. Other parameters (merchants,
+> categories, accounts) overlap with correct rephrasings but do not invert.
+
+Next: step 2 (the blind label audit), then step 4a (human-written questions).
+The period finding needs testing above all on questions people actually write.
+
+---
+
+## 8. Extended evaluation — 2026-10-28 (after the gate, not part of it)
+
+Eleven more configurations were run on the same frozen dataset: Google's
+`gemini-embedding-001`, three Voyage models (Voyage is the provider Anthropic's
+documentation points to, since Anthropic has no embedding model of its own),
+OpenAI's `text-embedding-3-small` and `text-embedding-3-large` (default
+dimensions), and three recent open models. AWS models were not run.
+
+### Results
+
+The table shows the pre-registered metric (strong inversion against parameter
+near-misses), plus correct reuse at zero false reuse.
+
+| Model | Year | Strong inversion [95% CI] | Global threshold @0 | Oracle per-entry @0 | split_full @0 |
+|---|---|---|---:|---:|---:|
+| all-MiniLM-L6-v2 | 2021 | 0.469 [0.383, 0.555] | 0.008 | 0.071 | 0.213 |
+| all-mpnet-base-v2 | 2021 | 0.586 [0.508, 0.672] | 0.018 | 0.066 | 0.215 |
+| e5-base-v2 | 2023 | 0.547 [0.461, 0.641] | 0.009 | 0.081 | 0.214 |
+| bge-base-en-v1.5 | 2023 | 0.562 [0.477, 0.648] | 0.005 | 0.081 | 0.218 |
+| text-embedding-3-small | 2024 | 0.562 [0.477, 0.648] | 0.002 | 0.064 | 0.214 |
+| text-embedding-3-large | 2024 | 0.414 [0.328, 0.508] | 0.012 | 0.098 | 0.225 |
+| mxbai-embed-large-v1 | 2024 | 0.508 [0.422, 0.594] | 0.006 | 0.106 | 0.226 |
+| snowflake-arctic-embed-l-v2.0 | 2024 | 0.508 [0.422, 0.594] | 0.021 | 0.107 | 0.224 |
+| text-embedding-004 | 2024 | 0.523 [0.438, 0.617] | 0.005 | 0.093 | 0.242 |
+| text-embedding-004, SEMANTIC_SIMILARITY | 2024 | 0.484 [0.398, 0.578] | 0.011 | 0.110 | 0.273 |
+| voyage-3-large | 2025 | 0.297 [0.219, 0.375] | 0.011 | 0.144 | 0.272 |
+| voyage-3.5 | 2025 | 0.445 [0.352, 0.539] | 0.006 | 0.114 | 0.249 |
+| gemini-embedding-001 | 2025 | 0.438 [0.352, 0.531] | 0.002 | 0.102 | 0.320 |
+| Qwen3-Embedding-0.6B | 2025 | 0.219 [0.156, 0.297] | 0.011 | 0.112 | 0.215 |
+| voyage-4 | 2026 | **0.156 [0.102, 0.227]** | 0.063 | 0.168 | 0.300 |
+
+Years are approximate release years.
+
+Correct reuse is possible for 0.532 of queries in every row.
+
+**Under the pre-registered rule, voyage-4, Qwen3 and voyage-3-large would not
+pass.** Strong inversion falls in the newest models.
+
+### What is actually falling — decomposed (exploratory, defined after seeing the data)
+
+Strong inversion takes the best of **all** correct questions. Those come in two
+kinds, and the newest models treat them differently. So the comparison was
+split. In both, the period near-miss uses the same wording as the cached
+question, with only the period changed.
+
+- **A — period swap ≥ the best *reworded* correct question** (a different
+  template, the same meaning). This is how users usually rephrase.
+- **B — period swap ≥ the best *one-span* correct question** that needs no date
+  knowledge ("this month" → "so far this month", "last month" → "in the previous
+  month").
+
+| Model | A: swap ≥ reworded [95% CI] | B: swap ≥ one-span [95% CI] |
+|---|---|---|
+| all-MiniLM-L6-v2 | 0.96 [0.93, 0.99] | 0.54 [0.45, 0.63] |
+| all-mpnet-base-v2 | 0.97 [0.94, 0.99] | 0.69 [0.61, 0.77] |
+| e5-base-v2 | 0.92 [0.88, 0.97] | 0.61 [0.52, 0.71] |
+| bge-base-en-v1.5 | 0.88 [0.81, 0.93] | 0.70 [0.62, 0.78] |
+| text-embedding-3-small | 0.98 [0.95, 1.00] | 0.75 [0.67, 0.83] |
+| text-embedding-3-large | 0.95 [0.90, 0.98] | 0.56 [0.47, 0.65] |
+| mxbai-embed-large-v1 | 0.87 [0.80, 0.92] | 0.56 [0.46, 0.65] |
+| snowflake-arctic-embed-l-v2.0 | 0.84 [0.78, 0.90] | 0.56 [0.47, 0.65] |
+| text-embedding-004 | 0.92 [0.88, 0.96] | 0.59 [0.50, 0.68] |
+| text-embedding-004, SEMANTIC_SIMILARITY | 0.90 [0.84, 0.95] | 0.54 [0.45, 0.64] |
+| voyage-3-large | 0.82 [0.75, 0.89] | 0.44 [0.35, 0.53] |
+| voyage-3.5 | 0.91 [0.87, 0.96] | 0.50 [0.41, 0.60] |
+| gemini-embedding-001 | 0.93 [0.88, 0.97] | 0.44 [0.35, 0.53] |
+| Qwen3-Embedding-0.6B | 0.95 [0.91, 0.98] | 0.21 [0.14, 0.28] |
+| voyage-4 | 0.84 [0.77, 0.90] | 0.14 [0.07, 0.21] |
+
+Sample sizes: A has n = 128 cached questions, B has n = 111.
+
+**Reading:**
+- **A is stable across every model and year, at 0.82–0.98.** A one-word period
+  swap of a cached question outscores every differently-worded correct question
+  for most cached questions, in the newest models too.
+- **B is what is improving.** The newest models increasingly rank "so far this
+  month" above "last month" when the rest of the wording is identical. This is
+  what moves the strong-inversion rate.
+- **Operationally, A is the one that matters.** A cache's value is catching
+  rewordings, and a threshold low enough to accept a reworded question accepts
+  the period swap first for 82–98% of cached questions.
+- **OpenAI fits the same pattern.** Both 2024 models invert A (0.95, 0.98).
+  `text-embedding-3-small` has the highest B of any model (0.75), and the larger
+  `text-embedding-3-large` is lower (0.56). Size alone does not explain B across
+  vendors (mpnet is larger than MiniLM and scores higher). B declines roughly
+  with release date: 0.54–0.75 for 2021–2024 models, 0.21–0.50 for 2025, 0.14
+  for 2026. That is 15 uncontrolled models, so it is a trend, not a finding.
+  Neither OpenAI model separates the reworded case.
+- **The cache simulation agrees.** Even the best model (voyage-4) reuses only
+  6.3% of queries safely with a global threshold, against 53% possible.
+
+### A confound this exposed (fix in dataset v2)
+
+`last_year` has no one-span correct question that avoids a date, because its
+only aliases are "in 2025" and "during 2025". So its 17 cached questions are
+missing from comparison B. They also keep strong inversion high (0.71–0.76) in
+every model, newest included. That persistence is a gap in the dataset, not a
+finding.
+
+Dataset v2 should give every period a one-span alias that needs no date (for
+`last_year`: "the previous year", "the prior year"). Changing the frozen v1
+dataset is not allowed.
+
+### Revised claim (exploratory until confirmed on fresh data)
+
+> When a cached analytical question is repeated with only its time period
+> changed ("this month" → "last month"), the new question scores higher than
+> differently-worded questions with the same meaning, for 82–98% of cached
+> questions, in all 15 embedding configurations tested (2021–2026): three
+> commercial APIs (Google, Voyage, OpenAI) and six open-model publishers.
+> Newer models increasingly separate period swaps from minimally edited
+> equivalents, but not from reworded ones. So a global similarity threshold
+> cannot accept rewordings without also accepting wrong-period reuse.
+
+Comparisons A and B were defined after seeing results. They are exploratory, and
+the paper must present them that way. Confirm them on dataset v2 with
+human-written questions (step 4a), with A and B pre-registered before that run.

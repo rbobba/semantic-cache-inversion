@@ -30,7 +30,15 @@ Usage:
     python evaluate.py --embedder st:sentence-transformers/all-MiniLM-L6-v2
     python evaluate.py --embedder st:intfloat/e5-base-v2 --prefix "query: "
     python evaluate.py --embedder vertex:text-embedding-004 --project <gcp-project>
+    python evaluate.py --embedder openai:text-embedding-3-large
+    python evaluate.py --embedder voyage:voyage-4
+    python evaluate.py --embedder bedrock:amazon.titan-embed-text-v2:0 --region us-east-1
+    python evaluate.py --embedder bedrock:cohere.embed-v4:0 --region us-east-1
     python evaluate.py --embedder npz:my_vectors.npz        # bring your own
+
+`--task-type` is the provider's task or input-type knob: Vertex task_type,
+Voyage input_type, Cohere input_type. `--dimensions` is passed through only
+when given, except Vertex, which defaults to the application's 768.
     python evaluate.py --summarize
 """
 
@@ -138,6 +146,89 @@ def embed_vertex(
     return _normalise(np.array(out))
 
 
+def embed_openai(texts: list[str], model: str, dimensions: int | None) -> np.ndarray:
+    """OpenAI embeddings API. Reads OPENAI_API_KEY from the environment."""
+    from openai import OpenAI
+
+    client = OpenAI(max_retries=8)
+    extra = {"dimensions": dimensions} if dimensions else {}
+    out: list[list[float]] = []
+    for i in range(0, len(texts), 256):
+        res = client.embeddings.create(model=model, input=texts[i : i + 256], **extra)
+        out.extend(d.embedding for d in sorted(res.data, key=lambda d: d.index))
+    return _normalise(np.array(out))
+
+
+def embed_voyage(texts: list[str], model: str, input_type: str | None) -> np.ndarray:
+    """Voyage AI — the provider Anthropic's documentation points to, since
+    Anthropic has no embedding model of its own. Reads VOYAGE_API_KEY.
+
+    input_type defaults to None: both sides of a cache lookup are questions,
+    so the symmetric setting is the honest one. "query" is worth a second run.
+    """
+    import voyageai
+
+    # The SDK retries rate-limit errors itself; a free account without a
+    # payment method can have very low limits, so allow it to wait.
+    client = voyageai.Client(max_retries=8)
+    out: list[list[float]] = []
+    for i in range(0, len(texts), 128):
+        res = client.embed(texts[i : i + 128], model=model, input_type=input_type)
+        out.extend(res.embeddings)
+    return _normalise(np.array(out))
+
+
+def embed_bedrock(
+    texts: list[str], model: str, region: str | None, dimensions: int | None, input_type: str | None
+) -> np.ndarray:
+    """Amazon Bedrock: Titan Text Embeddings and Cohere Embed. Uses the
+    standard AWS credential chain (profile, env vars, SSO).
+
+    Titan takes one text per call; Cohere takes up to 96. Cohere requires an
+    input_type; "search_query" on both sides keeps the comparison symmetric.
+    """
+    import time
+
+    import boto3
+    from botocore.exceptions import ClientError
+
+    client = boto3.client("bedrock-runtime", region_name=region)
+
+    def invoke(body: dict) -> dict:
+        for attempt in range(6):
+            try:
+                res = client.invoke_model(modelId=model, body=json.dumps(body))
+                return json.loads(res["body"].read())
+            except ClientError as exc:
+                if exc.response["Error"]["Code"] != "ThrottlingException" or attempt == 5:
+                    raise
+                time.sleep(2**attempt)
+        raise AssertionError("unreachable")
+
+    out: list[list[float]] = []
+    if model.startswith("amazon.titan"):
+        for t in texts:
+            body = {"inputText": t, "normalize": True}
+            if dimensions:
+                body["dimensions"] = dimensions
+            out.append(invoke(body)["embedding"])
+    elif model.startswith("cohere."):
+        for i in range(0, len(texts), 96):
+            body = {
+                "texts": texts[i : i + 96],
+                "input_type": input_type or "search_query",
+                "embedding_types": ["float"],
+            }
+            if dimensions:
+                body["output_dimension"] = dimensions
+            emb = invoke(body)["embeddings"]
+            # v3 returns a list of vectors; v4 keys them by embedding type.
+            out.extend(emb["float"] if isinstance(emb, dict) else emb)
+    else:
+        raise SystemExit(f"unsupported Bedrock model {model!r} (titan or cohere only)")
+    return _normalise(np.array(out))
+
+
 def embed_npz(texts: list[str], path: Path) -> np.ndarray:
     """Vectors computed elsewhere: an .npz with `texts` and `vectors` arrays."""
     z = np.load(path, allow_pickle=False)
@@ -164,8 +255,14 @@ def embed(texts: list[str], args: argparse.Namespace, cache_dir: Path) -> np.nda
         if not args.project:
             raise SystemExit("--project is required for vertex embedders")
         vecs = embed_vertex(
-            texts, name, args.project, args.location, args.dimensions, args.task_type
+            texts, name, args.project, args.location, args.dimensions or 768, args.task_type
         )
+    elif kind == "openai":
+        vecs = embed_openai(texts, name, args.dimensions)
+    elif kind == "voyage":
+        vecs = embed_voyage(texts, name, args.task_type)
+    elif kind == "bedrock":
+        vecs = embed_bedrock(texts, name, args.region, args.dimensions, args.task_type)
     elif kind == "npz":
         vecs = embed_npz(texts, Path(name))
     else:
@@ -559,8 +656,9 @@ def main() -> None:
         "--prefix", default="", help='text prepended to every input, e.g. "query: " for e5'
     )
     ap.add_argument("--project", default="")
-    ap.add_argument("--location", default="us-central1")
-    ap.add_argument("--dimensions", type=int, default=768)
+    ap.add_argument("--location", default="us-central1", help="Vertex location")
+    ap.add_argument("--region", default=None, help="AWS region for Bedrock")
+    ap.add_argument("--dimensions", type=int, default=None)
     ap.add_argument("--task-type", default=None)
     ap.add_argument("--bootstrap", type=int, default=1000)
     ap.add_argument("--seed", type=int, default=7)
@@ -579,6 +677,7 @@ def main() -> None:
         args.embedder
         + (f" prefix={args.prefix!r}" if args.prefix else "")
         + (f" task_type={args.task_type}" if args.task_type else "")
+        + (f" dims={args.dimensions}" if args.dimensions else "")
     )
     out_dir = args.out / slug(label)
 
