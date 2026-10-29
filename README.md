@@ -1102,3 +1102,91 @@ intent problem.
   wording it is the dominant failure.
 
 Part 1 and Part 2b are waiting for the Gemini runs.
+
+---
+
+## 13. Section 11 results: Part 1 and Part 2b (2026-10-28)
+
+**Timing disclosure.** The relative run began at 18:18:25. Commit `7888f1c`,
+which froze section 11, landed at 18:18:37.
+- Its section hash had been recorded earlier in the session.
+- No output of the run was read before the commit.
+
+### Part 1 decision: R2, the risk is broader than dates. The prediction (R1) was wrong.
+
+F_slots is the template-slot false share at the calibrated threshold, for
+flash-lite on v1. The difference is relative minus absolute, from a paired
+cluster bootstrap.
+
+| Embedder | Absolute | Relative | Difference [95% CI] |
+|---|---:|---:|---|
+| MiniLM | 2.50% | 2.26% | −0.24 [−1.76, +1.57] |
+| mpnet | 2.72% | **1.09%** | −1.63 [−2.80, −0.46] |
+| bge | 2.57% | **1.12%** | −1.45 [−2.61, −0.25] |
+| e5 | 2.66% | 2.07% | −0.59 [−1.91, +0.94] |
+
+- F_slots(relative) is above 1% in all four, so **R2 holds as registered**.
+- The improvement is significant in mpnet and bge only.
+- Strict F: 4.60, 3.17, 3.45 and 4.39%, against 5.69–5.97% for the absolute
+  run.
+
+### Why: relative labels fixed every date error, and negation got worse
+
+Errors of the same extractor, on the same questions:
+
+| Error class | v1 absolute | v1 relative | v2 absolute | v2 relative |
+|---|---:|---:|---:|---:|
+| Period wrong | 27 | **0** | 29 | **0** |
+| Excluded category dropped ("…excluding travel", "not counting X") | 18 / 115 (16%) | **39 / 115 (34%)** | 22 / 111 (20%) | **40 / 111 (36%)** |
+| Included category wrong ("spend on travel") | 0 / 117 | 0 / 117 | 0 / 111 | 0 / 111 |
+| "Top 1" added (ignored by template-slot scoring) | 45 | 42 | 48 | 43 |
+
+**1. Date arithmetic can be fixed by design.** When the model labels the
+period and code computes it, period extraction is exact on both datasets: 0 of
+1,358 and 0 of 1,295 wrong. That is how the application's own SQL already works
+(`CURRENT_DATE`).
+
+**2. Negation is the residual risk, and it is fragile.**
+- The same category is extracted perfectly when the question is about it, and
+  dropped in 16–36% of questions that *exclude* it.
+- Changing only the prompt's period section doubled the drop rate. This
+  effect was not predicted.
+- gemini-3.5-flash drops it in 1 of 115 (absolute run).
+- A dropped exclusion turns "spending except travel" into "all spending": a
+  plausible-looking wrong answer.
+
+### Part 2b: v2 held-out wording, flash-lite
+
+| Embedder | Reuse | F_slots absolute | F_slots relative | Difference [95% CI] |
+|---|---:|---:|---:|---|
+| MiniLM | 0.000 | (nothing reused) | (nothing reused) | — |
+| mpnet | 0.32–0.35 | 6.47% | 9.73% | +3.26 [−0.26, +6.94] |
+| bge | 0.24 | 0.79% | 4.84% | +4.05 [−0.43, +9.71] |
+| e5 | 0.14–0.15 | 0.00% | 6.67% | +6.67 [0.00, +15.5] |
+
+- **R2 replicates in three of the four.** In MiniLM the calibrated threshold
+  admits no held-out query at all, so F is undefined. The replication criterion
+  ("all four") is therefore **not met as registered**.
+- On held-out wording the relative arm is worse. That is consistent with the
+  doubled negation errors: the negation intent is one of the few the cache
+  still reuses there.
+- Reuse is low in every case: 0–35% of held-out queries, even before
+  extraction errors (section 12).
+
+### What the whole study now supports
+
+Every failure is on one of the small words that change the SQL. Each one fails
+somewhere different.
+
+| Small word | Where it fails | Can design fix it? |
+|---|---|---|
+| **this / last** (period) | Raw-question similarity: inverted in all 15 models (A ≥ 0.82, confirmed on v2). LLM date arithmetic: 2% of questions. | **Yes.** Mask it out of the similarity, and let code or SQL compute the dates (0 errors). |
+| **sum / count / average** (aggregation) | Template similarity on unseen wording: 0.93 between "Sum of purchases" and "Number of purchases" | Not by similarity |
+| **except** (negation) | Template similarity (0.955); extraction (16–36% dropped, prompt-sensitive) | Not by similarity; extraction needs a stronger model or a dedicated check |
+| **refund / spend** (direction) | Template similarity on unseen wording | Not by similarity |
+
+**Not yet shown:**
+- human-written questions (step 4a, spec sheet ready)
+- execution against fresh generation (step 4d)
+- run-to-run variance of the LLM extractors
+- a second schema
