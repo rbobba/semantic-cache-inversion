@@ -1442,3 +1442,174 @@ r1–r3.
 When the filled sheets arrive, the same guarded designs are among the designs
 tested on them. That analysis gets its own pre-registration, written before
 the sheets are opened.
+
+---
+
+## 16. Pre-registration: a second extractor vendor and the shortlist floor (frozen 2026-10-29)
+
+### Why
+
+- **Every extraction result comes from one vendor.** All of them are Google
+  Gemini models, and extraction errors already depend on the model: on
+  finance, flash-lite drops an excluded value in 16–36% of questions and
+  3.5-flash in 1% (section 13). H-S claims the guarded cache works whatever
+  the extractor. One vendor cannot show that; two is the minimum.
+- **The guarded designs' 0.50 floor is one number** applied to embedders that
+  spread their scores differently.
+
+### The extractor
+
+- `openai-relsig:gpt-6-luna`, through OpenAI's Responses API.
+- **Selection rule.** The lowest-priced of the four models that OpenAI's models
+  page (developers.openai.com/api/docs/models) lists as current flagship
+  models on 2026-10-29. That page describes it as "Our most efficient model
+  for focused, high-volume tasks"; the pricing page on the same date gives
+  $0.10 / $0.50 per 1M input / output tokens. It plays flash-lite's role:
+  the low-cost model a cache would call on every lookup. Older generations
+  still on the pricing page (for example gpt-5-nano) are not current models
+  and were not considered.
+- **The same prompt and schema as `gemini-relsig`.**
+  - The instructions are byte-identical to the Gemini signature prompt.
+  - The schema is translated to OpenAI's strict dialect and nothing else is
+    changed: `additionalProperties: false` on every object, and a nullable
+    object written as `anyOf [object, null]`.
+  - Both were checked mechanically for all four domains and all three arms.
+    The Gemini prompts and schemas are byte-identical to the previous commit.
+- **Settings: each vendor's default for a structured-output call.**
+  - OpenAI: no temperature and no reasoning effort are sent, so the model's
+    default applies (medium, per its model page). `max_output_tokens` is
+    16384, and `store` is false.
+  - Gemini, unchanged: temperature 0 (the application's setting) and default
+    thinking. Flash-lite logged 0 thinking tokens on finance.
+  - So the settings are **not identical**. The paper says so.
+- **Runs.** r1–r3 in all four domains, 12 runs, by the author with
+  `run_openai_extractions.ps1`. A 20-question smoke test on finance (seen
+  data) comes first and projects the cost from its own token counts. From
+  Gemini's token counts, the estimate is about $3–15, depending on how many
+  reasoning tokens the model uses.
+- **Evaluation.** By the agent, on the four open embedders, held-out and
+  non-held-out, exactly as in section 15.
+
+### Hypotheses
+
+The rules are section 15's, unchanged, applied to the new extractor.
+
+| Id | Hypothesis | Holds when | Test domains |
+|---|---|---|---|
+| **H-N-O** | The negation guard works with the second vendor | H-N's rule, on `openai-relsig` parameters | Retail, healthcare, IT support |
+| **H-S-O** | The guarded cache works with the second vendor | H-S's rule, on `openai-relsig` | All four |
+
+**What may be claimed.** The guarded cache may be called
+**extractor-independent** in a domain only when H-S holds there for **both**
+vendors. Across domains, the verdict words are section 15's (generalises,
+partially, does not generalise).
+
+**Reported without a hypothesis:**
+- extraction accuracy of both vendors' signature runs: slot F1, frame
+  accuracy, the negation block, and a paired `--compare` on the same queries
+- signature agreement with the reference signatures, per field, and between
+  the two vendors
+- format failures (unparseable output, spans not found in the question)
+  counted apart from wrong answers
+- tokens and cost per call, and the break-even reuse rate, per vendor
+
+**Predictions, written down and not part of the rules:**
+- H-N-O holds. The guard is a text rule; it only needs a named value
+  extracted for a question with a cue.
+- H-S-O: no confident prediction, as for H-S.
+
+### Shortlist floor sweep
+
+- Every report with a guarded design adds `shortlist_sweep`. For
+  `split_template_guarded` and `split_template_guarded_goldsig`, it gives
+  correct reuse, false reuses and false share at floors of none, 0.30, 0.40,
+  0.50, 0.60 and 0.70. These are point estimates, with no intervals.
+- "None" means no floor at all: similarity only ranks the candidates that
+  pass the guards. That result cannot depend on how an embedder spreads its
+  scores.
+- **H-S is still judged at 0.50**, as registered.
+- **Rule.** The guarded cache may be called **robust to the floor** in a
+  domain only if its false share is ≤ 1% at every floor, including none, for
+  every embedder, in ≥ 2 of r1–r3. Otherwise the paper names the floors where
+  it fails.
+- **Development, disclosed.** The sweep was run once on finance v2 (seen
+  data): reference signatures, flash-lite relative, bge, held-out. Correct
+  reuse was 0.966 with 0 false reuses at every floor, matching section 15.
+  No signature extraction exists in any domain, so the sweep has never run
+  on a real extractor's signatures.
+
+### Disclosures for the paper (no new runs)
+
+1. **Comparison A was defined after seeing the data** on finance v1 (section
+   8). It was then pre-registered and confirmed on v2 (section 12), and is
+   pre-registered for the new domains (section 14, G1). The paper states
+   that order.
+2. **The embedding models are a convenience sample**, chosen for coverage of
+   vendors, sizes and years (2021–2026), including the production model and
+   the newest models available. No formal rule chose them. Claims are stated
+   as "N models from K publishers, tested in October 2026", never as "all
+   models".
+3. **The negation cue list is English only.**
+
+### Considered and not added
+
+| Item | Why not |
+|---|---|
+| More embedding vendors (Cohere, AWS) | Already 15 configurations of 14 models from nine publishers: three commercial APIs (Google, OpenAI, Voyage) and six open-model publishers (sentence-transformers, BAAI, intfloat, Mixedbread, Snowflake, Qwen). Comparison A is 0.82–0.98 across all of them; another row would not change a claim. |
+| A formal (MTEB-based) embedder selection rule | Disclosure 2 states the selection honestly instead. |
+| Executing SQL on a database | The gold templates define the correct SQL exactly. A different template is wrong SQL by definition. |
+| A second labeller for the reference signatures | They feed only an upper bound and an agreement figure. The guarded design never sees them. |
+| Running GPTCache or a similar product | Their default design is the raw-similarity design already tested. Cite their documentation, checked before quoting. |
+| More extractor vendors (Anthropic, open-weight) | Two vendors is the minimum to test the extractor-independence claim. More would add rows, not a new claim. |
+
+### Seen at freezing time
+
+- Reports for the seven local embedders exist for all four domains (section
+  14). None was opened; only the folder names were listed.
+- Section 14's Gemini extractions are in progress. Finance and retail are
+  complete; healthcare is partial. The agent opened none of their accuracy
+  files or reports. It read token counts from finance's relative runs
+  (finance is seen data), for the cost estimate. `extract.py` prints each
+  run's accuracy summary to the author's terminal; none has been shared with
+  the agent.
+- No OpenAI extraction call has been made. The code was exercised with an
+  offline stand-in client only.
+
+### Commands
+
+```
+$env:OPENAI_API_KEY = "<key>"
+.\run_openai_extractions.ps1 -SmokeOnly     # 20 finance questions, prints the projected cost
+.\run_openai_extractions.ps1                # 12 runs; resumes if interrupted
+python evaluate.py --data data_md/<d> --out results_md/<d> --embedder <e> --extracted results_md/<d>/extraction/openai-relsig_gpt-6-luna_<t>/extracted.jsonl [--holdout]
+```
+
+The SHA-256 of this section, from its heading to the end of the commands
+block, was recorded in the working session before any run it covers:
+`8d2c8f510b3ffbcccaedb2b754079a2b0477f96dae222f86c38ff356f57d4d17`.
+
+---
+
+## 17. Related work, and a citation correction (2026-10-29)
+
+**Related work.** The literature check and the study's positioning are in
+`RELATED_WORK.md`. Two findings change how the paper is framed:
+- **The guarded cache of section 15 is not a new design.** A production BI
+  system already gates cache hits on similarity plus entity, intent, polarity
+  and freshness checks (Rathore et al. 2026, arXiv:2606.28370). An OLAP cache
+  already reuses only on exact LLM-extracted intent signatures (Bindschaedler
+  2026, arXiv:2602.19811). Section 15's hypotheses still stand as tests of
+  that kind of design. The paper presents it as tested, not proposed.
+- **The near-miss problem is asserted or argued in those works, not
+  measured.** Comparison A is the measurement.
+
+**Correction.** Sections 9 and 15 call arXiv:2601.11687 "a production
+NL-to-SQL cache". It is a production cache for analytics questions that
+**generates pandas code, not SQL**. Every figure taken from it was checked
+against its full text on 2026-10-29:
+- the 0.995 direct-return threshold;
+- the 0.50 lower bound of its "guide" band;
+- 98.7% accuracy on cached returns.
+
+No rule or number changes. The frozen sections are left as written, so their
+recorded hashes still hold, and this note corrects them.

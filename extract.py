@@ -30,6 +30,10 @@ Extractors:
                     response_json_schema, location "global". The prompt states
                     the dataset's date conventions, as a deployed system's
                     prompt would state its own.
+  openai:<model>, openai-rel:<model>, openai-relsig:<model>
+                    The same three arms with the same prompt and schema
+                    through OpenAI's Responses API (README section 16), at the
+                    vendor's default settings. Needs OPENAI_API_KEY.
 
 Usage:
     python extract.py --extractor gold
@@ -551,6 +555,114 @@ def extract_gemini(
     }
 
 
+# ── openai (README section 16: a second extractor vendor) ────────────────
+
+
+def _openai_schema(relative: bool = False, signature: bool = False) -> dict:
+    """The Gemini schema in OpenAI's strict dialect, with nothing else changed.
+
+    Strict structured outputs need additionalProperties false on every object,
+    and take a nullable object as anyOf [object, null] (a type array is
+    documented for primitives only).
+    """
+
+    def strict(s: dict) -> dict:
+        if "properties" not in s:
+            return s
+        obj = {**s, "type": "object", "additionalProperties": False}
+        obj["properties"] = {k: strict(v) for k, v in s["properties"].items()}
+        return {"anyOf": [obj, {"type": "null"}]} if s["type"] == ["object", "null"] else obj
+
+    return strict(_gemini_schema(relative, signature))
+
+
+def extract_openai(
+    questions: list[dict],
+    ref: date,
+    model: str,
+    raw_path: Path,
+    workers: int,
+    relative: bool = False,
+    signature: bool = False,
+) -> dict[str, dict]:
+    """The same prompt and schema as the Gemini arms, through the Responses API.
+
+    Every setting is the vendor's default except the enforced JSON output: no
+    temperature and no reasoning effort are sent (the Gemini arms send none
+    for thinking either). Reads OPENAI_API_KEY from the environment.
+    """
+    from openai import OpenAI
+
+    client = OpenAI(max_retries=0)  # the backoff below is the only retry
+    fmt = {
+        "type": "json_schema",
+        "name": "parameters",
+        "strict": True,
+        "schema": _openai_schema(relative, signature),
+    }
+    instructions = _gemini_prompt(ref, relative, signature)
+    done: dict[str, dict] = {}
+    if raw_path.exists():
+        for line in raw_path.read_text(encoding="utf-8").splitlines():
+            r = json.loads(line)
+            if r.get("response") is not None:
+                done[r["id"]] = r
+    todo = [q for q in questions if q["id"] not in done]
+    print(f"{len(done)} already extracted, {len(todo)} to go", flush=True)
+
+    def call(q: dict) -> dict:
+        last = None
+        for attempt in range(8):
+            if attempt:
+                time.sleep(min(60.0, 2.0**attempt) + random.uniform(0, 1))
+            try:
+                res = client.responses.create(
+                    model=model,
+                    instructions=instructions,
+                    input=q["text"],
+                    text={"format": fmt},
+                    # Reasoning tokens count against this; leave room so a
+                    # long think cannot truncate the JSON.
+                    max_output_tokens=16384,
+                    store=False,
+                )
+                if res.status != "completed":
+                    raise RuntimeError(f"status {res.status}: {res.incomplete_details}")
+                u = res.usage
+                thinking = u.output_tokens_details.reasoning_tokens
+                return {
+                    "id": q["id"],
+                    "response": json.loads(res.output_text),
+                    # As Gemini reports it: output excludes the thinking.
+                    "usage": {
+                        "prompt": u.input_tokens,
+                        "output": u.output_tokens - thinking,
+                        "thinking": thinking,
+                    },
+                }
+            except Exception as exc:
+                last = f"{type(exc).__name__}: {exc}"
+        return {"id": q["id"], "response": None, "error": last}
+
+    raw_path.parent.mkdir(parents=True, exist_ok=True)
+    with ThreadPoolExecutor(workers) as pool, raw_path.open("a", encoding="utf-8") as f:
+        for i, r in enumerate(pool.map(call, todo), 1):
+            f.write(json.dumps(r) + "\n")
+            f.flush()
+            if r["response"] is not None:
+                done[r["id"]] = r
+            if i % 100 == 0:
+                print(f"  {i}/{len(todo)}", flush=True)
+
+    failed = [q["id"] for q in questions if q["id"] not in done]
+    if failed:
+        raise SystemExit(f"{len(failed)} questions failed, e.g. {failed[0]}; rerun to resume")
+    return {
+        q["id"]: _from_llm_json(q["text"], done[q["id"]]["response"], ref, relative, signature)
+        for q in questions
+    }
+
+
 # ── scoring ──────────────────────────────────────────────────────────────
 
 
@@ -775,6 +887,16 @@ def main() -> None:
             args.workers,
             relative=kind in ("gemini-rel", "gemini-relsig"),
             signature=kind == "gemini-relsig",
+        )
+    elif kind in ("openai", "openai-rel", "openai-relsig"):
+        ext = extract_openai(
+            questions,
+            ref,
+            model,
+            out_dir / "raw.jsonl",
+            args.workers,
+            relative=kind in ("openai-rel", "openai-relsig"),
+            signature=kind == "openai-relsig",
         )
     else:
         raise SystemExit(f"unknown extractor {args.extractor!r}")

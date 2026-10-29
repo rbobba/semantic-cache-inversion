@@ -1,9 +1,9 @@
 # Status and handoff: semantic-cache study
 
-Read this first when resuming. README.md is the full record (sections 1–13).
+Read this first when resuming. README.md is the full record (sections 1–16).
 This page is where things stand, so the next session does not re-derive it.
 
-Last updated: 2026-10-28.
+Last updated: 2026-10-29.
 
 ## The claim, as the evidence supports it today
 
@@ -42,6 +42,20 @@ SQL**, and similarity cannot be tuned around them.
 - "Extraction errors are invisible to similarity" becomes "a weak signal (AUC
   0.36–0.41), not a usable filter". Section 10.
 - v1's 0.97 template reuse was the threat-1 artefact. Section 12.
+- arXiv:2601.11687 is an NL-to-pandas cache, not NL-to-SQL. Its numbers
+  still hold. Section 17.
+
+## Positioning (RELATED_WORK.md, checked 2026-10-29)
+
+- Closest work: Bindschaedler 2026 (exact LLM intent signatures for OLAP)
+  and Rathore et al. 2026 (COGNI: gated cache in production BI).
+- **The guarded cache is not new; present it as tested, not proposed.**
+- What is new: measuring the near-miss problem (comparison A), the industry
+  template cache with real extractors, the negation asymmetry, the
+  relative-time fix, and gated designs on held-out wording across domains
+  and vendors, all pre-registered.
+- Before submission, repeat the search in Scholar, Semantic Scholar and the
+  VLDB/SIGMOD proceedings, and check papers citing the two closest works.
 
 ## Open, in priority order
 
@@ -51,12 +65,26 @@ SQL**, and similarity cannot be tuned around them.
      3.5-flash runs.
    - The agent then runs the embedders and tests G1–G4.
    - This also covers run-to-run variance, with three repeats.
+   - Section 15 (guarded cache): the author runs `.\run_guard_extractions.ps1`
+     after the Gemini runs above finish.
+   - Section 16 (second extractor vendor, shortlist floor sweep): the author
+     runs `.\run_openai_extractions.ps1 -SmokeOnly`, then without the switch.
+     It can run alongside the Gemini scripts. Model `gpt-6-luna`, chosen by a
+     written rule.
 1. **Human-written questions (step 4a).** Send `data_md/human_spec_sheet.csv`
    (160 rows, mixed domains) and `data_md/human_writer_instructions.md` to
    **three** people who are not the author.
    - `data_v2/human_spec_sheet.csv` is **superseded**. Do not send it.
+   - Each writer gets their **own copy** and answers all 160 rows.
    - Write the analysis pre-registration **before** opening the filled sheets.
    - Ingestion code is not written yet.
+   - **Writer 1 returned the sheet on 2026-10-29, unopened.** It is kept outside
+     the repo, SHA-256 `2a6af411070beb86e358ad710de24401f1daaa1219ac5a9153338fbeb1b531ba`
+     (38,204 bytes). It had been saved over the blank in `data_md/`; the blank
+     was restored.
+   - The committed blank had LF line endings, while the manifest and the
+     generator use CRLF. The rows are identical. The generator's output was
+     restored, so the file now matches `manifest.json` (`ba8ddbad…`).
 2. (Merged into item 0.)
 3. **Fresh-generation comparison (step 4d).** Does the cache add errors relative
    to the production NLQ, which writes relative SQL?

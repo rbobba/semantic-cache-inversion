@@ -70,9 +70,14 @@ HERE = Path(__file__).parent
 THRESHOLDS = np.round(np.arange(0.50, 1.0001, 0.005), 3)
 FALSE_REUSE_BUDGETS = (0.0, 0.01, 0.05)
 # The guarded designs use similarity only to shortlist. 0.50 is the lower
-# bound of the "guide" band in a published production NL-to-SQL cache
-# (arXiv 2601.11687): below it, a cached plan is not even offered as a hint.
+# bound of the "guide" band in a published production cache for analytics
+# questions (arXiv 2601.11687; it generates pandas code, not SQL): below it,
+# a cached plan is not even offered as a hint.
 GUARD_SHORTLIST_THRESHOLD = 0.50
+# Sensitivity of the guarded designs to that floor (README section 16). None
+# is no floor at all: similarity only ranks, so the result cannot depend on
+# how an embedder spreads its scores.
+GUARD_SHORTLIST_SWEEP = (None, 0.30, 0.40, 0.50, 0.60, 0.70)
 
 
 # ── Data ─────────────────────────────────────────────────────────────────
@@ -669,6 +674,27 @@ def cache_simulation(
             )
         curves[name] = rows
 
+    # The guarded designs at other shortlist floors. Uses no randomness, so
+    # it changes no other number in a report.
+    shortlist_sweep = {}
+    for name in ("split_template_guarded", "split_template_guarded_goldsig"):
+        if name not in routed:
+            continue
+        _, best, ok, _ = routed[name]
+        rows = []
+        for t in GUARD_SHORTLIST_SWEEP:
+            reused = np.isfinite(best) & (best >= (-np.inf if t is None else t))
+            n_re, n_ok = int(reused.sum()), int((reused & ok).sum())
+            rows.append(
+                {
+                    "floor": t,
+                    "correct_reuse_rate": round(n_ok / Q, 4),
+                    "false_reuses": n_re - n_ok,
+                    "false_reuse_share": round((n_re - n_ok) / n_re, 4) if n_re else 0.0,
+                }
+            )
+        shortlist_sweep[name] = rows
+
     # Why each false reuse at the calibrated threshold was false: the wrong
     # template, the wrong extracted values, or both.
     causes = {}
@@ -731,6 +757,7 @@ def cache_simulation(
         "separability": separability,
         "per_query": per_query,
         "curves": curves,
+        "shortlist_sweep": shortlist_sweep,
     }
 
 
