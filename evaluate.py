@@ -64,10 +64,15 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
+from guards import GOLD_SIGNATURES, has_negation_cue, negation_consistent, signature_key
 
 HERE = Path(__file__).parent
 THRESHOLDS = np.round(np.arange(0.50, 1.0001, 0.005), 3)
 FALSE_REUSE_BUDGETS = (0.0, 0.01, 0.05)
+# The guarded designs use similarity only to shortlist. 0.50 is the lower
+# bound of the "guide" band in a published production NL-to-SQL cache
+# (arXiv 2601.11687): below it, a cached plan is not even offered as a hint.
+GUARD_SHORTLIST_THRESHOLD = 0.50
 
 
 # ── Data ─────────────────────────────────────────────────────────────────
@@ -468,6 +473,7 @@ def cache_simulation(
     ext: dict[str, dict] | None = None,
     ext_masked: np.ndarray | None = None,
     holdout: bool = False,
+    domain: str = "finance",
 ) -> dict:
     anchors = [q for q in questions if q["is_anchor"]]
     # --holdout (dataset v2): only queries worded with a template no cached
@@ -504,6 +510,7 @@ def cache_simulation(
         "split_template": (S_mask, same_slots, same_intent),
     }
     calibrate_from: dict[str, str] = {}
+    fixed_thresholds: dict[str, float] = {}
     params_right = np.ones(Q, dtype=bool)
     slots_right = np.ones(Q, dtype=bool)
     if ext is not None:
@@ -545,6 +552,42 @@ def cache_simulation(
             "split_template_extracted": "split_template",
             "split_template_extracted_slots": "split_template",
         }
+
+        # ── Guarded designs (README section 15) ──
+        # Negation guard: a cue in both questions or in neither, and a
+        # question with a cue must have a named value to exclude.
+        cue_q = np.array([has_negation_cue(q["text"]) for q in queries])
+        cue_a = np.array([has_negation_cue(a["text"]) for a in anchors])
+        ok_q = np.array([negation_consistent(q["text"], ext[q["id"]]["params"]) for q in queries])
+        ok_a = np.array([negation_consistent(a["text"], ext[a["id"]]["params"]) for a in anchors])
+        neg_guard = (cue_q[:, None] == cue_a[None, :]) & ok_q[:, None] & ok_a[None, :]
+        correct_slots = same_intent & slots_right[:, None]
+        designs["split_template_negguard"] = (S_ext, e_same_slots & neg_guard, correct_slots)
+        calibrate_from["split_template_negguard"] = "split_template"
+        if all("signature" in ext[q["id"]] for q in questions):
+            # Signature guard: the extractor's own (operation, excludes, flow)
+            # must match. Similarity only shortlists, at the fixed 0.50.
+            sq = [signature_key(ext[q["id"]]["signature"]) for q in queries]
+            sa = [signature_key(ext[a["id"]]["signature"]) for a in anchors]
+            sig_eq = np.array([[x is not None and x == y for y in sa] for x in sq])
+            designs["split_template_guarded"] = (
+                S_ext,
+                e_same_slots & neg_guard & sig_eq,
+                correct_slots,
+            )
+            fixed_thresholds["split_template_guarded"] = GUARD_SHORTLIST_THRESHOLD
+        if domain in GOLD_SIGNATURES:
+            # Upper bound: the same guards given the author's signatures.
+            gs = GOLD_SIGNATURES[domain]
+            gold_eq = np.array(
+                [[gs[q["intent"]] == gs[a["intent"]] for a in anchors] for q in queries]
+            )
+            designs["split_template_guarded_goldsig"] = (
+                S_ext,
+                e_same_slots & neg_guard & gold_eq,
+                correct_slots,
+            )
+            fixed_thresholds["split_template_guarded_goldsig"] = GUARD_SHORTLIST_THRESHOLD
     group = np.array([a_index[q["group"]] for q in queries])
 
     # Routing does not depend on the resample — the cache is fixed and only
@@ -564,6 +607,7 @@ def cache_simulation(
         name: _zero_threshold(routed[src][1], routed[src][2])
         for name, src in calibrate_from.items()
     }
+    thresholds |= fixed_thresholds
 
     def run(weights_g: np.ndarray) -> dict[str, dict]:
         """One evaluation. weights_g[i] = how many times anchor i's query group was drawn.
@@ -636,10 +680,11 @@ def cache_simulation(
             # Full-SQL reuse is wrong when the gold parameters differ, whoever
             # extracted them as equal.
             wrong_values = ~same_params[bad, nn[bad]]
-        elif name == "split_template_extracted_slots":
-            wrong_values = ~slots_right[bad]
-        else:
+        elif name == "split_template_extracted":
             wrong_values = ~params_right[bad]
+        else:
+            # Template-slot scoring: the slots and guarded designs.
+            wrong_values = ~slots_right[bad]
         causes[name] = {
             "threshold": round(float(t), 4),
             "false_reuses": int(bad.size),
@@ -1103,6 +1148,7 @@ def main() -> None:
             ext=ext,
             ext_masked=ext_masked,
             holdout=args.holdout,
+            domain=manifest.get("domain", "finance"),
         ),
     }
     report["pairs"]["ab"] = ab_comparisons(pairs, qidx, raw, args.seed + 1, args.bootstrap)

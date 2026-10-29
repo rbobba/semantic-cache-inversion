@@ -1332,3 +1332,113 @@ for d in finance retail healthcare it_support; do for t in r1 r2 r3; do
   python extract.py --data data_md/$d --out results_md/$d/extraction --extractor gemini-rel:gemini-3.1-flash-lite --tag $t --project <project> --workers 2
 done; python extract.py --data data_md/$d --out results_md/$d/extraction --extractor gemini-rel:gemini-3.5-flash --tag r1 --project <project> --workers 2; done
 ```
+
+---
+
+## 15. Pre-registration: a guarded hybrid cache, the proposed solution (frozen 2026-10-28)
+
+### The design
+
+The study's measurements point to one principle: **embeddings judge topic well
+and operators badly.**
+- They tell Amazon from Target, and visits from no-shows.
+- They do not tell sum from count, "X" from "everything except X", or money in
+  from money out (sections 12–13).
+
+So the guarded cache divides the work:
+
+```
+question → extract values (period as a LABEL, dates resolved in code)
+         + operator signature (operation, excludes, flow)  ← same extraction call
+         → similarity on the masked question: SHORTLIST only (≥ 0.50)
+         → reuse the best shortlisted template only if ALL guards pass:
+              slots      same extracted slot set
+              signature  same (operation, excludes, flow)
+              negation   a negation cue in both questions or in neither; and a
+                         question with a cue has a named value extracted
+         → otherwise generate fresh. A miss costs one generation; a wrong
+           reuse costs trust.
+```
+
+**What each guard means:**
+- **Operations:** sum, count, average, maximum, rate, list, rank, difference.
+- **Flow:** inbound, outbound, net, none.
+- **Negation cue:** a generic English pattern in `guards.py` ("except",
+  "excluding", "not counting", "other than", "apart from", "outside", "all /
+  every… but").
+- **The 0.50 shortlist floor** is the lower bound of the "guide" band in a
+  published production NL-to-SQL cache (arXiv 2601.11687).
+- **No part is tuned.** Every rule is fixed here.
+
+**Code:**
+- `guards.py` holds the guards.
+- `extract.py --extractor gemini-relsig:<model>` produces the signature. Its
+  prompt is the relative prompt plus one appended block, verified.
+- `evaluate.py` adds the designs:
+  - `split_template_negguard`: slots plus negation, at the calibrated threshold.
+  - `split_template_guarded`: all guards, shortlist 0.50.
+  - `split_template_guarded_goldsig`: the same with the author's reference
+    signatures, an upper bound only.
+
+### Development on finance (disclosed; finance is seen data)
+
+The negation guard was motivated by section 13's finance errors. Checked on
+finance after it was written, with flash-lite relative, bge, and template-slot
+scoring:
+
+| Design | Non-held-out: false reuses / correct reuse | Held-out |
+|---|---|---|
+| template, slots only | 17 / 0.632 | 6 / 0.224 |
+| + negation guard | **0 / 0.632** | **0 / 0.224** |
+| + reference signatures (upper bound) | 0 / 0.968 | 0 / 0.966 |
+
+The cue pattern fires on all 444 generated "except" questions and on no other
+question, in all four domains. That is expected: the same author wrote the
+templates. **The decisive test of the cue list is the human-written
+questions.**
+
+No signature run (`gemini-relsig`) exists in any domain. The only extraction
+folders at freezing time are finance's, from section 14 runs in progress. None
+exist yet for retail, healthcare or IT support.
+
+### Runs
+
+Run by the author with `run_guard_extractions.ps1`:
+- `gemini-relsig:gemini-3.1-flash-lite`, r1–r3, in all four domains: 12 runs,
+  about $8.
+- Evaluated by the agent on the four open embedders, non-held-out and held-out.
+
+### Hypotheses
+
+Each hypothesis is judged per domain, with all four embedders, in ≥ 2 of
+r1–r3.
+
+| Id | Hypothesis | Holds when | Test domains |
+|---|---|---|---|
+| **H-N** | The negation guard removes negation-driven wrong reuse at little cost | `split_template_negguard` F_slots ≤ 1% at the calibrated threshold **and** correct reuse ≥ the unguarded `split_template_extracted_slots` minus 0.02, both held-out and non-held-out | Retail, healthcare, IT support (finance is the development set). Uses section 14's flash-lite relative runs; no new run. |
+| **H-S** | **The guarded cache is a working solution** | `split_template_guarded` on held-out wording: F_slots ≤ 1% **and** correct reuse ≥ exact-key `split_full_extracted` correct reuse + 0.10 | All four. No signature run exists anywhere yet. |
+
+**Verdicts:**
+- **Generalises:** holds in every test domain.
+- **Partially:** holds in some.
+- **Does not generalise:** holds in none.
+
+**Reported without a hypothesis:**
+- signature agreement with the reference signatures, per field
+- the reference-signature upper bound
+- non-held-out results for `split_template_guarded`
+- causes of every remaining wrong reuse
+- a break-even reuse rate, from the logged token counts: the extraction call
+  every lookup pays, against the generation a hit saves
+
+**Predictions, written down but not part of the rules:**
+- H-N holds in every test domain: development showed zero cost.
+- H-S: no confident prediction. It depends on whether the extractor gives a
+  question and its rewording the *same* signature, which has never been
+  measured.
+
+### Human questions
+
+When the filled sheets arrive, the same guarded designs are among the designs
+tested on them. That analysis gets its own pre-registration, written before
+the sheets are opened.

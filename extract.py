@@ -22,6 +22,9 @@ Extractors:
                     the period ("last_n_days", n=30) instead of computing its
                     dates, and code turns the label into dates, the way the
                     application's SQL leaves that to CURRENT_DATE.
+  gemini-relsig:<model>
+                    gemini-rel plus an operator signature (operation, excludes,
+                    flow) for the guarded cache of README section 15.
   gemini:<model>    Vertex AI the way the application calls Gemini:
                     temperature 0, JSON output enforced with
                     response_json_schema, location "global". The prompt states
@@ -262,13 +265,51 @@ The span includes a leading preposition or qualifier ("in", "during", "over the"
 Use null for the fields a kind does not need."""
 
 
-def _gemini_prompt(ref: date, relative: bool = False) -> str:
+# The operator signature (README section 15). Embeddings judge topic well and
+# operators badly, so the guarded cache asks the extractor for the operators
+# directly. Domain-general by design: no field names a domain's vocabulary.
+SIGNATURE_OPERATIONS = [
+    "sum",
+    "count",
+    "average",
+    "maximum",
+    "rate",
+    "list",
+    "rank",
+    "difference",
+]
+SIGNATURE_FLOWS = ["inbound", "outbound", "net", "none"]
+
+_SIGNATURE = """\
+Also describe what the question computes, independently of its values:
+operation: one of
+- sum: a total amount (total spent, revenue, refunds, charges billed)
+- count: how many (transactions, orders, visits, tickets, referrals)
+- average: an average or mean
+- maximum: the single largest, longest or most expensive item
+- rate: a share or percentage
+- list: every item above a threshold
+- rank: the top N items by some measure
+- difference: one quantity minus another (net cash flow, net sales, backlog change)
+excludes: true if the question asks about everything EXCEPT a named value, otherwise false.
+flow: one of
+- inbound: what comes in to the user or organisation (income, refunds the user
+  receives, sales revenue, incoming referrals, tickets received or opened)
+- outbound: what goes out (spending, refunds or returns paid to customers,
+  outgoing referrals, tickets resolved or closed)
+- net: inbound minus outbound
+- none: neither applies"""
+
+
+def _gemini_prompt(ref: date, relative: bool = False, signature: bool = False) -> str:
     def ids(slot: str) -> str:
         return ", ".join(f"{v} ({ss[0]})" for v, ss in SLOTS[slot][0].items())
 
     slot_lines = "\n".join(
         f"{s}: {DOMAIN.slot_prompts[s].format(ids=ids(s))}" for s in SLOT_ORDER if s != "period"
     )
+    if signature:
+        slot_lines += "\n\n" + _SIGNATURE
     return f"""\
 {DOMAIN.prompt_intro}
 
@@ -339,7 +380,7 @@ def resolve_relative(v: dict, ref: date) -> str:
     raise ValueError(f"unknown period kind {kind!r}")
 
 
-def _gemini_schema(relative: bool = False) -> dict:
+def _gemini_schema(relative: bool = False, signature: bool = False) -> dict:
     def slot(value: dict) -> dict:
         return {
             "type": ["object", "null"],
@@ -377,10 +418,18 @@ def _gemini_schema(relative: bool = False) -> dict:
     for s in SLOT_ORDER:
         if s != "period":
             properties[s] = slot({"type": "integer"} if s in ("amount", "n") else enum(s))
-    return {"type": "object", "properties": properties, "required": SLOT_ORDER}
+    required = list(SLOT_ORDER)
+    if signature:
+        properties["operation"] = {"type": "string", "enum": SIGNATURE_OPERATIONS}
+        properties["excludes"] = {"type": "boolean"}
+        properties["flow"] = {"type": "string", "enum": SIGNATURE_FLOWS}
+        required += ["operation", "excludes", "flow"]
+    return {"type": "object", "properties": properties, "required": required}
 
 
-def _from_llm_json(text: str, out: dict, ref: date, relative: bool = False) -> dict:
+def _from_llm_json(
+    text: str, out: dict, ref: date, relative: bool = False, signature: bool = False
+) -> dict:
     """Model JSON -> gold-format params and masked text.
 
     A span the model did not copy exactly cannot be masked; the value is still
@@ -421,7 +470,10 @@ def _from_llm_json(text: str, out: dict, ref: date, relative: bool = False) -> d
             end = s[1]
         else:
             notes.append(f"{s[2]}: span overlaps another")
-    return {"params": params, "masked_text": mask(text, kept), "note": "; ".join(notes) or None}
+    result = {"params": params, "masked_text": mask(text, kept), "note": "; ".join(notes) or None}
+    if signature:
+        result["signature"] = {k: out.get(k) for k in ("operation", "excludes", "flow")}
+    return result
 
 
 def extract_gemini(
@@ -433,6 +485,7 @@ def extract_gemini(
     raw_path: Path,
     workers: int,
     relative: bool = False,
+    signature: bool = False,
 ) -> dict[str, dict]:
     from google import genai
     from google.genai import types
@@ -441,8 +494,8 @@ def extract_gemini(
     cfg = types.GenerateContentConfig(
         temperature=0.0,
         response_mime_type="application/json",
-        response_json_schema=_gemini_schema(relative),
-        system_instruction=_gemini_prompt(ref, relative),
+        response_json_schema=_gemini_schema(relative, signature),
+        system_instruction=_gemini_prompt(ref, relative, signature),
         # Gemini 3 bills thinking against max_output_tokens (config.py notes
         # this for the agent); leave room so a long think cannot truncate JSON.
         max_output_tokens=4096,
@@ -493,7 +546,7 @@ def extract_gemini(
     if failed:
         raise SystemExit(f"{len(failed)} questions failed, e.g. {failed[0]}; rerun to resume")
     return {
-        q["id"]: _from_llm_json(q["text"], done[q["id"]]["response"], ref, relative)
+        q["id"]: _from_llm_json(q["text"], done[q["id"]]["response"], ref, relative, signature)
         for q in questions
     }
 
@@ -709,7 +762,7 @@ def main() -> None:
         ext = extract_gold(questions, ref)
     elif kind == "duckling":
         ext = extract_duckling(questions, ref, args.duckling_url)
-    elif kind in ("gemini", "gemini-rel"):
+    elif kind in ("gemini", "gemini-rel", "gemini-relsig"):
         if not args.project:
             raise SystemExit("--project is required for gemini extractors")
         ext = extract_gemini(
@@ -720,7 +773,8 @@ def main() -> None:
             args.location,
             out_dir / "raw.jsonl",
             args.workers,
-            relative=kind == "gemini-rel",
+            relative=kind in ("gemini-rel", "gemini-relsig"),
+            signature=kind == "gemini-relsig",
         )
     else:
         raise SystemExit(f"unknown extractor {args.extractor!r}")
