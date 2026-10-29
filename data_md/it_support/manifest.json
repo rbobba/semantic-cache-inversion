@@ -1,0 +1,113 @@
+{
+  "domain": "it_support",
+  "generator_version": "3.0.0",
+  "seed": 20261027,
+  "anchors_per_intent": 10,
+  "reference_date": "2026-10-27",
+  "n_questions": 1202,
+  "n_anchors": 125,
+  "n_pairs": 1388,
+  "n_pairs_same_sql": 606,
+  "n_pairs_same_template": 1215,
+  "pairs_by_type": {
+    "equivalent_surface/amount/alias": 10,
+    "equivalent_surface/n/alias": 20,
+    "equivalent_surface/period/alias": 246,
+    "equivalent_surface/priority/alias": 40,
+    "equivalent_surface/service/alias": 10,
+    "equivalent_surface/team/alias": 30,
+    "filter_change/filter_added/service_count": 7,
+    "filter_change/filter_dropped/total_opened": 30,
+    "intent_near_miss/aggregation/avg_resolution": 7,
+    "intent_near_miss/aggregation/longest_resolution": 7,
+    "intent_near_miss/aggregation/team_avg_resolution": 10,
+    "intent_near_miss/aggregation/team_resolved": 10,
+    "intent_near_miss/direction/team_opened": 10,
+    "intent_near_miss/direction/team_resolved": 10,
+    "intent_near_miss/direction/total_opened": 7,
+    "intent_near_miss/direction/total_resolved": 7,
+    "intent_near_miss/grouping/top_services": 10,
+    "intent_near_miss/grouping/top_teams": 10,
+    "intent_near_miss/measure/backlog_change": 14,
+    "intent_near_miss/measure/total_opened": 7,
+    "intent_near_miss/measure/total_resolved": 7,
+    "intent_near_miss/negation/priority_count": 10,
+    "intent_near_miss/negation/priority_count_excluding": 10,
+    "param_near_miss/amount/neighbor": 25,
+    "param_near_miss/n/neighbor": 48,
+    "param_near_miss/period/adjacent": 243,
+    "param_near_miss/period/granularity": 163,
+    "param_near_miss/priority/neighbor": 50,
+    "param_near_miss/service/neighbor": 20,
+    "param_near_miss/team/neighbor": 60,
+    "paraphrase/wording/template": 250
+  },
+  "label_rules": {
+    "same_sql": "same intent AND equal normalised params (periods as absolute date ranges vs reference_date)",
+    "same_template": "same intent"
+  },
+  "sha256": {
+    "questions.jsonl": "e2dc8503e6a6f5b5b3cfcb74a6d2dffb8a8f94b828263016207ddb1ec798d669",
+    "pairs.jsonl": "1d79815b26be9c19a52bf488f89bffdf4f466fefb62e899eba5cc137a3638ea6",
+    "review_sheet.csv": "3e03bce2b2992edd724018a83c288845a6957e29d3974d43edcb682020b65e27"
+  },
+  "cache_templates": {
+    "team_opened": [
+      2,
+      3
+    ],
+    "team_resolved": [
+      0,
+      3
+    ],
+    "team_avg_resolution": [
+      1,
+      2
+    ],
+    "priority_count": [
+      1,
+      2
+    ],
+    "priority_count_excluding": [
+      0,
+      2
+    ],
+    "service_count": [
+      1,
+      3
+    ],
+    "total_opened": [
+      0,
+      2
+    ],
+    "total_resolved": [
+      0,
+      3
+    ],
+    "backlog_change": [
+      0,
+      2
+    ],
+    "avg_resolution": [
+      1,
+      2
+    ],
+    "longest_resolution": [
+      0,
+      3
+    ],
+    "top_teams": [
+      1,
+      2
+    ],
+    "top_services": [
+      0,
+      3
+    ],
+    "slow_tickets": [
+      1,
+      3
+    ]
+  },
+  "n_queries_holdout": 414
+}

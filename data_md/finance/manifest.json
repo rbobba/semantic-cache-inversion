@@ -1,0 +1,118 @@
+{
+  "domain": "finance",
+  "generator_version": "3.0.0",
+  "seed": 20261027,
+  "anchors_per_intent": 10,
+  "reference_date": "2026-10-27",
+  "n_questions": 1295,
+  "n_anchors": 128,
+  "n_pairs": 1406,
+  "n_pairs_same_sql": 556,
+  "n_pairs_same_template": 1193,
+  "pairs_by_type": {
+    "equivalent_surface/account/alias": 10,
+    "equivalent_surface/amount/alias": 10,
+    "equivalent_surface/category/alias": 14,
+    "equivalent_surface/merchant/alias": 20,
+    "equivalent_surface/n/alias": 20,
+    "equivalent_surface/period/alias": 216,
+    "filter_change/filter_added/category_spend_total": 7,
+    "filter_change/filter_dropped/total_spend": 30,
+    "intent_near_miss/aggregation/largest_purchase": 7,
+    "intent_near_miss/aggregation/merchant_avg": 20,
+    "intent_near_miss/aggregation/merchant_spend_total": 20,
+    "intent_near_miss/aggregation/merchant_txn_count": 20,
+    "intent_near_miss/aggregation/total_spend": 7,
+    "intent_near_miss/direction/income_total": 7,
+    "intent_near_miss/direction/merchant_refunds": 10,
+    "intent_near_miss/direction/merchant_spend_total": 10,
+    "intent_near_miss/direction/total_spend": 7,
+    "intent_near_miss/grouping/top_categories": 10,
+    "intent_near_miss/grouping/top_merchants": 10,
+    "intent_near_miss/measure/income_total": 7,
+    "intent_near_miss/measure/net_cash_flow": 14,
+    "intent_near_miss/measure/total_spend": 7,
+    "intent_near_miss/negation/category_spend_excluding": 10,
+    "intent_near_miss/negation/category_spend_total": 10,
+    "param_near_miss/account/neighbor": 20,
+    "param_near_miss/amount/neighbor": 24,
+    "param_near_miss/category/neighbor": 47,
+    "param_near_miss/merchant/neighbor": 86,
+    "param_near_miss/n/neighbor": 46,
+    "param_near_miss/period/adjacent": 225,
+    "param_near_miss/period/granularity": 189,
+    "paraphrase/wording/template": 266
+  },
+  "label_rules": {
+    "same_sql": "same intent AND equal normalised params (periods as absolute date ranges vs reference_date)",
+    "same_template": "same intent"
+  },
+  "sha256": {
+    "questions.jsonl": "7eabef42c912a2759bc860c6083c9e489a0767a654e416af21323b587062a032",
+    "pairs.jsonl": "8b64ae311cc4e08c3fea928e03aabf051f9e0bfb0125ae5fb0a06da7022e6b10",
+    "review_sheet.csv": "6bc234d7856e7b14c6198384d9364a145b0202a2cf9674818594374da8991987"
+  },
+  "cache_templates": {
+    "merchant_spend_total": [
+      2,
+      3,
+      4
+    ],
+    "merchant_txn_count": [
+      1,
+      2,
+      4
+    ],
+    "merchant_avg": [
+      2,
+      3
+    ],
+    "merchant_refunds": [
+      0,
+      1
+    ],
+    "category_spend_total": [
+      1,
+      2,
+      4
+    ],
+    "category_spend_excluding": [
+      0,
+      2
+    ],
+    "account_spend_total": [
+      2,
+      3
+    ],
+    "total_spend": [
+      0,
+      1,
+      4
+    ],
+    "income_total": [
+      0,
+      3
+    ],
+    "net_cash_flow": [
+      1,
+      2
+    ],
+    "largest_purchase": [
+      0,
+      3
+    ],
+    "top_merchants": [
+      1,
+      3
+    ],
+    "top_categories": [
+      0,
+      3
+    ],
+    "large_transactions": [
+      0,
+      1
+    ]
+  },
+  "n_queries_holdout": 527
+}

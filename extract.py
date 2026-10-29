@@ -54,18 +54,32 @@ from datetime import UTC, date, datetime, timedelta
 from pathlib import Path
 
 import numpy as np
-from generate_dataset import SLOTS
+from domains import DOMAINS, FINANCE, Domain
 
 HERE = Path(__file__).parent
-SLOT_ORDER = ["period", "merchant", "category", "account", "amount", "n"]
+
+# The domain being extracted. A CLI processes one dataset, hence one domain,
+# per run; _use_domain() sets these once in main(), and every function below
+# reads them at call time.
+DOMAIN: Domain = FINANCE
+SLOTS = FINANCE.slots
+SLOT_ORDER = FINANCE.slot_order
 PLACEHOLDER = {slot: spec[3] for slot, spec in SLOTS.items()}
 
 
-def load(data_dir: Path) -> tuple[list[dict], date]:
+def _use_domain(d: Domain) -> None:
+    global DOMAIN, SLOTS, SLOT_ORDER, PLACEHOLDER
+    DOMAIN, SLOTS, SLOT_ORDER = d, d.slots, d.slot_order
+    PLACEHOLDER = {slot: spec[3] for slot, spec in SLOTS.items()}
+
+
+def load(data_dir: Path) -> tuple[list[dict], date, Domain]:
     with (data_dir / "questions.jsonl").open(encoding="utf-8") as f:
         questions = [json.loads(line) for line in f if line.strip()]
     manifest = json.loads((data_dir / "manifest.json").read_text(encoding="utf-8"))
-    return questions, date.fromisoformat(manifest["reference_date"])
+    # v1 and v2 manifests predate domains and are finance.
+    domain = DOMAINS[manifest.get("domain", "finance")]
+    return questions, date.fromisoformat(manifest["reference_date"]), domain
 
 
 def mask(text: str, spans: list[tuple[int, int, str]]) -> str:
@@ -252,9 +266,11 @@ def _gemini_prompt(ref: date, relative: bool = False) -> str:
     def ids(slot: str) -> str:
         return ", ".join(f"{v} ({ss[0]})" for v, ss in SLOTS[slot][0].items())
 
+    slot_lines = "\n".join(
+        f"{s}: {DOMAIN.slot_prompts[s].format(ids=ids(s))}" for s in SLOT_ORDER if s != "period"
+    )
     return f"""\
-You extract the parameters of a question about the user's personal finances, so
-that a cached SQL query can be reused with the new values.
+{DOMAIN.prompt_intro}
 
 Today is {ref.strftime("%A")} {ref.isoformat()}.
 
@@ -264,11 +280,7 @@ character for character, plus its value.
 
 {_PERIOD_RELATIVE if relative else _PERIOD_ABSOLUTE}
 
-merchant: one of {ids("merchant")}. Return the id.
-category: a spending category named in the question, one of {ids("category")}. Return the id.
-account: one of {ids("account")}. Return the id.
-amount: a dollar amount in the question, as an integer number of dollars.
-n: the number of items asked for in a "top N" question, as an integer.
+{slot_lines}
 """
 
 
@@ -360,18 +372,12 @@ def _gemini_schema(relative: bool = False) -> dict:
             },
             "required": ["text", "start", "end"],
         }
-    return {
-        "type": "object",
-        "properties": {
-            "period": period,
-            "merchant": slot(enum("merchant")),
-            "category": slot(enum("category")),
-            "account": slot(enum("account")),
-            "amount": slot({"type": "integer"}),
-            "n": slot({"type": "integer"}),
-        },
-        "required": SLOT_ORDER,
-    }
+    # Named entities are closed sets (enums); amount and n are integers.
+    properties = {"period": period}
+    for s in SLOT_ORDER:
+        if s != "period":
+            properties[s] = slot({"type": "integer"} if s in ("amount", "n") else enum(s))
+    return {"type": "object", "properties": properties, "required": SLOT_ORDER}
 
 
 def _from_llm_json(text: str, out: dict, ref: date, relative: bool = False) -> dict:
@@ -555,7 +561,44 @@ def score(questions: list[dict], ext: dict[str, dict], n_boot: int, seed: int) -
     for _ in range(n_boot):
         w = np.bincount(rng.integers(0, len(gids), len(gids)), minlength=len(gids))[gq]
         boots.append(float((w * ok_a).sum() / w.sum()))
+    # Negation asymmetry (README section 14, G3): the same slot's error rate
+    # in the question type that EXCLUDES the value against the one that
+    # includes it, with the difference's cluster-bootstrap interval.
+    negation = {}
+    for exc_intent, inc_intent, slot in DOMAIN.negations:
+
+        def wrong(intent: str, slot: str = slot) -> tuple[np.ndarray, np.ndarray]:
+            sel = [q for q in questions if q["intent"] == intent]
+            w = np.array(
+                [ext[q["id"]]["params"].get(slot) != q["params"][slot] for q in sel], float
+            )
+            return w, np.array([gpos[q["group"]] for q in sel])
+
+        we, ge = wrong(exc_intent)
+        wi, gi = wrong(inc_intent)
+        if not we.size or not wi.size:
+            continue
+        diffs = []
+        for _ in range(n_boot):
+            cnt = np.bincount(rng.integers(0, len(gids), len(gids)), minlength=len(gids))
+            ce, cin = cnt[ge], cnt[gi]
+            if ce.sum() and cin.sum():
+                diffs.append(float((ce * we).sum() / ce.sum() - (cin * wi).sum() / cin.sum()))
+        negation[f"{exc_intent} vs {inc_intent}"] = {
+            "slot": slot,
+            "excluded_wrong": f"{int(we.sum())}/{we.size}",
+            "excluded_wrong_rate": round(float(we.mean()), 4),
+            "included_wrong": f"{int(wi.sum())}/{wi.size}",
+            "included_wrong_rate": round(float(wi.mean()), 4),
+            "difference": round(float(we.mean() - wi.mean()), 4),
+            "difference_ci95": [
+                round(float(np.percentile(diffs, 2.5)), 4),
+                round(float(np.percentile(diffs, 97.5)), 4),
+            ],
+        }
     return {
+        "domain": DOMAIN.name,
+        "negation": negation,
         "n_questions": len(questions),
         "frame_accuracy": round(float(ok_a.mean()), 4),
         "frame_accuracy_ci95": [
@@ -581,6 +624,15 @@ def write_markdown(name: str, acc: dict, path: Path) -> None:
         f"**{acc['frame_accuracy']}** {acc['frame_accuracy_ci95']}. "
         f"Slot micro-F1 {acc['slot_micro']['f1']}. "
         f"Questions with a span or value note: {acc['unmasked_or_bad_spans']}.",
+        "",
+    ]
+    for k, v in acc.get("negation", {}).items():
+        lines.append(
+            f"Negation ({k}, slot {v['slot']}): excluded value wrong {v['excluded_wrong']} "
+            f"({v['excluded_wrong_rate']}) vs included {v['included_wrong']} "
+            f"({v['included_wrong_rate']}); difference {v['difference']} {v['difference_ci95']}."
+        )
+    lines += [
         "",
         "| Slot | TP | FP | FN | precision | recall | F1 |",
         "|---|---:|---:|---:|---:|---:|---:|",
@@ -635,15 +687,24 @@ def main() -> None:
         default=None,
         help="smoke test: extract the first N questions, print them, write no results",
     )
+    ap.add_argument(
+        "--tag",
+        default="",
+        help="suffix for a repeat run's folder (e.g. r2), so repeats never share raw.jsonl",
+    )
     args = ap.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
 
-    questions, ref = load(args.data)
+    questions, ref, domain = load(args.data)
+    _use_domain(domain)
     if args.limit:
         questions = questions[: args.limit]
     kind, _, model = args.extractor.partition(":")
-    out_dir = args.out / re.sub(r"[^A-Za-z0-9._-]+", "_", args.extractor)
+    if kind == "duckling" and domain.name != "finance":
+        raise SystemExit("the Duckling arm is defined for the finance domain only")
+    name = args.extractor + (f"_{args.tag}" if args.tag else "")
+    out_dir = args.out / re.sub(r"[^A-Za-z0-9._-]+", "_", name)
     if kind == "gold":
         ext = extract_gold(questions, ref)
     elif kind == "duckling":
@@ -678,7 +739,7 @@ def main() -> None:
         for q in questions:
             f.write(json.dumps({"id": q["id"], **ext[q["id"]]}) + "\n")
     acc = score(questions, ext, args.bootstrap, args.seed)
-    acc["extractor"] = args.extractor
+    acc["extractor"] = name
     (out_dir / "accuracy.json").write_text(json.dumps(acc, indent=2) + "\n", encoding="utf-8")
     write_markdown(args.extractor, acc, out_dir / "accuracy.md")
     print((out_dir / "accuracy.md").read_text(encoding="utf-8"))

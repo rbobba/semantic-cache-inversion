@@ -18,6 +18,7 @@ before embedding anything.
 Usage:
     python generate_dataset.py --out data                # v1, frozen
     python generate_dataset.py --v2 --out data_v2        # v2, README section 11
+    python generate_dataset.py --multi-domain --out data_md   # 4 domains, section 14
 
 v2 changes, each answering a defect v1 exposed (v1 itself is never altered):
   - "last year" gains a date-free alias ("in the previous year"). v1 had none,
@@ -39,308 +40,33 @@ import hashlib
 import itertools
 import json
 import random
-from collections import Counter
+from collections import Counter, defaultdict
 from dataclasses import dataclass, field
-from datetime import date, timedelta
+from datetime import date
 from pathlib import Path
+
+# Re-exported: earlier code and the README refer to these names here.
+from domains import (  # noqa: F401
+    CATEGORY_SURFACES,
+    DOMAINS,
+    FILTERED_INTENTS,
+    FINANCE,
+    HUMAN_PERIODS,
+    INTENT_RELATIONS,
+    INTENTS,
+    PERIOD_NEIGHBORS,
+    PERIOD_SURFACES,
+    REFERENCE_DATE,
+    SLOTS,
+    Domain,
+    _period_ranges,
+)
 
 GENERATOR_VERSION = "1.0.0"
 
-# Relative periods ("last month") only have a meaning against a date. Fixing
-# it here is what lets "last month" and "in September 2026" be labelled
-# equivalent without anyone arguing about it.
-REFERENCE_DATE = date(2026, 10, 27)
 
-
-# ── Parameter vocabularies ───────────────────────────────────────────────
-#
-# surfaces[0] is the canonical wording. Further surfaces are equivalent
-# wordings of the SAME value — they produce positives that differ from the
-# anchor by a single span, the fair counterpart to a one-span near-miss.
-#
-# neighbors are deliberately the most confusable other values: a corpus of
-# unrelated questions would show zero false reuse at every threshold and
-# prove nothing.
-
-
-def _month(year: int, month: int) -> tuple[date, date]:
-    start = date(year, month, 1)
-    nxt = date(year + (month == 12), month % 12 + 1, 1)
-    return start, nxt - timedelta(days=1)
-
-
-def _period_ranges(ref: date) -> dict[str, tuple[date, date]]:
-    week_start = ref - timedelta(days=ref.weekday())  # Monday
-    this_month_start = ref.replace(day=1)
-    prev = (ref.year, ref.month - 1) if ref.month > 1 else (ref.year - 1, 12)
-    last_month = _month(*prev)
-    return {
-        "this_month": (this_month_start, ref),
-        "last_month": last_month,
-        "aug_2026": _month(2026, 8),
-        "this_year": (date(ref.year, 1, 1), ref),
-        "last_year": (date(ref.year - 1, 1, 1), date(ref.year - 1, 12, 31)),
-        "last_12_months": (ref - timedelta(days=364), ref),
-        "this_week": (week_start, ref),
-        "last_week": (week_start - timedelta(days=7), week_start - timedelta(days=1)),
-        "last_30_days": (ref - timedelta(days=29), ref),
-        "last_3_months": (ref - timedelta(days=91), ref),
-        "last_6_months": (ref - timedelta(days=182), ref),
-        "q3_2026": (date(2026, 7, 1), date(2026, 9, 30)),
-        "q2_2026": (date(2026, 4, 1), date(2026, 6, 30)),
-    }
-
-
-PERIOD_SURFACES: dict[str, list[str]] = {
-    "this_month": ["this month", "so far this month", "in October 2026"],
-    "last_month": ["last month", "in the previous month", "in September 2026"],
-    "aug_2026": ["in August 2026", "during August 2026"],
-    "this_year": ["this year", "so far this year", "year to date", "in 2026"],
-    "last_year": ["last year", "in 2025", "during 2025"],
-    "last_12_months": ["in the last 12 months", "over the past twelve months"],
-    "this_week": ["this week", "so far this week"],
-    "last_week": ["last week", "in the previous week"],
-    "last_30_days": ["in the last 30 days", "over the past 30 days"],
-    "last_3_months": ["in the last 3 months", "over the past three months"],
-    "last_6_months": ["in the last 6 months", "over the past six months"],
-    "q3_2026": ["in Q3 2026", "in the third quarter of 2026"],
-    "q2_2026": ["in Q2 2026", "in the second quarter of 2026"],
-}
-
-# kind -> neighbours. "adjacent" is the same granularity shifted in time
-# (this month vs last month); "granularity" is an overlapping window of a
-# different shape (last month vs last 30 days). Both change the SQL.
-PERIOD_NEIGHBORS: dict[str, dict[str, list[str]]] = {
-    "this_month": {"adjacent": ["last_month"], "granularity": ["last_30_days", "this_week"]},
-    "last_month": {"adjacent": ["this_month", "aug_2026"], "granularity": ["last_30_days"]},
-    "this_year": {"adjacent": ["last_year"], "granularity": ["last_12_months"]},
-    "last_year": {"adjacent": ["this_year"], "granularity": ["last_12_months"]},
-    "this_week": {"adjacent": ["last_week"], "granularity": ["this_month"]},
-    "last_3_months": {"adjacent": [], "granularity": ["q3_2026", "last_6_months"]},
-    "q3_2026": {"adjacent": ["q2_2026"], "granularity": ["last_3_months"]},
-}
-ANCHOR_PERIODS = list(PERIOD_NEIGHBORS)
-
-MERCHANT_SURFACES: dict[str, list[str]] = {
-    "costco": ["Costco", "Costco Wholesale"],
-    "target": ["Target"],
-    "walmart": ["Walmart"],
-    "amazon": ["Amazon", "Amazon.com"],
-    "whole_foods": ["Whole Foods", "Whole Foods Market"],
-    "trader_joes": ["Trader Joe's", "Trader Joes"],
-    "starbucks": ["Starbucks"],
-    "dunkin": ["Dunkin'", "Dunkin Donuts"],
-    "uber": ["Uber"],
-    "lyft": ["Lyft"],
-    "netflix": ["Netflix"],
-    "spotify": ["Spotify"],
-    "shell": ["Shell"],
-    "chevron": ["Chevron"],
-    "home_depot": ["Home Depot"],
-    "lowes": ["Lowe's", "Lowes"],
-}
-MERCHANT_NEIGHBORS: dict[str, list[str]] = {
-    "costco": ["walmart", "target"],
-    "target": ["walmart", "costco"],
-    "walmart": ["target", "costco"],
-    "amazon": ["target"],
-    "whole_foods": ["trader_joes"],
-    "trader_joes": ["whole_foods"],
-    "starbucks": ["dunkin"],
-    "dunkin": ["starbucks"],
-    "uber": ["lyft"],
-    "lyft": ["uber"],
-    "netflix": ["spotify"],
-    "spotify": ["netflix"],
-    "shell": ["chevron"],
-    "chevron": ["shell"],
-    "home_depot": ["lowes"],
-    "lowes": ["home_depot"],
-}
-
-# "grocery shopping" (a groceries alias, so a positive) against "shopping"
-# (a different category, so a negative) is intentional: the negative shares
-# more tokens with the anchor than the positive does.
-CATEGORY_SURFACES: dict[str, list[str]] = {
-    "groceries": ["groceries", "grocery shopping"],
-    "dining": ["dining out", "restaurants", "eating out"],
-    "gas": ["gas", "fuel"],
-    "travel": ["travel"],
-    "utilities": ["utilities", "utility bills"],
-    "subscriptions": ["subscriptions", "subscription services"],
-    "entertainment": ["entertainment"],
-    "shopping": ["shopping"],
-}
-CATEGORY_NEIGHBORS: dict[str, list[str]] = {
-    "groceries": ["dining", "shopping"],
-    "dining": ["groceries"],
-    "gas": ["travel"],
-    "travel": ["gas"],
-    "utilities": ["subscriptions"],
-    "subscriptions": ["utilities", "entertainment"],
-    "entertainment": ["subscriptions"],
-    "shopping": ["groceries"],
-}
-
-ACCOUNT_SURFACES: dict[str, list[str]] = {
-    "checking": ["checking account", "checking"],
-    "savings": ["savings account", "savings"],
-    "visa": ["Visa card", "Visa"],
-    "amex": ["Amex card", "American Express card"],
-}
-ACCOUNT_NEIGHBORS: dict[str, list[str]] = {
-    "checking": ["savings"],
-    "savings": ["checking"],
-    "visa": ["amex"],
-    "amex": ["visa"],
-}
-
-AMOUNT_SURFACES: dict[int, list[str]] = {
-    100: ["$100", "100 dollars"],
-    200: ["$200", "200 dollars"],
-    500: ["$500", "500 dollars"],
-    1000: ["$1,000", "1,000 dollars"],
-}
-AMOUNT_NEIGHBORS: dict[int, list[int]] = {
-    100: [200],
-    200: [100, 500],
-    500: [200, 1000],
-    1000: [500],
-}
-
-TOPN_SURFACES: dict[int, list[str]] = {3: ["3", "three"], 5: ["5", "five"], 10: ["10", "ten"]}
-TOPN_NEIGHBORS: dict[int, list[int]] = {3: [5], 5: [3, 10], 10: [5]}
-
-# slot -> (surfaces, neighbours, anchor-eligible values, placeholder)
-SLOTS: dict[str, tuple[dict, dict, list, str]] = {
-    "period": (PERIOD_SURFACES, PERIOD_NEIGHBORS, ANCHOR_PERIODS, "[PERIOD]"),
-    "merchant": (MERCHANT_SURFACES, MERCHANT_NEIGHBORS, list(MERCHANT_SURFACES), "[MERCHANT]"),
-    "category": (CATEGORY_SURFACES, CATEGORY_NEIGHBORS, list(CATEGORY_SURFACES), "[CATEGORY]"),
-    "account": (ACCOUNT_SURFACES, ACCOUNT_NEIGHBORS, list(ACCOUNT_SURFACES), "[ACCOUNT]"),
-    "amount": (AMOUNT_SURFACES, AMOUNT_NEIGHBORS, list(AMOUNT_SURFACES), "[AMOUNT]"),
-    "n": (TOPN_SURFACES, TOPN_NEIGHBORS, list(TOPN_SURFACES), "[N]"),
-}
-
-
-# ── Intents ──────────────────────────────────────────────────────────────
-#
-# Slot placeholders only ever appear in noun position ("at {merchant}", "on
-# {category}"), so every alias reads grammatically in every template.
-
-INTENTS: dict[str, list[str]] = {
-    "merchant_spend_total": [
-        "How much did I spend at {merchant} {period}?",
-        "What was my total spending at {merchant} {period}?",
-        "How much money went to {merchant} {period}?",
-        "Total spent at {merchant} {period}",
-        "What did I pay {merchant} in total {period}?",
-        "Sum of my purchases at {merchant} {period}",
-    ],
-    "merchant_txn_count": [
-        "How many transactions did I have at {merchant} {period}?",
-        "How many times did I pay {merchant} {period}?",
-        "Number of purchases at {merchant} {period}",
-        "How often did I buy from {merchant} {period}?",
-        "Count my transactions at {merchant} {period}",
-    ],
-    "merchant_avg": [
-        "What was my average purchase at {merchant} {period}?",
-        "How much did I spend per transaction at {merchant} {period}, on average?",
-        "Average transaction amount at {merchant} {period}",
-        "On average, how much did each purchase at {merchant} cost {period}?",
-    ],
-    "merchant_refunds": [
-        "How much did I get refunded from {merchant} {period}?",
-        "Total refunds from {merchant} {period}",
-        "How much money did {merchant} give back to me {period}?",
-        "What was the total of my returns to {merchant} {period}?",
-    ],
-    "category_spend_total": [
-        "How much did I spend on {category} {period}?",
-        "What was my spending on {category} {period}?",
-        "Total spent on {category} {period}",
-        "How much money went to {category} {period}?",
-        "What did {category} cost me {period}?",
-    ],
-    "category_spend_excluding": [
-        "How much did I spend on everything except {category} {period}?",
-        "What was my total spending {period}, not counting {category}?",
-        "Total spent on everything but {category} {period}",
-        "How much did I spend {period} excluding {category}?",
-    ],
-    "account_spend_total": [
-        "How much did I spend from my {account} {period}?",
-        "Total outflows from my {account} {period}",
-        "How much money left my {account} {period}?",
-        "What went out of my {account} {period}?",
-    ],
-    "total_spend": [
-        "How much did I spend {period}?",
-        "What was my total spending {period}?",
-        "How much money did I spend in total {period}?",
-        "Total expenses {period}",
-        "What were my overall expenses {period}?",
-    ],
-    "income_total": [
-        "How much income did I receive {period}?",
-        "What was my total income {period}?",
-        "How much did I earn {period}?",
-        "Total money coming in {period}",
-    ],
-    "net_cash_flow": [
-        "What was my net cash flow {period}?",
-        "How much more did I earn than I spent {period}?",
-        "Income minus expenses {period}",
-        "What was left over after expenses {period}?",
-    ],
-    "largest_purchase": [
-        "What was my largest purchase {period}?",
-        "What was the biggest single thing I bought {period}?",
-        "Show my most expensive transaction {period}",
-        "Largest charge {period}",
-    ],
-    "top_merchants": [
-        "What were my top {n} merchants by spending {period}?",
-        "Which {n} merchants did I spend the most at {period}?",
-        "Show my {n} biggest merchants {period}",
-        "Top {n} places I spent money {period}",
-    ],
-    "top_categories": [
-        "What were my top {n} spending categories {period}?",
-        "Which {n} categories did I spend the most on {period}?",
-        "Show my {n} biggest expense categories {period}",
-        "Top {n} categories by spending {period}",
-    ],
-    "large_transactions": [
-        "Show me transactions over {amount} {period}",
-        "Which purchases were above {amount} {period}?",
-        "List every charge bigger than {amount} {period}",
-        "Any spending above {amount} {period}?",
-    ],
-}
-
-# Intent pairs that share every parameter and differ only in what is computed.
-# These are the near-misses that parameter separation does NOT address — they
-# are in the corpus so the paper can say so with numbers.
-INTENT_RELATIONS: list[tuple[str, str, str]] = [
-    ("merchant_spend_total", "merchant_txn_count", "aggregation"),
-    ("merchant_spend_total", "merchant_avg", "aggregation"),
-    ("merchant_txn_count", "merchant_avg", "aggregation"),
-    ("merchant_spend_total", "merchant_refunds", "direction"),
-    ("category_spend_total", "category_spend_excluding", "negation"),
-    ("total_spend", "income_total", "direction"),
-    ("total_spend", "net_cash_flow", "measure"),
-    ("income_total", "net_cash_flow", "measure"),
-    ("total_spend", "largest_purchase", "aggregation"),
-    ("top_merchants", "top_categories", "grouping"),
-]
-
-# Anchors with a filter, whose near-miss is the same question without it.
-FILTERED_INTENTS = {"merchant_spend_total", "category_spend_total", "account_spend_total"}
-
-
-def slots_of(template: str) -> list[str]:
-    return [s for s in SLOTS if "{" + s + "}" in template]
+def slots_of(domain: Domain, template: str) -> list[str]:
+    return [s for s in domain.slots if "{" + s + "}" in template]
 
 
 # ── Rendering ────────────────────────────────────────────────────────────
@@ -353,16 +79,17 @@ class Question:
     values: tuple[tuple[str, object], ...]  # (slot, value key), slot order
     surface_idx: tuple[tuple[str, int], ...]  # (slot, surface index)
 
-    @property
-    def template(self) -> str:
-        return INTENTS[self.intent][self.template_id]
+    def template(self, domain: Domain) -> str:
+        return domain.intents[self.intent][self.template_id]
 
-    def text(self) -> str:
+    def text(self, domain: Domain) -> str:
         surf = dict(self.surface_idx)
-        return self.template.format(**{s: SLOTS[s][0][v][surf.get(s, 0)] for s, v in self.values})
+        return self.template(domain).format(
+            **{s: domain.slots[s][0][v][surf.get(s, 0)] for s, v in self.values}
+        )
 
-    def masked_text(self) -> str:
-        return self.template.format(**{s: SLOTS[s][3] for s, _ in self.values})
+    def masked_text(self, domain: Domain) -> str:
+        return self.template(domain).format(**{s: domain.slots[s][3] for s, _ in self.values})
 
     def normalised_params(self, ranges: dict[str, tuple[date, date]]) -> dict[str, object]:
         out: dict[str, object] = {}
@@ -377,6 +104,7 @@ class Question:
 
 @dataclass
 class Builder:
+    domain: Domain
     rng: random.Random
     ranges: dict[str, tuple[date, date]]
     questions: dict[str, dict] = field(default_factory=dict)  # text -> record
@@ -385,7 +113,7 @@ class Builder:
     cache_templates: dict[str, set[int]] | None = None
 
     def add(self, q: Question, *, is_anchor: bool, group: str) -> dict:
-        text = q.text()
+        text = q.text(self.domain)
         gold = {"intent": q.intent, "params": q.normalised_params(self.ranges)}
         if text in self.questions:
             rec = self.questions[text]
@@ -396,7 +124,7 @@ class Builder:
         rec = {
             "id": f"q{len(self.questions) + 1:04d}",
             "text": text,
-            "masked_text": q.masked_text(),
+            "masked_text": q.masked_text(self.domain),
             "intent": q.intent,
             "template_id": q.template_id,
             "slots": [s for s, _ in q.values],
@@ -440,18 +168,21 @@ def _with_value(
     return Question(q.intent, q.template_id if template_id is None else template_id, values, surf)
 
 
-def _other_template(rng: random.Random, intent: str, exclude: int) -> int:
-    choices = [i for i in range(len(INTENTS[intent])) if i != exclude]
+def _other_template(rng: random.Random, domain: Domain, intent: str, exclude: int) -> int:
+    choices = [i for i in range(len(domain.intents[intent])) if i != exclude]
     return rng.choice(choices)
 
 
-def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
+def build(
+    seed: int, anchors_per_intent: int, v2: bool = False, domain: Domain = FINANCE
+) -> Builder:
     rng = random.Random(seed)
-    b = Builder(rng=rng, ranges=_period_ranges(REFERENCE_DATE))
+    b = Builder(domain=domain, rng=rng, ranges=_period_ranges(REFERENCE_DATE))
+    intents, slots_map = domain.intents, domain.slots
     query_templates: dict[str, list[int]] = {}
     if v2:
         b.cache_templates = {}
-        for intent, templates in INTENTS.items():
+        for intent, templates in intents.items():
             ids = list(range(len(templates)))
             rng.shuffle(ids)
             k = (len(ids) + 1) // 2
@@ -461,9 +192,9 @@ def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
     def query_template(intent: str) -> int:
         return rng.choice(query_templates[intent])
 
-    for intent, templates in INTENTS.items():
-        slots = slots_of(templates[0])
-        combos = list(itertools.product(*(SLOTS[s][2] for s in slots)))
+    for intent, templates in intents.items():
+        slots = slots_of(domain, templates[0])
+        combos = list(itertools.product(*(slots_map[s][2] for s in slots)))
         rng.shuffle(combos)
         for combo in combos[:anchors_per_intent]:
             if v2:
@@ -489,7 +220,7 @@ def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
                 )
 
             for slot, value in values:
-                surfaces, neighbors, _, _ = SLOTS[slot]
+                surfaces, neighbors, _, _ = slots_map[slot]
 
                 # 2. Equivalent surface: one span reworded, same value, SAME
                 #    template — a one-span positive to set against the
@@ -519,7 +250,11 @@ def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
                             anchor, _with_value(anchor_q, slot, nv), "param_near_miss", slot, kind
                         )
                         if first:
-                            t = query_template(intent) if v2 else _other_template(rng, intent, t0)
+                            t = (
+                                query_template(intent)
+                                if v2
+                                else _other_template(rng, domain, intent, t0)
+                            )
                             b.pair(
                                 anchor,
                                 _with_value(anchor_q, slot, nv, template_id=t),
@@ -530,11 +265,11 @@ def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
                             first = False
 
             # 4. Intent near-miss: same parameters, different computation.
-            for a, c, dim in INTENT_RELATIONS:
+            for a, c, dim in domain.intent_relations:
                 if intent not in (a, c):
                     continue
                 other = c if intent == a else a
-                t = query_template(other) if v2 else rng.randrange(len(INTENTS[other]))
+                t = query_template(other) if v2 else rng.randrange(len(intents[other]))
                 b.pair(
                     anchor,
                     Question(other, t, values, anchor_q.surface_idx),
@@ -545,28 +280,22 @@ def build(seed: int, anchors_per_intent: int, v2: bool = False) -> Builder:
 
             # 5. Filter change: drop the filter, or add one.
             vals = dict(values)
-            if intent in FILTERED_INTENTS:
-                t = (
-                    query_template("total_spend")
-                    if v2
-                    else rng.randrange(len(INTENTS["total_spend"]))
-                )
-                q = Question("total_spend", t, (("period", vals["period"]),), (("period", 0),))
-                b.pair(anchor, q, "filter_change", "filter_dropped", "total_spend")
-            if intent == "total_spend":
-                cat = rng.choice(list(CATEGORY_SURFACES))
-                t = (
-                    query_template("category_spend_total")
-                    if v2
-                    else rng.randrange(len(INTENTS["category_spend_total"]))
-                )
+            if intent in domain.filter_drop:
+                base = domain.filter_drop[intent]
+                t = query_template(base) if v2 else rng.randrange(len(intents[base]))
+                q = Question(base, t, (("period", vals["period"]),), (("period", 0),))
+                b.pair(anchor, q, "filter_change", "filter_dropped", base)
+            if domain.filter_add and intent == domain.filter_add[0]:
+                _, target, slot = domain.filter_add
+                value = rng.choice(list(slots_map[slot][0]))
+                t = query_template(target) if v2 else rng.randrange(len(intents[target]))
                 q = Question(
-                    "category_spend_total",
+                    target,
                     t,
-                    (("category", cat), ("period", vals["period"])),
-                    (("category", 0), ("period", 0)),
+                    ((slot, value), ("period", vals["period"])),
+                    ((slot, 0), ("period", 0)),
                 )
-                b.pair(anchor, q, "filter_change", "filter_added", "category_spend_total")
+                b.pair(anchor, q, "filter_change", "filter_added", target)
     return b
 
 
@@ -579,39 +308,6 @@ def _sha256(path: Path) -> str:
 # Writers get the MEANING of a question — a goal and its values — never a
 # template, so their wording is their own. Goals are terse noun phrases on
 # purpose: a full sentence would be copied.
-
-HUMAN_GOALS = {
-    "merchant_spend_total": "total amount spent at a merchant",
-    "merchant_txn_count": "number of transactions at a merchant",
-    "merchant_avg": "average amount per transaction at a merchant",
-    "merchant_refunds": "total refunds received from a merchant",
-    "category_spend_total": "total spent in one spending category",
-    "category_spend_excluding": "total spending on everything EXCEPT one category",
-    "account_spend_total": "total money that went out of one account",
-    "total_spend": "total spending overall",
-    "income_total": "total income received",
-    "net_cash_flow": "income minus spending",
-    "largest_purchase": "the single largest purchase",
-    "top_merchants": "the top N merchants by amount spent",
-    "top_categories": "the top N spending categories by amount",
-    "large_transactions": "every transaction above a dollar amount",
-}
-
-HUMAN_PERIODS = {
-    "this_month": "the current month so far (Oct 1 - Oct 27, 2026)",
-    "last_month": "the previous calendar month (Sep 1 - Sep 30, 2026)",
-    "aug_2026": "August 2026 (Aug 1 - Aug 31)",
-    "this_year": "this calendar year so far (Jan 1 - Oct 27, 2026)",
-    "last_year": "the previous calendar year (all of 2025)",
-    "last_12_months": "a rolling 12-month window ending today (Oct 28, 2025 - Oct 27, 2026)",
-    "this_week": "the current week so far (Mon Oct 26 - Tue Oct 27, 2026)",
-    "last_week": "the previous calendar week (Mon Oct 19 - Sun Oct 25, 2026)",
-    "last_30_days": "a rolling 30-day window ending today (Sep 28 - Oct 27, 2026)",
-    "last_3_months": "a rolling 3-month window ending today (Jul 28 - Oct 27, 2026)",
-    "last_6_months": "a rolling 6-month window ending today (Apr 28 - Oct 27, 2026)",
-    "q3_2026": "the third quarter of 2026 (Jul 1 - Sep 30)",
-    "q2_2026": "the second quarter of 2026 (Apr 1 - Jun 30)",
-}
 
 HUMAN_INSTRUCTIONS = """\
 # Writing questions for the personal-finance study
@@ -642,9 +338,74 @@ the way you would actually type it into the app.
 There are no wrong answers except questions that change the meaning.
 """
 
+HUMAN_INSTRUCTIONS_MULTI = """\
+# Writing questions for an analytics study
+
+Thank you for helping. This takes about 75 minutes, and you can stop and
+resume at any time.
+
+Imagine four different apps, each of which can answer questions about data
+you look after. You type questions to them in plain English:
+
+- **Your personal finances:** an app that has read your bank and card statements.
+- **Your retail business:** your company's online, in-store and wholesale sales.
+- **The outpatient clinic network you manage:** visits, waits, referrals and billing.
+- **The IT support organization you lead:** tickets, teams, priorities and services.
+
+The `context` column of each row says which one the question is for.
+
+**Today is Tuesday, October 27, 2026.**
+
+Each row describes something you want to know: a goal, the values involved
+(for example a merchant, a product, a clinic, a ticket priority, an amount or a
+number N), and a time period. Write **one question** in the `question` column,
+the way you would actually type it into that app.
+
+- **Use your own words.** Do not copy the wording of the goal or the period.
+  Ask it however feels natural, short or long, casual or precise.
+- **Say the time period however you naturally would.** "Last month",
+  "September" and "in Sep" are all fine if they mean the period described. The
+  dates are there so you know exactly which period is meant.
+- **Keep the meaning exact.** If the row says "every region EXCEPT the West",
+  the question must exclude the West. If it says "top 5", ask for five.
+- **Work alone.** Do not look at anyone else's sheet, and do not ask an AI
+  assistant to write or reword the questions.
+- Put your initials in the `writer` column of every row.
+
+There are no wrong answers except questions that change the meaning. Your
+questions may be published, without your name, in an open research dataset;
+please tell the person who sent you this sheet if you do not agree.
+"""
+
+
+def _spec(domain: Domain, a: dict, values: dict, kind: str) -> dict:
+    detail = []
+    for slot in domain.slot_order:
+        if slot != "period" and slot in values:
+            surface = domain.slots[slot][0][values[slot]][0]
+            detail.append(f"{domain.slot_labels[slot]}: {surface}")
+    return {
+        "domain": domain.name,
+        "anchor_id": a["id"],
+        "kind": kind,
+        "intent": a["intent"],
+        "values": json.dumps(values),
+        "goal": domain.human_goals[a["intent"]],
+        "details": "; ".join(detail),
+        "period": HUMAN_PERIODS[values["period"]],
+    }
+
+
+def _neighbour_period(rng: random.Random, period: str) -> str | None:
+    options = [v for vs in PERIOD_NEIGHBORS.get(period, {}).values() for v in vs]
+    return rng.choice(options) if options else None
+
 
 def write_human_specs(b: Builder, out: Path, seed: int) -> None:
-    """One spec per cached question: even positions ask the same thing (a
+    """Finance-only v2 sheet (data_v2), kept so data_v2 regenerates exactly.
+    Superseded by the multi-domain sheet (write_human_specs_multi).
+
+    One spec per cached question: even positions ask the same thing (a
     positive), odd positions the same thing over a neighbouring period (a
     near-miss). Labels come from the spec, so the writer cannot change them."""
     rng = random.Random(seed + 2)
@@ -654,27 +415,13 @@ def write_human_specs(b: Builder, out: Path, seed: int) -> None:
         values = dict(a["values"])
         kind = "same_meaning"
         if i % 2 == 1:
-            options = [v for vs in PERIOD_NEIGHBORS.get(values["period"], {}).values() for v in vs]
-            if options:
-                values["period"] = rng.choice(options)
+            nv = _neighbour_period(rng, values["period"])
+            if nv:
+                values["period"] = nv
                 kind = "different_period"
-        detail = []
-        for slot in ("merchant", "category", "account", "amount", "n"):
-            if slot in values:
-                surface = SLOTS[slot][0][values[slot]][0]
-                detail.append(f"{'N' if slot == 'n' else slot}: {surface}")
-        rows.append(
-            {
-                "spec_id": f"s{i + 1:03d}",
-                "anchor_id": a["id"],
-                "kind": kind,
-                "intent": a["intent"],
-                "values": json.dumps(values),
-                "goal": HUMAN_GOALS[a["intent"]],
-                "details": "; ".join(detail),
-                "period": HUMAN_PERIODS[values["period"]],
-            }
-        )
+        spec = _spec(b.domain, a, values, kind)
+        del spec["domain"]
+        rows.append({"spec_id": f"s{i + 1:03d}", **spec})
     # The writer's sheet hides everything that would hint at the study design.
     shuffled = rows[:]
     rng.shuffle(shuffled)
@@ -689,9 +436,64 @@ def write_human_specs(b: Builder, out: Path, seed: int) -> None:
     (out / "human_writer_instructions.md").write_text(HUMAN_INSTRUCTIONS, encoding="utf-8")
 
 
+def write_human_specs_multi(
+    builders: list[Builder], out: Path, seed: int, per_domain: int
+) -> list[str]:
+    """One mixed sheet across domains (README section 14).
+
+    Per domain, `per_domain` cached questions are drawn round-robin across
+    intents so every intent is covered, alternating a same-meaning spec (a
+    positive) with the same spec over a neighbouring period (a near-miss).
+    All rows are shuffled together and numbered after shuffling, so neither
+    the order nor the ids reveal domain, intent or kind.
+    """
+    rng = random.Random(seed + 3)
+    rows = []
+    for b in builders:
+        by_intent: dict[str, list[dict]] = defaultdict(list)
+        for r in sorted(b.questions.values(), key=lambda r: r["id"]):
+            if r["is_anchor"]:
+                by_intent[r["intent"]].append(r)
+        for lst in by_intent.values():
+            rng.shuffle(lst)
+        picked: list[dict] = []
+        while len(picked) < per_domain and any(by_intent.values()):
+            for intent in b.domain.intents:
+                if by_intent[intent] and len(picked) < per_domain:
+                    picked.append(by_intent[intent].pop())
+        for i, a in enumerate(picked):
+            values = dict(a["values"])
+            kind = "same_meaning"
+            if i % 2 == 1:
+                nv = _neighbour_period(rng, values["period"])
+                if nv:
+                    values["period"] = nv
+                    kind = "different_period"
+            rows.append({**_spec(b.domain, a, values, kind), "context": b.domain.human_context})
+    rng.shuffle(rows)
+    for i, r in enumerate(rows):
+        r["spec_id"] = f"s{i + 1:03d}"
+    with (out / "human_spec_sheet.csv").open("w", encoding="utf-8", newline="") as f:
+        w = csv.writer(f)
+        w.writerow(["spec_id", "context", "goal", "details", "period", "question", "writer"])
+        for r in rows:
+            w.writerow([r["spec_id"], r["context"], r["goal"], r["details"], r["period"], "", ""])
+    with (out / "human_spec_key.jsonl").open("w", encoding="utf-8", newline="\n") as f:
+        for r in rows:
+            f.write(json.dumps(r) + "\n")
+    (out / "human_writer_instructions.md").write_text(HUMAN_INSTRUCTIONS_MULTI, encoding="utf-8")
+    return ["human_spec_sheet.csv", "human_spec_key.jsonl", "human_writer_instructions.md"]
+
+
 def write(
-    b: Builder, out: Path, seed: int, anchors_per_intent: int, version: str = GENERATOR_VERSION
-) -> None:
+    b: Builder,
+    out: Path,
+    seed: int,
+    anchors_per_intent: int,
+    version: str = GENERATOR_VERSION,
+    human: bool = True,
+    record_domain: bool = False,
+) -> dict:
     out.mkdir(parents=True, exist_ok=True)
     questions = sorted(b.questions.values(), key=lambda r: r["id"])
 
@@ -714,10 +516,13 @@ def write(
 
     counts = Counter((p["relation"], p["dimension"], p["kind"]) for p in b.pairs)
     files = ["questions.jsonl", "pairs.jsonl", "review_sheet.csv"]
-    if b.cache_templates is not None:
+    if b.cache_templates is not None and human:
         write_human_specs(b, out, seed)
         files += ["human_spec_sheet.csv", "human_spec_key.jsonl"]
-    manifest = {
+    manifest: dict = {}
+    if record_domain:
+        manifest["domain"] = b.domain.name
+    manifest |= {
         "generator_version": version,
         "seed": seed,
         "anchors_per_intent": anchors_per_intent,
@@ -742,9 +547,14 @@ def write(
     (out / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     print(
         json.dumps(
-            {k: manifest[k] for k in manifest if k not in ("pairs_by_type", "sha256")}, indent=2
+            {
+                k: manifest[k]
+                for k in manifest
+                if k not in ("pairs_by_type", "sha256", "cache_templates")
+            }
         )
     )
+    return manifest
 
 
 def main() -> None:
@@ -755,15 +565,46 @@ def main() -> None:
     ap.add_argument("--seed", type=int, default=20261027)
     ap.add_argument("--anchors-per-intent", type=int, default=10)
     ap.add_argument("--v2", action="store_true", help="dataset v2 (see the module docstring)")
+    ap.add_argument(
+        "--multi-domain",
+        action="store_true",
+        help="v2 rules for every domain in domains.py, one folder each, plus one mixed "
+        "human spec sheet (README section 14)",
+    )
+    ap.add_argument("--human-per-domain", type=int, default=40)
     args = ap.parse_args()
-    if args.v2:
+    if args.v2 or args.multi_domain:
         # A date-free alias for "last year", which v1 lacked. Appended, so
         # surfaces[0] stays the canonical wording.
         PERIOD_SURFACES["last_year"].append("in the previous year")
-    b = build(args.seed, args.anchors_per_intent, v2=args.v2)
-    write(
-        b, args.out, args.seed, args.anchors_per_intent, "2.0.0" if args.v2 else GENERATOR_VERSION
-    )
+    if not args.multi_domain:
+        b = build(args.seed, args.anchors_per_intent, v2=args.v2)
+        write(
+            b,
+            args.out,
+            args.seed,
+            args.anchors_per_intent,
+            "2.0.0" if args.v2 else GENERATOR_VERSION,
+        )
+        return
+    builders, top = [], {"generator_version": "3.0.0", "seed": args.seed, "domains": {}}
+    for d in DOMAINS.values():
+        b = build(args.seed, args.anchors_per_intent, v2=True, domain=d)
+        m = write(
+            b,
+            args.out / d.name,
+            args.seed,
+            args.anchors_per_intent,
+            "3.0.0",
+            human=False,
+            record_domain=True,
+        )
+        builders.append(b)
+        top["domains"][d.name] = {"n_questions": m["n_questions"], "sha256": m["sha256"]}
+    files = write_human_specs_multi(builders, args.out, args.seed, args.human_per_domain)
+    top["human_per_domain"] = args.human_per_domain
+    top["sha256"] = {f: _sha256(args.out / f) for f in files}
+    (args.out / "manifest.json").write_text(json.dumps(top, indent=2) + "\n", encoding="utf-8")
 
 
 if __name__ == "__main__":

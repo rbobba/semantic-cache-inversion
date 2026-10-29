@@ -1,0 +1,116 @@
+{
+  "domain": "retail",
+  "generator_version": "3.0.0",
+  "seed": 20261027,
+  "anchors_per_intent": 10,
+  "reference_date": "2026-10-27",
+  "n_questions": 1241,
+  "n_anchors": 128,
+  "n_pairs": 1412,
+  "n_pairs_same_sql": 566,
+  "n_pairs_same_template": 1209,
+  "pairs_by_type": {
+    "equivalent_surface/amount/alias": 10,
+    "equivalent_surface/channel/alias": 10,
+    "equivalent_surface/n/alias": 20,
+    "equivalent_surface/period/alias": 235,
+    "equivalent_surface/product/alias": 15,
+    "equivalent_surface/region/alias": 20,
+    "filter_change/filter_added/region_revenue": 7,
+    "filter_change/filter_dropped/total_revenue": 20,
+    "intent_near_miss/aggregation/largest_order": 7,
+    "intent_near_miss/aggregation/product_avg_price": 20,
+    "intent_near_miss/aggregation/product_revenue": 20,
+    "intent_near_miss/aggregation/product_units": 20,
+    "intent_near_miss/aggregation/total_revenue": 7,
+    "intent_near_miss/direction/product_returns": 10,
+    "intent_near_miss/direction/product_revenue": 10,
+    "intent_near_miss/direction/total_returns": 7,
+    "intent_near_miss/direction/total_revenue": 7,
+    "intent_near_miss/grouping/top_customers": 10,
+    "intent_near_miss/grouping/top_products": 10,
+    "intent_near_miss/measure/net_sales": 14,
+    "intent_near_miss/measure/total_returns": 7,
+    "intent_near_miss/measure/total_revenue": 7,
+    "intent_near_miss/negation/region_revenue": 10,
+    "intent_near_miss/negation/region_revenue_excluding": 10,
+    "param_near_miss/amount/neighbor": 26,
+    "param_near_miss/channel/neighbor": 20,
+    "param_near_miss/n/neighbor": 47,
+    "param_near_miss/period/adjacent": 245,
+    "param_near_miss/period/granularity": 180,
+    "param_near_miss/product/neighbor": 85,
+    "param_near_miss/region/neighbor": 40,
+    "paraphrase/wording/template": 256
+  },
+  "label_rules": {
+    "same_sql": "same intent AND equal normalised params (periods as absolute date ranges vs reference_date)",
+    "same_template": "same intent"
+  },
+  "sha256": {
+    "questions.jsonl": "763ab2ec05490a8ed88af842575ab6529490485a7b172135c51a20e14e18ba67",
+    "pairs.jsonl": "531c4757e5d6dadc7f793ece87f6a52422dc0e92690313f7c5ea7e583adee75f",
+    "review_sheet.csv": "66f84016f8de4fe95be8c3838a5dcf30030fe6254579ec49f938398b843285c7"
+  },
+  "cache_templates": {
+    "product_revenue": [
+      2,
+      3,
+      4
+    ],
+    "product_units": [
+      0,
+      2
+    ],
+    "product_avg_price": [
+      2,
+      3
+    ],
+    "product_returns": [
+      0,
+      2
+    ],
+    "region_revenue": [
+      1,
+      2
+    ],
+    "region_revenue_excluding": [
+      0,
+      2
+    ],
+    "channel_orders": [
+      0,
+      3
+    ],
+    "total_revenue": [
+      0,
+      2,
+      4
+    ],
+    "total_returns": [
+      0,
+      2
+    ],
+    "net_sales": [
+      1,
+      3
+    ],
+    "largest_order": [
+      1,
+      3
+    ],
+    "top_products": [
+      0,
+      3
+    ],
+    "top_customers": [
+      1,
+      3
+    ],
+    "large_orders": [
+      0,
+      3
+    ]
+  },
+  "n_queries_holdout": 479
+}

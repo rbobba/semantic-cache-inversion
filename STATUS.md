@@ -45,16 +45,49 @@ SQL**, and similarity cannot be tuned around them.
 
 ## Open, in priority order
 
-1. **Human-written questions (step 4a).** `data_v2/human_spec_sheet.csv` and
-   `human_writer_instructions.md` go to two people who are not the author.
-   Write their analysis pre-registration **before** opening the filled sheets.
-   Ingestion code is not written yet.
-2. **Run-to-run variance.** Repeat the flash-lite runs twice.
+0. **Four-domain generalisation (README section 14, pre-registered).**
+   - Domains: finance, retail, healthcare and IT support, in `data_md/`.
+   - The author runs `.\run_extractions.ps1`: 24 flash-lite runs plus 4
+     3.5-flash runs.
+   - The agent then runs the embedders and tests G1–G4.
+   - This also covers run-to-run variance, with three repeats.
+1. **Human-written questions (step 4a).** Send `data_md/human_spec_sheet.csv`
+   (160 rows, mixed domains) and `data_md/human_writer_instructions.md` to
+   **three** people who are not the author.
+   - `data_v2/human_spec_sheet.csv` is **superseded**. Do not send it.
+   - Write the analysis pre-registration **before** opening the filled sheets.
+   - Ingestion code is not written yet.
+2. (Merged into item 0.)
 3. **Fresh-generation comparison (step 4d).** Does the cache add errors relative
    to the production NLQ, which writes relative SQL?
 4. **Blind label audit (step 2).** 150 rows of `data/review_sheet.csv`.
 5. A second schema (step 4c). Needed for a major venue; optional for a
    workshop paper.
+
+## Publication plan (agreed 2026-10-28)
+
+The study goes public only once the human-question results are in and the
+claim is final.
+
+**Moving it to its own repo**
+- Use `git subtree split --prefix=research/semantic-cache-inversion` into a
+  separate public repo.
+- **Keep the history.** It is the evidence that each pre-registration came
+  before its results. Every study commit touches only this folder, which was
+  checked. Do **not** squash it to one commit (unlike the finanalyticshub
+  showcase).
+
+**Before the first push**
+- Replace private `backend/...` path references with plain descriptions.
+- Remove the GCP project ID.
+- Add a table mapping old commit hashes to new ones.
+- Licences: MIT or Apache-2.0 for code, CC BY 4.0 for data.
+- Add `CITATION.cff` and a dataset card.
+
+**Release**
+- Tag v1.0, then archive on Zenodo for a DOI.
+- Post an arXiv preprint citing the repo and the DOI.
+- Later: a workshop or conference submission, and a blog post.
 
 ## How the work is split
 

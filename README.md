@@ -1190,3 +1190,125 @@ somewhere different.
 - execution against fresh generation (step 4d)
 - run-to-run variance of the LLM extractors
 - a second schema
+
+---
+
+## 14. Pre-registration: four domains and repeated runs (frozen 2026-10-28)
+
+### Why
+
+Every result so far is personal finance, on one schema. The failure mechanisms
+(relative time, aggregation, negation, direction) are not about money. This
+step tests whether they **generalise**. It also measures run-to-run variance,
+which has not been measured so far.
+
+### Data (`python generate_dataset.py --multi-domain --out data_md`, generator 3.0.0)
+
+| Domain | Questions | Cached | Held-out queries | Negation pair |
+|---|---:|---:|---:|---|
+| finance | 1,295 | 128 | 527 | spend on X / everything except X |
+| retail | 1,241 | 128 | 479 | revenue in a region / every region except one |
+| healthcare (outpatient clinics; synthetic) | 1,399 | 145 | 524 | visits at a clinic / every clinic except one |
+| it_support | 1,202 | 125 | 414 | tickets of a priority / every priority except one |
+
+**Structure.** Every domain has the same construction and the same v2 rules:
+- 14–16 intents, each with 4–5 templates
+- three entity slots with aliases and look-alike neighbours, plus a numeric
+  threshold, a top N and the shared period vocabulary
+- the intent relations: aggregation, direction, negation, measure and grouping
+- filter changes
+- a cache/query template split
+
+**Hashes.** These are in `data_md/manifest.json`; `questions.jsonl` begins:
+
+| Domain | SHA-256 prefix |
+|---|---|
+| finance | `7eabef42` |
+| retail | `763ab2ec` |
+| healthcare | `27e8541f` |
+| it_support | `e2dc8503` |
+
+**Verified before freezing:**
+- `data_md/finance` is byte-identical to `data_v2`.
+- After moving the domain definitions into `domains.py`, v1 and v2 still
+  regenerate byte-for-byte.
+- The finance extraction prompts and schemas, both arms, are byte-identical to
+  the runs already made.
+- The gold check reproduces the oracle exactly in each new domain.
+
+**Disclosed:** the bge run inside that gold check also computed bge's inversion
+and A/B numbers for the three new domains. Only the `split_template` rows were
+printed; nothing else was read.
+
+**Design choices made before any run, after reading generated wordings only:**
+- "patients seen" became "visits", because one patient can visit twice.
+- Ambiguous "make" and "what did we sell" were replaced with explicit revenue
+  wording.
+- Healthcare and IT use top-N of 2, 3 or 5, because there are only 6–8
+  departments or teams.
+- Self-pay was replaced by Medicare Advantage, which is a sharper look-alike for
+  Medicare.
+
+### Runs
+
+**Extraction** (author runs; tags r1–r3; same model, prompt and settings each
+time):
+- `gemini:gemini-3.1-flash-lite` (absolute) and
+  `gemini-rel:gemini-3.1-flash-lite` (relative).
+- Three repeats each, in all four domains: 24 runs.
+- Finance is rerun under `results_md` for uniformity. Its `results_v2` runs are
+  an earlier, independent repeat.
+
+**Secondary:** `gemini-rel:gemini-3.5-flash`, once per domain.
+
+**Embedders (local):** MiniLM, mpnet, bge, and e5 with `query: `. Both
+non-held-out and `--holdout` runs.
+
+### Hypotheses
+
+The three new domains are confirmatory. Finance is already known and is
+reported for completeness.
+
+| Id | Hypothesis | Holds in a domain when | Measured on |
+|---|---|---|---|
+| **G1** | The period inversion generalises | Comparison A's 95% CI lower bound > 0.5 in all four embedders | inversion runs |
+| **G2** | Dates are fixable by design | Relative arm: period-slot errors ≤ 0.5% of questions, in each of r1–r3 | flash-lite relative |
+| **G3** | Negation is asymmetric | Relative arm: excluded-value error rate minus included-value rate has a 95% CI lower bound > 0, in ≥ 2 of r1–r3 (`accuracy.json` → `negation`) | flash-lite relative |
+| **G4** | The template-cache risk outlasts the date fix | F_slots (non-held-out, calibrated threshold) > 1% in all four embedders, in ≥ 2 of r1–r3 | flash-lite relative |
+
+**Verdict per hypothesis:**
+- **Generalises:** holds in all three new domains.
+- **Partially:** holds in one or two.
+- **Does not generalise:** holds in none.
+
+**Reported without a hypothesis:**
+- the absolute arm's period errors
+- strong inversion and comparison B
+- held-out gold template reuse and wrong-intent top-1 rates by relation
+- the similarity AUC
+- 3.5-flash negation rates
+- the spread across r1–r3, as min and max of every headline number
+
+**Predictions, written down and not part of any rule:**
+- G1 holds in all three. The mechanism is the same period wording.
+- G2 holds in all three. Date resolution is domain-independent code.
+- G3 and G4: no confident prediction. The finance negation rate moved with an
+  unrelated prompt change, so it may not transfer.
+
+### Human questions (step 4a), revised
+
+- **Supersedes** `data_v2/human_spec_sheet.csv` (finance-only, never sent).
+- `data_md/human_spec_sheet.csv` has 160 rows: 40 per domain, every intent
+  covered, 80 same-meaning and 80 neighbouring-period. Rows are shuffled across
+  domains, and a `context` column says which "app" each question is for.
+- Send it to three writers. The analysis gets its own pre-registration before
+  the filled sheets are opened.
+
+### Commands (the author, with credentials)
+
+```
+for d in finance retail healthcare it_support; do for t in r1 r2 r3; do
+  python extract.py --data data_md/$d --out results_md/$d/extraction --extractor gemini:gemini-3.1-flash-lite --tag $t --project <project> --workers 2
+  python extract.py --data data_md/$d --out results_md/$d/extraction --extractor gemini-rel:gemini-3.1-flash-lite --tag $t --project <project> --workers 2
+done; python extract.py --data data_md/$d --out results_md/$d/extraction --extractor gemini-rel:gemini-3.5-flash --tag r1 --project <project> --workers 2; done
+```

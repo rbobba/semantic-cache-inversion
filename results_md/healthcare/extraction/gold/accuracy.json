@@ -1,0 +1,138 @@
+{
+  "domain": "healthcare",
+  "negation": {
+    "clinic_visits_excluding vs clinic_visits": {
+      "slot": "clinic",
+      "excluded_wrong": "0/112",
+      "excluded_wrong_rate": 0.0,
+      "included_wrong": "0/114",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0,
+      "difference_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "n_questions": 1399,
+  "frame_accuracy": 1.0,
+  "frame_accuracy_ci95": [
+    1.0,
+    1.0
+  ],
+  "slot_micro": {
+    "tp": 2569,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "slots": {
+    "period": {
+      "tp": 1399,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "department": {
+      "tp": 345,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "clinic": {
+      "tp": 436,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "payer": {
+      "tp": 89,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 95,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 205,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 21,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 36,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 34,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 127,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 17,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 183,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 38,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 189,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 54,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 188,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 184,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 132,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 196,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [],
+  "extractor": "gold"
+}

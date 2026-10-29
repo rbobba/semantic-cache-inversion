@@ -1,0 +1,44 @@
+{
+  "generator_version": "3.0.0",
+  "seed": 20261027,
+  "domains": {
+    "finance": {
+      "n_questions": 1295,
+      "sha256": {
+        "questions.jsonl": "7eabef42c912a2759bc860c6083c9e489a0767a654e416af21323b587062a032",
+        "pairs.jsonl": "8b64ae311cc4e08c3fea928e03aabf051f9e0bfb0125ae5fb0a06da7022e6b10",
+        "review_sheet.csv": "6bc234d7856e7b14c6198384d9364a145b0202a2cf9674818594374da8991987"
+      }
+    },
+    "retail": {
+      "n_questions": 1241,
+      "sha256": {
+        "questions.jsonl": "763ab2ec05490a8ed88af842575ab6529490485a7b172135c51a20e14e18ba67",
+        "pairs.jsonl": "531c4757e5d6dadc7f793ece87f6a52422dc0e92690313f7c5ea7e583adee75f",
+        "review_sheet.csv": "66f84016f8de4fe95be8c3838a5dcf30030fe6254579ec49f938398b843285c7"
+      }
+    },
+    "healthcare": {
+      "n_questions": 1399,
+      "sha256": {
+        "questions.jsonl": "27e8541fa360aeb139480a3cf9874895d9c4e1ca8e78e50144f7ad5b83efb0d3",
+        "pairs.jsonl": "c73b22d8e8a8dc27ba2a9c9142b2af6d025f14023fcf2b3e0c3b4795e50d0855",
+        "review_sheet.csv": "f7422179e00ab7498b2b3af193a9e5b2a55996e45daabacd68e75b1c67bb14e1"
+      }
+    },
+    "it_support": {
+      "n_questions": 1202,
+      "sha256": {
+        "questions.jsonl": "e2dc8503e6a6f5b5b3cfcb74a6d2dffb8a8f94b828263016207ddb1ec798d669",
+        "pairs.jsonl": "1d79815b26be9c19a52bf488f89bffdf4f466fefb62e899eba5cc137a3638ea6",
+        "review_sheet.csv": "3e03bce2b2992edd724018a83c288845a6957e29d3974d43edcb682020b65e27"
+      }
+    }
+  },
+  "human_per_domain": 40,
+  "sha256": {
+    "human_spec_sheet.csv": "ba8ddbad6fd5dd4df3d90f5dd513936e62dc13ac5a12d7755f474d796dca4eb2",
+    "human_spec_key.jsonl": "d22487357c81cd22692cd74d0a258022967bce48cd4cd04168fa59077df305ff",
+    "human_writer_instructions.md": "4470d9c1cfaa3e89040a7b9ddf488cbf20246fdd4c4195951900ab569c3151f2"
+  }
+}
