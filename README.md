@@ -1304,6 +1304,26 @@ reported for completeness.
 - Send it to three writers. The analysis gets its own pre-registration before
   the filled sheets are opened.
 
+### Addendum A, before any run: secondary embedders (2026-10-28)
+
+The other 11 embedding configurations from section 8 are added to every
+domain. They are **secondary**: reported per domain, alongside G1's result.
+They do not enter G1–G4, which are still decided on the four open models only.
+
+| Run by | Configurations |
+|---|---|
+| The agent, locally | Qwen3-Embedding-0.6B; snowflake-arctic-embed-l-v2.0 (`query: `); mxbai-embed-large-v1 |
+| The author (`run_embeddings.ps1`) | text-embedding-004, without and with `SEMANTIC_SIMILARITY`; gemini-embedding-001; text-embedding-3-small and -large; voyage-3-large, voyage-3.5, voyage-4 |
+
+All 15 use the same settings as section 8.
+
+For finance this is the first run on v2's data. The section 8 numbers are v1.
+
+What will be reported for the 15 × 4 grid:
+- comparison A and B
+- strong inversion
+- held-out gold template reuse
+
 ### Commands (the author, with credentials)
 
 ```

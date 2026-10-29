@@ -1,0 +1,7 @@
+# The manifests publish SHA-256 hashes of these files. Line-ending conversion
+# on checkout would change their bytes and break every hash check, so git
+# must store and restore them exactly as written.
+*.jsonl -text
+*.csv -text
+*.json -text
+data*/**/*.md -text
