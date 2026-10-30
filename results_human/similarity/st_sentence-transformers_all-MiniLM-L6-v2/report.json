@@ -1,0 +1,49 @@
+{
+  "embedder": "st:sentence-transformers/all-MiniLM-L6-v2",
+  "exclude": null,
+  "pooled": {
+    "auc": 0.526,
+    "ci95": [
+      0.4487,
+      0.608
+    ],
+    "n_rewordings": 240,
+    "n_period_changes": 240
+  },
+  "finance": {
+    "auc": 0.5714,
+    "ci95": [
+      0.4017,
+      0.7358
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.4656,
+    "ci95": [
+      0.3026,
+      0.6278
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "healthcare": {
+    "auc": 0.5664,
+    "ci95": [
+      0.3902,
+      0.7262
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "it_support": {
+    "auc": 0.4908,
+    "ci95": [
+      0.328,
+      0.6596
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  }
+}

@@ -1,0 +1,49 @@
+{
+  "embedder": "st:sentence-transformers/all-mpnet-base-v2",
+  "exclude": "meaning",
+  "pooled": {
+    "auc": 0.5088,
+    "ci95": [
+      0.4307,
+      0.5931
+    ],
+    "n_rewordings": 238,
+    "n_period_changes": 230
+  },
+  "finance": {
+    "auc": 0.5467,
+    "ci95": [
+      0.3759,
+      0.718
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5176,
+    "ci95": [
+      0.3658,
+      0.6797
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 56
+  },
+  "healthcare": {
+    "auc": 0.5666,
+    "ci95": [
+      0.3874,
+      0.7336
+    ],
+    "n_rewordings": 59,
+    "n_period_changes": 58
+  },
+  "it_support": {
+    "auc": 0.4107,
+    "ci95": [
+      0.2475,
+      0.5724
+    ],
+    "n_rewordings": 59,
+    "n_period_changes": 56
+  }
+}

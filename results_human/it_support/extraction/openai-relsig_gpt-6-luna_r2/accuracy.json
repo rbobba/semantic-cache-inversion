@@ -1,0 +1,254 @@
+{
+  "domain": "it_support",
+  "negation": {
+    "priority_count_excluding vs priority_count": {
+      "slot": "priority",
+      "excluded_wrong": "0/19",
+      "excluded_wrong_rate": 0.0,
+      "included_wrong": "0/19",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0,
+      "difference_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "n_questions": 245,
+  "frame_accuracy": 0.951,
+  "frame_accuracy_ci95": [
+    0.9201,
+    0.9788
+  ],
+  "slot_micro": {
+    "tp": 398,
+    "fp": 3,
+    "fn": 12,
+    "precision": 0.9925,
+    "recall": 0.9707,
+    "f1": 0.9815
+  },
+  "slots": {
+    "period": {
+      "tp": 234,
+      "fp": 2,
+      "fn": 11,
+      "precision": 0.9915,
+      "recall": 0.9551,
+      "f1": 0.973
+    },
+    "team": {
+      "tp": 57,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "priority": {
+      "tp": 38,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "service": {
+      "tp": 19,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 15,
+      "fp": 1,
+      "fn": 1,
+      "precision": 0.9375,
+      "recall": 0.9375,
+      "f1": 0.9375
+    },
+    "n": {
+      "tp": 35,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "last_12_months": {
+      "n": 6,
+      "accuracy": 0.6667
+    },
+    "last_30_days": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 22,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 28,
+      "accuracy": 0.8571
+    },
+    "last_week": {
+      "n": 6,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 38,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 24,
+      "accuracy": 0.7917
+    },
+    "this_month": {
+      "n": 27,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 36,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 52,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 9,
+  "errors": [
+    {
+      "id": "hA_s045",
+      "text": "Can I get a report on every ticket over the last 6 months that took longer than 4 days to resolve?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "amount": 4
+      },
+      "pred": {
+        "period": "2026-04-28/2026-10-27",
+        "amount": 96
+      },
+      "note": null
+    },
+    {
+      "id": "hA_s112",
+      "text": "How many tickets did we get in September for everything besides P3 issues?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "priority": "p3"
+      },
+      "note": "period: unparseable value {'text': 'in September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s122",
+      "text": "What was the grand total of tickets our team wrapped up and resolved in September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'in September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s140",
+      "text": "How many printing service orders over $100 did we handle over the past full year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "service": "printing"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "service": "printing"
+      },
+      "note": null
+    },
+    {
+      "id": "hA_s142",
+      "text": "What is the net difference between the number of tickets we opened and the number we closed back in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'back in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s012",
+      "text": "How many IT tickets did we resolve in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s018",
+      "text": "What was the difference between opened and resolved tickets in September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'in September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s022",
+      "text": "What was our overall average resolution time for tickets in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s092",
+      "text": "How many new tickets were opened during Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'during Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s122",
+      "text": "How many tickets did the team fully resolve during September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'during September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s140",
+      "text": "What is the total number of print tickets handled over the last year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "service": "printing"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "service": "printing"
+      },
+      "note": null
+    },
+    {
+      "id": "hC_s142",
+      "text": "What was the net difference between our open and closed tickets in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    }
+  ],
+  "extractor": "openai-relsig:gpt-6-luna_r2"
+}

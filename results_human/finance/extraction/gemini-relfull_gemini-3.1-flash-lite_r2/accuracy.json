@@ -1,0 +1,237 @@
+{
+  "domain": "finance",
+  "negation": {
+    "category_spend_excluding vs category_spend_total": {
+      "slot": "category",
+      "excluded_wrong": "0/19",
+      "excluded_wrong_rate": 0.0,
+      "included_wrong": "0/19",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0,
+      "difference_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "n_questions": 248,
+  "frame_accuracy": 0.9677,
+  "frame_accuracy_ci95": [
+    0.938,
+    0.9915
+  ],
+  "slot_micro": {
+    "tp": 424,
+    "fp": 8,
+    "fn": 8,
+    "precision": 0.9815,
+    "recall": 0.9815,
+    "f1": 0.9815
+  },
+  "slots": {
+    "period": {
+      "tp": 240,
+      "fp": 8,
+      "fn": 8,
+      "precision": 0.9677,
+      "recall": 0.9677,
+      "f1": 0.9677
+    },
+    "merchant": {
+      "tp": 76,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "category": {
+      "tp": 38,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "account": {
+      "tp": 19,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 35,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 15,
+      "accuracy": 0.6
+    },
+    "last_30_days": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 46,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 25,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 6,
+      "accuracy": 0.6667
+    },
+    "last_year": {
+      "n": 19,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 43,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 23,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 37,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 25,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "hA_s013",
+      "text": "how much savings or net cash do I actually have left over after looking at my total income minus spending for the past year",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "hA_s016",
+      "text": "Show me all transactions over $500 across my bank and credit card statements from October 28, 2025, through October 27, 2026",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27",
+        "amount": 500
+      },
+      "note": null
+    },
+    {
+      "id": "hA_s119",
+      "text": "Who are the top five merchants I spent the most money at over the past full year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "hB_s073",
+      "text": "Which 3 merchants did I spend the most at during the week of October 19\u201325, 2026?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "hB_s153",
+      "text": "How much in refunds did I get from Netflix during the week of October 19\u201325, 2026?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "merchant": "netflix"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "merchant": "netflix"
+      },
+      "note": null
+    },
+    {
+      "id": "hC_s016",
+      "text": "List all of my transactions that were over $500 from the past year.",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "amount": 500
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "amount": 500
+      },
+      "note": null
+    },
+    {
+      "id": "hC_s065",
+      "text": "What is the total amount refunded to me by Shell over the past year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "merchant": "shell"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "merchant": "shell"
+      },
+      "note": null
+    },
+    {
+      "id": "hC_s119",
+      "text": "Who are the 5 merchants I spent the most money with over the past year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 5
+      },
+      "note": null
+    }
+  ],
+  "extractor": "gemini-relfull:gemini-3.1-flash-lite_r2"
+}

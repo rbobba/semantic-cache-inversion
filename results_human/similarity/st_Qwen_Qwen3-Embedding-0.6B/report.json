@@ -1,0 +1,49 @@
+{
+  "embedder": "st:Qwen/Qwen3-Embedding-0.6B",
+  "exclude": null,
+  "pooled": {
+    "auc": 0.595,
+    "ci95": [
+      0.5195,
+      0.6772
+    ],
+    "n_rewordings": 240,
+    "n_period_changes": 240
+  },
+  "finance": {
+    "auc": 0.6233,
+    "ci95": [
+      0.4731,
+      0.7715
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5042,
+    "ci95": [
+      0.3518,
+      0.6599
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "healthcare": {
+    "auc": 0.7256,
+    "ci95": [
+      0.5862,
+      0.8512
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "it_support": {
+    "auc": 0.5522,
+    "ci95": [
+      0.3978,
+      0.6962
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  }
+}

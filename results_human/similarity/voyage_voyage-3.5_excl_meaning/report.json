@@ -1,0 +1,49 @@
+{
+  "embedder": "voyage:voyage-3.5",
+  "exclude": "meaning",
+  "pooled": {
+    "auc": 0.5457,
+    "ci95": [
+      0.4673,
+      0.6218
+    ],
+    "n_rewordings": 238,
+    "n_period_changes": 230
+  },
+  "finance": {
+    "auc": 0.575,
+    "ci95": [
+      0.4268,
+      0.7218
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5491,
+    "ci95": [
+      0.3967,
+      0.6923
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 56
+  },
+  "healthcare": {
+    "auc": 0.5956,
+    "ci95": [
+      0.4417,
+      0.7476
+    ],
+    "n_rewordings": 59,
+    "n_period_changes": 58
+  },
+  "it_support": {
+    "auc": 0.4649,
+    "ci95": [
+      0.2885,
+      0.6309
+    ],
+    "n_rewordings": 59,
+    "n_period_changes": 56
+  }
+}

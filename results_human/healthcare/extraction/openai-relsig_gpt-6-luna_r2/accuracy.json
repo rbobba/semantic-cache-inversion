@@ -1,0 +1,341 @@
+{
+  "domain": "healthcare",
+  "negation": {
+    "clinic_visits_excluding vs clinic_visits": {
+      "slot": "clinic",
+      "excluded_wrong": "0/19",
+      "excluded_wrong_rate": 0.0,
+      "included_wrong": "0/19",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0,
+      "difference_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "n_questions": 265,
+  "frame_accuracy": 0.9358,
+  "frame_accuracy_ci95": [
+    0.9,
+    0.9668
+  ],
+  "slot_micro": {
+    "tp": 448,
+    "fp": 3,
+    "fn": 17,
+    "precision": 0.9933,
+    "recall": 0.9634,
+    "f1": 0.9782
+  },
+  "slots": {
+    "period": {
+      "tp": 248,
+      "fp": 3,
+      "fn": 17,
+      "precision": 0.988,
+      "recall": 0.9358,
+      "f1": 0.9612
+    },
+    "department": {
+      "tp": 57,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "clinic": {
+      "tp": 76,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "payer": {
+      "tp": 19,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 32,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 3,
+      "accuracy": 0.3333
+    },
+    "last_12_months": {
+      "n": 9,
+      "accuracy": 0.6667
+    },
+    "last_30_days": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 29,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 30,
+      "accuracy": 0.8667
+    },
+    "last_week": {
+      "n": 6,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 29,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 3,
+      "accuracy": 0.6667
+    },
+    "q3_2026": {
+      "n": 42,
+      "accuracy": 0.8333
+    },
+    "this_month": {
+      "n": 41,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 40,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 27,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 14,
+  "errors": [
+    {
+      "id": "hA_s026",
+      "text": "What was the average patient wait time in radiology during September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "department": "radiology"
+      },
+      "pred": {
+        "department": "radiology"
+      },
+      "note": "period: unparseable value {'text': 'during September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s043",
+      "text": "How many referrals did the Riverside clinic send out during the third quarter?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "clinic": "riverside"
+      },
+      "pred": {
+        "clinic": "riverside"
+      },
+      "note": "period: unparseable value {'text': 'during the third quarter', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s054",
+      "text": "Who were our top three busiest providers by patient volume in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": "period: unparseable value {'text': 'in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s096",
+      "text": "Which patient visits in August had a wait time longer than 45 minutes?",
+      "gold": {
+        "period": "2026-08-01/2026-08-31",
+        "amount": 45
+      },
+      "pred": {
+        "amount": 45
+      },
+      "note": "period: unparseable value {'text': 'in August', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 8} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s118",
+      "text": "How many total referrals did the Downtown clinic receive during September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "clinic": "downtown"
+      },
+      "pred": {
+        "clinic": "downtown"
+      },
+      "note": "period: unparseable value {'text': 'during September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hA_s126",
+      "text": "How many total patient visits did the Southgate clinic see over the past full year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "clinic": "southgate"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "clinic": "southgate"
+      },
+      "note": null
+    },
+    {
+      "id": "hA_s143",
+      "text": "What was our total number of patient no-shows across the network over the past full year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "hC_s003",
+      "text": "Can I get the total number of visits across all clinics except Downtown for Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "clinic": "downtown"
+      },
+      "pred": {
+        "clinic": "downtown"
+      },
+      "note": "period: unparseable value {'text': 'for Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s027",
+      "text": "How many patient visits were billed to Medicare in Q2?",
+      "gold": {
+        "period": "2026-04-01/2026-06-30",
+        "payer": "medicare"
+      },
+      "pred": {
+        "payer": "medicare"
+      },
+      "note": "period: unparseable value {'text': 'in Q2', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 2} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s034",
+      "text": "Which 3 departments had the highest number of patient visits over the last year?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "hC_s043",
+      "text": "How many external referrals did the Riverside clinic send out in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "clinic": "riverside"
+      },
+      "pred": {
+        "clinic": "riverside"
+      },
+      "note": "period: unparseable value {'text': 'Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s052",
+      "text": "What was the total volume of patient visits for physical therapy in September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "department": "physical_therapy"
+      },
+      "pred": {
+        "department": "physical_therapy"
+      },
+      "note": "period: unparseable value {'text': 'in September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s054",
+      "text": "Who were the top 3 healthcare providers by visit count during Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 3
+      },
+      "pred": {
+        "n": 3
+      },
+      "note": "period: unparseable value {'text': 'during Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s091",
+      "text": "What percentage of scheduled appointments were no-shows in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {},
+      "note": "period: unparseable value {'text': 'in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s096",
+      "text": "Can you list all patient visits in August that had a wait time over 45 minutes?",
+      "gold": {
+        "period": "2026-08-01/2026-08-31",
+        "amount": 45
+      },
+      "pred": {
+        "amount": 45
+      },
+      "note": "period: unparseable value {'text': 'in August', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 8} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s118",
+      "text": "How many incoming referrals did the Downtown clinic receive in September?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "clinic": "downtown"
+      },
+      "pred": {
+        "clinic": "downtown"
+      },
+      "note": "period: unparseable value {'text': 'in September', 'kind': 'calendar_month', 'n': None, 'year': None, 'number': 9} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    },
+    {
+      "id": "hC_s120",
+      "text": "How many outgoing referrals did Midtown clinic issue in Q3?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "clinic": "midtown"
+      },
+      "pred": {
+        "clinic": "midtown"
+      },
+      "note": "period: unparseable value {'text': 'in Q3', 'kind': 'calendar_quarter', 'n': None, 'year': None, 'number': 3} (int() argument must be a string, a bytes-like object or a real number, not 'NoneType')"
+    }
+  ],
+  "extractor": "openai-relsig:gpt-6-luna_r2"
+}

@@ -1,0 +1,656 @@
+{
+  "domain": "healthcare",
+  "embedder": "st:sentence-transformers/all-mpnet-base-v2",
+  "extracted": "C:/Users/ramak/source/repos/financial-insights/research/semantic-cache-inversion/results_human/healthcare/extraction/openai-relfull_gpt-6-luna_r2-yearfix/extracted.jsonl",
+  "exclude": null,
+  "n_human": 120,
+  "period_errors": {
+    "n": 2,
+    "ids": [
+      "hA_s126",
+      "hA_s143"
+    ]
+  },
+  "negation_cue": {
+    "caught": 5,
+    "of_excluding": 9,
+    "false_cues": 0,
+    "of_other": 111
+  },
+  "cache": {
+    "n_cached": 145,
+    "n_queries": 120,
+    "designs": {
+      "raw_global": {
+        "correct_reuse_at_false_0": {
+          "value": 0.025,
+          "ci95": [
+            0.0,
+            0.1373
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.025,
+          "ci95": [
+            0.0,
+            0.1373
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.025,
+          "ci95": [
+            0.0,
+            0.1631
+          ]
+        },
+        "possible": {
+          "value": 0.6,
+          "ci95": [
+            0.439,
+            0.75
+          ]
+        }
+      },
+      "raw_oracle_entry": {
+        "correct_reuse_at_false_0": {
+          "value": 0.2583,
+          "ci95": [
+            0.1496,
+            0.3889
+          ]
+        },
+        "possible": {
+          "value": 0.6,
+          "ci95": [
+            0.439,
+            0.75
+          ]
+        }
+      },
+      "split_full": {
+        "correct_reuse_at_false_0": {
+          "value": 0.125,
+          "ci95": [
+            0.049,
+            0.5834
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.125,
+          "ci95": [
+            0.049,
+            0.585
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.3417,
+          "ci95": [
+            0.0543,
+            0.675
+          ]
+        },
+        "possible": {
+          "value": 0.6,
+          "ci95": [
+            0.439,
+            0.75
+          ]
+        }
+      },
+      "split_template": {
+        "correct_reuse_at_false_0": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.341
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.341
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.9524
+          ]
+        },
+        "possible": {
+          "value": 1.0,
+          "ci95": [
+            1.0,
+            1.0
+          ]
+        }
+      },
+      "split_full_extracted": {
+        "correct_reuse_at_false_0": {
+          "value": 0.125,
+          "ci95": [
+            0.049,
+            0.57
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.125,
+          "ci95": [
+            0.049,
+            0.57
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.3417,
+          "ci95": [
+            0.0543,
+            0.6739
+          ]
+        },
+        "possible": {
+          "value": 0.6,
+          "ci95": [
+            0.439,
+            0.75
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.125,
+          "ci95": [
+            0.045,
+            0.2084
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.125,
+          "ci95": [
+            0.045,
+            0.2084
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "split_template_extracted": {
+        "correct_reuse_at_false_0": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.2686
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.2686
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.5475
+          ]
+        },
+        "possible": {
+          "value": 0.9833,
+          "ci95": [
+            0.957,
+            1.0
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.0583,
+          "ci95": [
+            0.0171,
+            0.1111
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.0583,
+          "ci95": [
+            0.0171,
+            0.1111
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "split_template_extracted_slots": {
+        "correct_reuse_at_false_0": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.2686
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.2686
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.5475
+          ]
+        },
+        "possible": {
+          "value": 0.9833,
+          "ci95": [
+            0.957,
+            1.0
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.0583,
+          "ci95": [
+            0.0171,
+            0.1111
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.0583,
+          "ci95": [
+            0.0171,
+            0.1111
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "split_template_negguard": {
+        "correct_reuse_at_false_0": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.2381
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.2381
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.0583,
+          "ci95": [
+            0.018,
+            0.3573
+          ]
+        },
+        "possible": {
+          "value": 0.95,
+          "ci95": [
+            0.9035,
+            0.9905
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.0583,
+          "ci95": [
+            0.0171,
+            0.1111
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.0583,
+          "ci95": [
+            0.0171,
+            0.1111
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0,
+          "ci95": [
+            0.0,
+            0.0
+          ]
+        }
+      },
+      "split_template_guarded_goldsig": {
+        "correct_reuse_at_false_0": {
+          "value": 0.2167,
+          "ci95": [
+            0.1473,
+            0.9896
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.9417,
+          "ci95": [
+            0.1667,
+            0.9905
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.95,
+          "ci95": [
+            0.9,
+            0.9905
+          ]
+        },
+        "possible": {
+          "value": 0.95,
+          "ci95": [
+            0.9035,
+            0.9905
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.9667,
+          "ci95": [
+            0.9225,
+            1.0
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.95,
+          "ci95": [
+            0.9035,
+            0.9905
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0172,
+          "ci95": [
+            0.0,
+            0.045
+          ]
+        }
+      },
+      "split_template_fullsig": {
+        "correct_reuse_at_false_0": {
+          "value": 0.2167,
+          "ci95": [
+            0.1473,
+            0.9688
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.2167,
+          "ci95": [
+            0.1583,
+            0.9737
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.9333,
+          "ci95": [
+            0.8596,
+            0.9744
+          ]
+        },
+        "possible": {
+          "value": 0.9333,
+          "ci95": [
+            0.8796,
+            0.9744
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.9583,
+          "ci95": [
+            0.9238,
+            0.9899
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.9333,
+          "ci95": [
+            0.8796,
+            0.9744
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0261,
+          "ci95": [
+            0.0,
+            0.0581
+          ]
+        }
+      },
+      "split_template_fullsig_gold": {
+        "correct_reuse_at_false_0": {
+          "value": 0.2167,
+          "ci95": [
+            0.1473,
+            0.9896
+          ]
+        },
+        "correct_reuse_at_false_0.01": {
+          "value": 0.9417,
+          "ci95": [
+            0.1667,
+            0.9905
+          ]
+        },
+        "correct_reuse_at_false_0.05": {
+          "value": 0.95,
+          "ci95": [
+            0.9,
+            0.9905
+          ]
+        },
+        "possible": {
+          "value": 0.95,
+          "ci95": [
+            0.9035,
+            0.9905
+          ]
+        },
+        "calibrated_reuse": {
+          "value": 0.9667,
+          "ci95": [
+            0.9225,
+            1.0
+          ]
+        },
+        "calibrated_correct_reuse": {
+          "value": 0.95,
+          "ci95": [
+            0.9035,
+            0.9905
+          ]
+        },
+        "calibrated_false_share": {
+          "value": 0.0172,
+          "ci95": [
+            0.0,
+            0.045
+          ]
+        }
+      }
+    },
+    "calibrated": {
+      "split_full_extracted": {
+        "threshold": 0.9142,
+        "false_reuses": 0,
+        "wrong_template_only": 0,
+        "wrong_values_only": 0,
+        "both": 0
+      },
+      "split_template_extracted": {
+        "threshold": 1.0,
+        "false_reuses": 0,
+        "wrong_template_only": 0,
+        "wrong_values_only": 0,
+        "both": 0
+      },
+      "split_template_extracted_slots": {
+        "threshold": 1.0,
+        "false_reuses": 0,
+        "wrong_template_only": 0,
+        "wrong_values_only": 0,
+        "both": 0
+      },
+      "split_template_negguard": {
+        "threshold": 1.0,
+        "false_reuses": 0,
+        "wrong_template_only": 0,
+        "wrong_values_only": 0,
+        "both": 0
+      },
+      "split_template_guarded_goldsig": {
+        "threshold": 0.5,
+        "false_reuses": 2,
+        "wrong_template_only": 0,
+        "wrong_values_only": 2,
+        "both": 0
+      },
+      "split_template_fullsig": {
+        "threshold": 0.5,
+        "false_reuses": 3,
+        "wrong_template_only": 1,
+        "wrong_values_only": 2,
+        "both": 0
+      },
+      "split_template_fullsig_gold": {
+        "threshold": 0.5,
+        "false_reuses": 2,
+        "wrong_template_only": 0,
+        "wrong_values_only": 2,
+        "both": 0
+      }
+    },
+    "shortlist_sweep": {
+      "split_template_guarded_goldsig": [
+        {
+          "floor": null,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.3,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.4,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.5,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.6,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.7,
+          "correct_reuse_rate": 0.9417,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0174
+        }
+      ],
+      "split_template_fullsig": [
+        {
+          "floor": null,
+          "correct_reuse_rate": 0.9333,
+          "false_reuses": 3,
+          "false_reuse_share": 0.0261
+        },
+        {
+          "floor": 0.3,
+          "correct_reuse_rate": 0.9333,
+          "false_reuses": 3,
+          "false_reuse_share": 0.0261
+        },
+        {
+          "floor": 0.4,
+          "correct_reuse_rate": 0.9333,
+          "false_reuses": 3,
+          "false_reuse_share": 0.0261
+        },
+        {
+          "floor": 0.5,
+          "correct_reuse_rate": 0.9333,
+          "false_reuses": 3,
+          "false_reuse_share": 0.0261
+        },
+        {
+          "floor": 0.6,
+          "correct_reuse_rate": 0.9333,
+          "false_reuses": 3,
+          "false_reuse_share": 0.0261
+        },
+        {
+          "floor": 0.7,
+          "correct_reuse_rate": 0.925,
+          "false_reuses": 3,
+          "false_reuse_share": 0.0263
+        }
+      ],
+      "split_template_fullsig_gold": [
+        {
+          "floor": null,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.3,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.4,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.5,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.6,
+          "correct_reuse_rate": 0.95,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0172
+        },
+        {
+          "floor": 0.7,
+          "correct_reuse_rate": 0.9417,
+          "false_reuses": 2,
+          "false_reuse_share": 0.0174
+        }
+      ]
+    }
+  }
+}

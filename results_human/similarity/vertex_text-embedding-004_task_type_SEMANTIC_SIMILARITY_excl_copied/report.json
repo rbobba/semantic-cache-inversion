@@ -1,0 +1,49 @@
+{
+  "embedder": "vertex:text-embedding-004 task_type=SEMANTIC_SIMILARITY",
+  "exclude": "copied",
+  "pooled": {
+    "auc": 0.5585,
+    "ci95": [
+      0.4786,
+      0.6392
+    ],
+    "n_rewordings": 234,
+    "n_period_changes": 235
+  },
+  "finance": {
+    "auc": 0.6063,
+    "ci95": [
+      0.4367,
+      0.7639
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.6017,
+    "ci95": [
+      0.448,
+      0.7503
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "healthcare": {
+    "auc": 0.6335,
+    "ci95": [
+      0.4756,
+      0.7896
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 55
+  },
+  "it_support": {
+    "auc": 0.3833,
+    "ci95": [
+      0.2258,
+      0.547
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  }
+}

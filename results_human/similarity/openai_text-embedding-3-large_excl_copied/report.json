@@ -1,0 +1,49 @@
+{
+  "embedder": "openai:text-embedding-3-large",
+  "exclude": "copied",
+  "pooled": {
+    "auc": 0.5891,
+    "ci95": [
+      0.5076,
+      0.6743
+    ],
+    "n_rewordings": 234,
+    "n_period_changes": 235
+  },
+  "finance": {
+    "auc": 0.6023,
+    "ci95": [
+      0.439,
+      0.7595
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5339,
+    "ci95": [
+      0.3683,
+      0.6995
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "healthcare": {
+    "auc": 0.6975,
+    "ci95": [
+      0.5336,
+      0.8403
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 55
+  },
+  "it_support": {
+    "auc": 0.5339,
+    "ci95": [
+      0.3717,
+      0.6999
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  }
+}

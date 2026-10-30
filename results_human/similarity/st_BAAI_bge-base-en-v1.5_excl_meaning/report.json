@@ -1,0 +1,49 @@
+{
+  "embedder": "st:BAAI/bge-base-en-v1.5",
+  "exclude": "meaning",
+  "pooled": {
+    "auc": 0.5733,
+    "ci95": [
+      0.5004,
+      0.6502
+    ],
+    "n_rewordings": 238,
+    "n_period_changes": 230
+  },
+  "finance": {
+    "auc": 0.6347,
+    "ci95": [
+      0.4904,
+      0.7856
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5131,
+    "ci95": [
+      0.3636,
+      0.6726
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 56
+  },
+  "healthcare": {
+    "auc": 0.7233,
+    "ci95": [
+      0.5731,
+      0.8576
+    ],
+    "n_rewordings": 59,
+    "n_period_changes": 58
+  },
+  "it_support": {
+    "auc": 0.424,
+    "ci95": [
+      0.2672,
+      0.5862
+    ],
+    "n_rewordings": 59,
+    "n_period_changes": 56
+  }
+}

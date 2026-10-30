@@ -2041,3 +2041,285 @@ affects.
 Mistakes 1–4 are the agent's: the agent wrote the design, the prompts and the
 domain definitions, and none of them was piloted outside finance before it
 was frozen. Section 18 adds that pilot.
+
+## 20. Deviation from section 18: a month or quarter with no year (2026-10-30)
+
+Written after the human-question extractions and before any exploratory run.
+At the time of writing, HQ-C and HQ-D had been computed; the cache
+hypotheses were still running and had not been seen.
+
+### What went wrong
+
+Writers often named a month or quarter without its year ("back in Q3", "in
+September"). The `relfull` and `relsig` schemas allow a null year, and the
+prompt says both "put the year in year" and "use null for the fields a kind
+does not need". gpt-6-luna returns null when the question gives no year;
+flash-lite fills in the year itself.
+
+`resolve_relative` in `extract.py` then calls `int(None)`. The error is
+caught, the period is dropped and the reason is kept in `note`. This
+happened on 56–62 of the 480 writers' questions in each OpenAI run, and on
+none in Gemini's. A row without a period has no period slot, so the cache
+never reuses it: the defect costs reuse, not correctness.
+
+This is mistake 7, and it is the agent's: the resolver was never given a
+question without a year, because every synthetic question states one.
+
+### The registered results stand
+
+HQ-D is decided on the frozen code and does not hold for either vendor
+(section 21). The fix below is exploratory and is reported beside the
+registered results, never in place of them.
+
+### The fix, and how it was chosen
+
+A month or quarter with no year is the latest one that has begun by the
+reference date. On 2026-10-27, "Q3" is Q3 2026 and "December" is December
+2025. This is the reading a person would give, and the one flash-lite
+already makes. It was the only rule considered.
+
+Disclosed: before this note was written, the rule was applied to the saved
+OpenAI output and compared with the gold periods. It resolves every one of
+the null-year rows correctly. The rule was therefore checked on the data it
+is used on, which is why the result is exploratory.
+
+### What is run
+
+1. `resolve_relative` gets the rule. No prompt or schema changes.
+2. Every saved `raw.jsonl` from sections 10–16 and the pilots is resolved
+   again with the new code. The `extracted.jsonl` files must come out
+   byte-identical; if any differs, that is reported.
+3. The 48 human runs are resolved again from their saved `raw.jsonl` into
+   new folders tagged `<tag>-yearfix` (for example `r1-yearfix`). There are no
+   new API calls, and the frozen folders are not overwritten. Gemini's
+   should not change.
+4. `human_eval.py` runs on those folders exactly as on the registered ones,
+   and HQ-D, HQ-S and HQ-F are reported again, labelled exploratory.
+
+### What is not fixed, and why
+
+Two other groups of period errors remain. Both need a prompt or schema
+change, which would be tuned on questions already seen:
+
+- **"The past year", "over the last year" and "the past full year",** written
+  for a rolling 12-month spec (12 questions). Both vendors read the calendar
+  year 2025, as the prompt's own definition of "last year" says to. The
+  phrase has both readings, and the meaning check accepted them as the same
+  meaning, which was lenient.
+- **Explicit dates** ("the week of October 19–25, 2026", "July 28 to October
+  27"; 9 questions). Writers copied the dates the spec sheet showed them. The
+  relative schema has no kind for an explicit range, so flash-lite picks the
+  nearest kind. gpt-6-luna mostly maps the weeks to `last_week` correctly.
+
+Testing a fix for either needs new questions and a new pre-registration.
+
+## 21. Results of section 18: the human-written questions (2026-10-30)
+
+### The runs
+
+- **Questions.** 480 written by three people who are not the author, 120 per
+  domain. Half keep their cached question's meaning and half change only
+  its period. Each domain's cache is its synthetic cached questions (128,
+  128, 145 and 125).
+- **Extraction.** flash-lite and gpt-6-luna, `relsig` and `relfull`, r1–r3,
+  in all four domains: 48 runs, every question answered, no failed rows.
+- **Evaluation.** `human_eval.py` with the four open embedders on every run
+  and every exclusion (576 cache reports), and the similarity analysis with
+  all 15 configurations (45 reports).
+- **Verdicts.** `human_verdicts.py` applies section 18's rules and prints
+  every number they rest on (`results_human/VERDICTS.txt`).
+  `human_details.py` writes the items section 18 promised without a
+  hypothesis (`results_human/DETAILS.md`). It rebuilds the full-signature
+  routing and checks it against every report's counts before listing a
+  single reuse. `run_human_evals.py` runs the local evaluations in one
+  process, so each model loads once.
+
+### Verdicts, as registered
+
+| Id | Verdict | In one line |
+|---|---|---|
+| HQ-P | **Holds** | Pooled AUC 0.52–0.58; every CI upper bound 0.60–0.66 |
+| HQ-D | **Does not hold** | Period errors in 4.2–4.4% (flash-lite) and 13.3–14.2% (gpt-6-luna) of questions |
+| HQ-C | **Does not hold** | The cue list catches 27 of 36 exclusion questions (75%) |
+| HQ-S | flash-lite **does not generalise** (0/4); gpt-6-luna **partially** (retail) | Not extractor-independent anywhere |
+| **HQ-F** | flash-lite **partially** (retail); gpt-6-luna **partially** (finance, retail) | **Extractor-independent in retail** |
+
+Excluding copied questions changes one domain (gpt-6-luna's HQ-F loses
+finance). Excluding the 12 meaning-changed questions adds IT support to
+gpt-6-luna's HQ-F, and IT support to flash-lite's HQ-S.
+
+### HQ-P: similarity cannot tell a rewording from a period change
+
+| Embedder | AUC [95% CI] | finance | retail | healthcare | IT support |
+|---|---|---|---|---|---|
+| all-MiniLM-L6-v2 | 0.526 [0.449, 0.608] | 0.57 | 0.47 | 0.57 | 0.49 |
+| all-mpnet-base-v2 | 0.522 [0.443, 0.604] | 0.55 | 0.54 | 0.57 | 0.44 |
+| bge-base-en-v1.5 | 0.580 [0.507, 0.655] | 0.63 | 0.52 | 0.72 | 0.44 |
+| e5-base-v2 | 0.581 [0.506, 0.662] | 0.61 | 0.51 | 0.74 | 0.46 |
+
+The 11 secondary configurations agree: 0.52–0.60, upper bounds 0.60–0.68,
+from text-embedding-004 to voyage-4 and Qwen3. An AUC of 0.5 is a coin toss.
+When a person rewords a question, it ends up no closer to the cached
+question than another person's question for a different period. In IT
+support most models score below 0.5: the period change is usually the
+closer of the two.
+
+This is the strongest form of the near-miss result so far. It rests on
+people's wording, not the study's templates, and holds in every model from
+2021 to 2026.
+
+### HQ-D: three causes, none of them random
+
+| Cause | Questions | Vendor | Effect in the cache |
+|---|---|---|---|
+| Month or quarter with no year ("in Q3") | 62 | gpt-6-luna | Miss (section 20's defect) |
+| "The past year" for a rolling 12 months | 12 | both | **Wrong answer** |
+| Explicit dates the period kinds cannot express | 9 | mostly flash-lite | **Wrong answer** |
+| "On Monday and Tuesday"; no period at all (N) | 2 | flash-lite; both | Miss |
+
+With section 20's fix, gpt-6-luna has 5–8 period errors (1.0–1.7%): the
+second and third groups, and hA_s002, which has no period. HQ-D still does
+not hold for either vendor.
+
+The relative-period design removed every date error on synthetic wording
+(section 13). People's wording finds the two places where a closed list of
+period kinds is not enough: a phrase with two common readings, and a period
+stated as dates.
+
+### HQ-C: people exclude in more ways than the cue list knows
+
+The nine misses, all listed in DETAILS.md, use "leave out" and "leaving
+out" (4), "besides", "non-P1", "not priority P2" and "weren't P3". One
+(hA_s003) had dropped its exclusion. The cue list fired on none of the 444
+other questions, so it is precise but incomplete. Section 18 predicted the
+"leaving out" gap.
+
+### HQ-S and HQ-F: the guard holds; the period does not
+
+| Design, vendor | Domain | Correct reuse | Exact-key cache | Wrong reuses | of which wrong template | Runs holding |
+|---|---|---|---|---|---|---|
+| fullsig, flash-lite | finance | 0.93 | 0.17–0.25 | 8 | 0 | 0/3 |
+| | retail | 0.97 | 0.08–0.23 | 0–1 | 0–1 | **3/3** |
+| | healthcare | 0.88–0.89 | 0.22–0.33 | 7–8 | 1 | 0/3 |
+| | IT support | 0.85–0.86 | 0.01–0.10 | 4 | 0 | 0/3 |
+| fullsig, gpt-6-luna | finance | 0.81–0.83 | 0.09–0.25 | 1 | 0 | **2/3** |
+| | retail | 0.84–0.85 | 0.07–0.22 | 0–2 | 0–1 | **2/3** |
+| | healthcare | 0.80–0.81 | 0.10–0.23 | 3–5 | 1 | 0/3 |
+| | IT support | 0.81–0.82 | 0.01–0.07 | 0–1 | 0 | 0/3 |
+| guarded (section 15), flash-lite | healthcare | 0.83–0.87 | 0.23–0.33 | 11–13 | 5–9 | 0/3 |
+| guarded (section 15), gpt-6-luna | healthcare | 0.72–0.78 | 0.10–0.22 | 7–10 | 4–9 | 0/3 |
+
+Ranges are over 3 runs × 4 embedders. Wrong reuses are counts, out of
+roughly 100–120 reuses per domain.
+
+**The full-signature guard closes the template problem on people's
+wording.** Across both vendors, all domains, runs and embedders, it routed
+a question to the wrong cached template only twice, and both questions are
+ones the meaning check marked N:
+- hA_s003, "How many visited downtown clinic last quarter?", was written for
+  "visits *excluding* Downtown". The cache answered the question as written.
+- hA_s001, "What is the revnue for this month so far?", was written for net
+  sales.
+
+On the 468 questions that keep their spec's meaning, it made no
+wrong-template reuse. Section 15's guard, which leaves the measure to
+similarity, made 4–9 per run in healthcare alone: mistake 1 of section 19,
+confirmed on human wording.
+
+**Every other wrong reuse is a correct template with a wrong value.** All
+but one are the period errors above. The exception is hA_s045 ("4 days"
+written for 4 hours), also an N question. Similarity cannot catch them: the
+question really is the cached question with another period, so the guard
+correctly shortlists it. Raising the floor from 0.50 to 0.70 removes at most
+two per domain and costs up to 13 points of reuse (floor sweep, DETAILS.md).
+
+**The reference signatures leak about as much.** Giving the guard the
+author's own signatures lowers the wrong reuses by at most one per domain,
+and in IT support raises them. A better signature cannot fix this; better
+period reading might.
+
+Against an exact-key cache, which is safe but rarely reuses anything
+(0.01–0.33), the full-signature cache answers 80–97% of people's questions
+from the cache.
+
+### The 1% rule at this sample size
+
+Each domain has about 100–120 reuses, so the 1% rule means "at most one
+wrong reuse, and only when at least 100 questions were reused". gpt-6-luna
+in IT support makes exactly one wrong reuse in most cells. A cell with 1 of
+100 passes (1.00%), and one with 1 of 99 fails (1.01%), depending on how
+many other questions that run happened to reuse. Three registered verdicts
+turn on this, all gpt-6-luna's: HQ-F in finance holds (1 of 101 passes, 1 of
+98 fails), HQ-F in IT support fails, and HQ-S in finance fails (1 of 100
+passes, 1 of 95 and 1 of 99 fail).
+The rule is applied as registered; a reader should treat a domain with one
+wrong reuse as a borderline pass or fail, not as a clean one.
+
+### Exploratory: section 20's year fix
+
+Only gpt-6-luna changes; flash-lite's extractions come out byte-identical.
+
+| gpt-6-luna, `-yearfix` | Registered | With the fix |
+|---|---|---|
+| Period errors per run | 64–68 / 480 | 5–8 / 480 |
+| HQ-F correct reuse | 0.80–0.85 | 0.88–0.98 |
+| HQ-F | partially, 2/4 | partially, 3/4 (finance, retail, IT support) |
+| HQ-S | partially, 1/4 | partially, 2/4 (finance, retail) |
+
+Healthcare still fails, on its "past year" questions. With the fix,
+gpt-6-luna's full-signature cache reuses 88–98% of people's questions in
+the other three domains, with 0–2 wrong reuses per domain. This is
+exploratory and does not change a verdict.
+
+### Per writer, signature agreement, floor sweep (DETAILS.md)
+
+- **Writers differ.** Writer A's questions are reused least and wrongly
+  most (flash-lite: 0.88 correct, 6.3% of reuses wrong). Writer A wrote 9 of
+  the 12 meaning-changed questions and half of the "past year" ones; writer
+  C wrote the other half, and 36 of the 62 questions with no year. Writer B
+  wrote 7 of the 9 explicit-date questions; with gpt-6-luna, B's questions
+  had no wrong reuse at all.
+- **Signature agreement with the reference** is 0.92–1.00 on each field. It
+  is lowest on IT support's measure (0.92), and grouping agrees everywhere.
+- **The floor barely matters** between none and 0.50. The signature does
+  the work, and similarity only breaks ties.
+
+### Predictions against outcomes
+
+| Prediction | Outcome |
+|---|---|
+| HQ-P holds | Right |
+| HQ-D holds, because dates are resolved in code | **Wrong.** The code resolves what the model labels; people use periods the labels cannot hold. |
+| HQ-C: no confident prediction; "leaving out" is missing | The gap was there, and was larger |
+| HQ-S fails in retail, healthcare and IT support | Right for flash-lite (it also fails in finance); wrong for gpt-6-luna in retail |
+| HQ-F: no confident prediction | Partially, and only retail is extractor-independent. But the template guard itself held on every meaning-preserving question. |
+
+### What the study can now claim
+
+1. **Similarity cannot separate a person's rewording from their period
+   change.** AUC about 0.55 in 15 embedding configurations, 2021–2026,
+   across four domains. A similarity threshold cannot make a text-to-SQL
+   cache safe.
+2. **An extracted full signature fixes the template confusion.** On 468
+   meaning-preserving human questions, with two extractor vendors, there
+   was no wrong-template reuse. Correct reuse was 80–97%, against 1–33% for
+   an exact-key cache.
+3. **The remaining risk is the value, mainly the period.** "The past year"
+   and explicit date ranges produce wrong answers that no similarity
+   threshold and no signature can catch. A period schema needs an explicit
+   range kind, and a deliberate reading of rolling-year phrases, before
+   such a cache is safe. That is the next experiment, on new questions.
+4. **Negation cue lists are precise and incomplete** (75% recall on how
+   people write exclusions).
+
+### Limits
+
+- Three writers, one spec sheet. The sheet showed exact dates beside each
+  period, which invited the explicit-date wording, and a writer working
+  from a spec writes differently from a person asking freely.
+- The meaning check was done by the agent alone, not blind. It was lenient
+  on "the past year" (section 20), and it was written before any extraction.
+- The cache holds the study's synthetic questions, and every query is
+  answerable from it. Real traffic has questions with no cached match.
+- One reference date and one schema per domain.
+- At about 100 reuses per domain, a 1% bar resolves to a single question.

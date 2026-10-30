@@ -421,7 +421,13 @@ def resolve_relative(v: dict, ref: date) -> str:
     if kind == "last_n_months":
         # 91 days per quarter: 3 -> 91, 6 -> 182, 12 -> 364, as the dataset defines them.
         return period_value(ref - timedelta(days=round(int(v["n"]) * 91 / 3)), ref, ref)
-    year = int(v["year"])
+    year = v["year"]
+    if year is None and kind in ("calendar_month", "calendar_quarter"):
+        # "Q3" or "in September" with no year: the latest one that has begun
+        # by the reference date (README section 20, exploratory).
+        first = int(v["number"]) if kind == "calendar_month" else 3 * int(v["number"]) - 2
+        year = ref.year if date(ref.year, first, 1) <= ref else ref.year - 1
+    year = int(year)
     if kind == "calendar_year":
         return period_value(date(year, 1, 1), date(year, 12, 31), ref)
     if kind == "calendar_month":
@@ -747,6 +753,33 @@ def extract_openai(
     }
 
 
+def resolve_saved(
+    questions: list[dict],
+    ref: date,
+    raw_path: Path,
+    relative: bool = False,
+    signature: bool = False,
+    full: bool = False,
+) -> dict[str, dict]:
+    """Rebuild a run's parameters from its saved raw.jsonl, with no client and
+    no API call, so a change to the code after the model (README section 20)
+    can be applied to the answers already received."""
+    done: dict[str, dict] = {}
+    for line in raw_path.read_text(encoding="utf-8").splitlines():
+        r = json.loads(line)
+        if r.get("response") is not None:
+            done[r["id"]] = r
+    missing = [q["id"] for q in questions if q["id"] not in done]
+    if missing:
+        raise SystemExit(f"{raw_path} lacks {len(missing)} responses, e.g. {missing[0]}")
+    return {
+        q["id"]: _from_llm_json(
+            q["text"], done[q["id"]]["response"], ref, relative, signature, full
+        )
+        for q in questions
+    }
+
+
 # ── scoring ──────────────────────────────────────────────────────────────
 
 
@@ -941,6 +974,12 @@ def main() -> None:
         default="",
         help="suffix for a repeat run's folder (e.g. r2), so repeats never share raw.jsonl",
     )
+    ap.add_argument(
+        "--from-raw",
+        type=Path,
+        default=None,
+        help="a run folder whose raw.jsonl is resolved again with the current code; no API call",
+    )
     args = ap.parse_args()
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
@@ -954,7 +993,21 @@ def main() -> None:
         raise SystemExit("the Duckling arm is defined for the finance domain only")
     name = args.extractor + (f"_{args.tag}" if args.tag else "")
     out_dir = args.out / re.sub(r"[^A-Za-z0-9._-]+", "_", name)
-    if kind == "gold":
+    variant = kind.partition("-")[2]
+    if args.from_raw:
+        if args.from_raw.resolve() == out_dir.resolve():
+            raise SystemExit("--from-raw would overwrite its own run; give a new --tag")
+        if kind.partition("-")[0] not in ("gemini", "openai"):
+            raise SystemExit("--from-raw is for gemini and openai extractors")
+        ext = resolve_saved(
+            questions,
+            ref,
+            args.from_raw / "raw.jsonl",
+            relative=variant in ("rel", "relsig", "relfull"),
+            signature=variant == "relsig",
+            full=variant == "relfull",
+        )
+    elif kind == "gold":
         ext = extract_gold(questions, ref)
     elif kind == "duckling":
         ext = extract_duckling(questions, ref, args.duckling_url)

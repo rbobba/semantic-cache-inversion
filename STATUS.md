@@ -3,12 +3,25 @@
 Read this first when resuming. README.md is the full record (sections 1–16).
 This page is where things stand, so the next session does not re-derive it.
 
-Last updated: 2026-10-29.
+Last updated: 2026-10-30.
 
 ## The claim, as the evidence supports it today
 
 Semantic caching of text-to-SQL fails on the **small words that change the
 SQL**, and similarity cannot be tuned around them.
+
+**On 480 human-written questions (section 21):**
+- Similarity cannot tell a person's rewording from their period change.
+  AUC is about 0.55 in all 15 embedding configurations.
+- An extracted full signature fixes the template confusion. It made no
+  wrong-template reuse on the 468 meaning-preserving questions, with either
+  vendor. Correct reuse is 80–97%, against 1–33% for an exact-key cache.
+- What remains is the period. "The past year" and explicit date ranges give
+  wrong answers that no signature or threshold catches. That is the next
+  experiment, and it needs new questions.
+- The negation cue list catches 75% of people's exclusions.
+
+Earlier, on synthetic wording:
 
 1. **Period words (this/last).** On the raw question, a one-word period swap
    outscores genuine rewordings for 78–100% of cached questions, in all 15
@@ -37,6 +50,9 @@ SQL**, and similarity cannot be tuned around them.
 | Four domains: G1, G2, G3 / G4 | **Generalise** / **partially** (IT support's G4 is an artefact) | section 19 |
 | Guarded cache: H-N, H-N-O / H-S, H-S-O | **Generalise** / **partially: finance only**, both vendors | section 19 |
 | Full-signature guard on human questions | Pre-registered, **frozen 2026-10-30** (`af42f97e…`) after two pilots | section 18 |
+| Human questions: HQ-P / HQ-D / HQ-C | **Holds** / **does not hold** / **does not hold** | section 21 |
+| HQ-S / **HQ-F (primary)** | flash-lite 0/4, gpt-6-luna 1/4 / flash-lite 1/4, gpt-6-luna 2/4; **extractor-independent in retail**. Three verdicts turn on a single wrong reuse (the 1% bar at n ≈ 100). | section 21 |
+| Missing-year resolver defect (mistake 7) | Fixed; exploratory rerun from saved output: gpt-6-luna HQ-F 3/4 | section 20 |
 
 ## Corrections already made (keep them made)
 
@@ -62,12 +78,21 @@ SQL**, and similarity cannot be tuned around them.
 
 ## Open, in priority order
 
-**Now (2026-10-30):** section 18 is frozen after two pilots of the
-full-signature prompt (no wrong reuse on held-out wording, either vendor).
-Next, in order: the agent runs `human.py` on the three sheets and commits the
-meaning check; the author runs `run_human_extractions.ps1` for each vendor
-and `run_human_embeddings.ps1`; the agent runs `human_eval.py` and applies
-section 18's rules. Items 0 and 1 below are otherwise done.
+**Now (2026-10-30):** the human-question study is done and written up
+(sections 20 and 21). Next, in order:
+1. `REPRODUCE.md` and `verify_claims.py`.
+2. The paper draft.
+3. The guided replay with the author.
+4. Update RELATED_WORK.
+
+The next experiment, if any, is the period schema: an explicit-range kind
+and a stated reading of "the past year", tested on new questions under a new
+pre-registration. Items 0 and 1 below are done.
+
+Reproducing section 21 locally, with no API calls:
+`python run_human_evals.py similarity`, then `python run_human_evals.py
+cache`, then `python human_verdicts.py` and `python human_details.py`. The
+commercial similarity reports need `run_human_embeddings.ps1` (the author).
 
 0. **Four-domain generalisation (README section 14, pre-registered).**
    - Domains: finance, retail, healthcare and IT support, in `data_md/`.

@@ -1,0 +1,173 @@
+{
+  "domain": "retail",
+  "negation": {
+    "region_revenue_excluding vs region_revenue": {
+      "slot": "region",
+      "excluded_wrong": "0/19",
+      "excluded_wrong_rate": 0.0,
+      "included_wrong": "0/19",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0,
+      "difference_ci95": [
+        0.0,
+        0.0
+      ]
+    }
+  },
+  "n_questions": 248,
+  "frame_accuracy": 0.9879,
+  "frame_accuracy_ci95": [
+    0.9677,
+    1.0
+  ],
+  "slot_micro": {
+    "tp": 429,
+    "fp": 2,
+    "fn": 3,
+    "precision": 0.9954,
+    "recall": 0.9931,
+    "f1": 0.9942
+  },
+  "slots": {
+    "period": {
+      "tp": 245,
+      "fp": 2,
+      "fn": 3,
+      "precision": 0.9919,
+      "recall": 0.9879,
+      "f1": 0.9899
+    },
+    "product": {
+      "tp": 76,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "region": {
+      "tp": 38,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "channel": {
+      "tp": 19,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 16,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 35,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 3,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 12,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 31,
+      "accuracy": 0.9677
+    },
+    "last_6_months": {
+      "n": 12,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 39,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 9,
+      "accuracy": 0.7778
+    },
+    "last_year": {
+      "n": 21,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 6,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 20,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 26,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 39,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 30,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "hA_s002",
+      "text": "How much total refunded for returns of water bottles?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "product": "water_bottles"
+      },
+      "pred": {
+        "product": "water_bottles"
+      },
+      "note": null
+    },
+    {
+      "id": "hA_s008",
+      "text": "Can you pull the total sales numbers for our Midwest region across all channels (online, store, and wholesale) for July 28 to October 27",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-07-29/2026-10-27",
+        "region": "midwest"
+      },
+      "note": null
+    },
+    {
+      "id": "hB_s002",
+      "text": "How much money did we refund for returned water bottles during the week of October 19\u201325, 2026?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "product": "water_bottles"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "product": "water_bottles"
+      },
+      "note": null
+    }
+  ],
+  "extractor": "gemini-relsig:gemini-3.1-flash-lite_r2"
+}

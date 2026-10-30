@@ -1,0 +1,49 @@
+{
+  "embedder": "st:Snowflake/snowflake-arctic-embed-l-v2.0 prefix='query: '",
+  "exclude": "copied",
+  "pooled": {
+    "auc": 0.5578,
+    "ci95": [
+      0.4807,
+      0.635
+    ],
+    "n_rewordings": 234,
+    "n_period_changes": 235
+  },
+  "finance": {
+    "auc": 0.5868,
+    "ci95": [
+      0.4255,
+      0.7382
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5611,
+    "ci95": [
+      0.3976,
+      0.7143
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "healthcare": {
+    "auc": 0.6408,
+    "ci95": [
+      0.4925,
+      0.7843
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 55
+  },
+  "it_support": {
+    "auc": 0.4149,
+    "ci95": [
+      0.2625,
+      0.5772
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  }
+}

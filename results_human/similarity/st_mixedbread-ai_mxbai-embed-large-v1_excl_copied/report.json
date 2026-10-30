@@ -1,0 +1,49 @@
+{
+  "embedder": "st:mixedbread-ai/mxbai-embed-large-v1",
+  "exclude": "copied",
+  "pooled": {
+    "auc": 0.5395,
+    "ci95": [
+      0.465,
+      0.6135
+    ],
+    "n_rewordings": 234,
+    "n_period_changes": 235
+  },
+  "finance": {
+    "auc": 0.5879,
+    "ci95": [
+      0.4443,
+      0.7327
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  },
+  "retail": {
+    "auc": 0.5578,
+    "ci95": [
+      0.4034,
+      0.7087
+    ],
+    "n_rewordings": 60,
+    "n_period_changes": 60
+  },
+  "healthcare": {
+    "auc": 0.6332,
+    "ci95": [
+      0.4797,
+      0.7729
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 55
+  },
+  "it_support": {
+    "auc": 0.3635,
+    "ci95": [
+      0.2158,
+      0.5228
+    ],
+    "n_rewordings": 58,
+    "n_period_changes": 60
+  }
+}
