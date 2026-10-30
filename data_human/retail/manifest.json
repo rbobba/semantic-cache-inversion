@@ -1,0 +1,10 @@
+{
+  "domain": "retail",
+  "reference_date": "2026-10-27",
+  "source": "data_md cached questions + human_spec_sheet answers",
+  "n_cached": 128,
+  "n_human": 120,
+  "sha256": {
+    "questions.jsonl": "c5fd8ddd637827322c98897cfc944243f6ed3eea6b1914743905ddea3fa54e67"
+  }
+}

@@ -1,0 +1,128 @@
+{
+  "sheets": {
+    "A": {
+      "sha256": "2a6af411070beb86e358ad710de24401f1daaa1219ac5a9153338fbeb1b531ba",
+      "bytes": 38204
+    },
+    "B": {
+      "sha256": "b4b93b68637c5cbce57854afd662b9cbcb94d54b1ea608be90396da54f3b80ac",
+      "bytes": 37646
+    },
+    "C": {
+      "sha256": "2c7dbdfc2e1bfc5d6f7917488f062940a66cb0184cdf9f0e3183ce9aa0846087",
+      "bytes": 36192
+    }
+  },
+  "empty_rows": [],
+  "spec_columns_changed": [],
+  "flagged": [
+    {
+      "writer": "A",
+      "spec_id": "s014",
+      "copied": true,
+      "duplicate": false
+    },
+    {
+      "writer": "A",
+      "spec_id": "s026",
+      "copied": true,
+      "duplicate": false
+    },
+    {
+      "writer": "A",
+      "spec_id": "s051",
+      "copied": false,
+      "duplicate": true
+    },
+    {
+      "writer": "A",
+      "spec_id": "s059",
+      "copied": false,
+      "duplicate": true
+    },
+    {
+      "writer": "A",
+      "spec_id": "s111",
+      "copied": false,
+      "duplicate": true
+    },
+    {
+      "writer": "B",
+      "spec_id": "s059",
+      "copied": false,
+      "duplicate": true
+    },
+    {
+      "writer": "C",
+      "spec_id": "s026",
+      "copied": true,
+      "duplicate": false
+    },
+    {
+      "writer": "C",
+      "spec_id": "s051",
+      "copied": false,
+      "duplicate": true
+    },
+    {
+      "writer": "C",
+      "spec_id": "s105",
+      "copied": true,
+      "duplicate": false
+    },
+    {
+      "writer": "C",
+      "spec_id": "s111",
+      "copied": false,
+      "duplicate": true
+    },
+    {
+      "writer": "C",
+      "spec_id": "s121",
+      "copied": true,
+      "duplicate": false
+    }
+  ],
+  "per_writer": {
+    "A": {
+      "n": 160,
+      "words_median": 13.0,
+      "words_iqr": [
+        12.0,
+        16.0
+      ],
+      "share_without_question_mark": 0.0688,
+      "share_starting_lowercase": 0.0625
+    },
+    "B": {
+      "n": 160,
+      "words_median": 14.0,
+      "words_iqr": [
+        11.0,
+        16.0
+      ],
+      "share_without_question_mark": 0.0375,
+      "share_starting_lowercase": 0.0
+    },
+    "C": {
+      "n": 160,
+      "words_median": 12.0,
+      "words_iqr": [
+        11.0,
+        13.0
+      ],
+      "share_without_question_mark": 0.05,
+      "share_starting_lowercase": 0.0
+    }
+  },
+  "all": {
+    "n": 480,
+    "words_median": 13.0,
+    "words_iqr": [
+      11.0,
+      15.0
+    ],
+    "share_without_question_mark": 0.0521,
+    "share_starting_lowercase": 0.0208
+  }
+}

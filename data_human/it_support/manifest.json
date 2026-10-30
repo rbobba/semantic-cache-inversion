@@ -1,0 +1,10 @@
+{
+  "domain": "it_support",
+  "reference_date": "2026-10-27",
+  "source": "data_md cached questions + human_spec_sheet answers",
+  "n_cached": 125,
+  "n_human": 120,
+  "sha256": {
+    "questions.jsonl": "e4f5fdf65aabcbd21efea689fbf669042bcaef6b975b5725f285299e8de521b7"
+  }
+}

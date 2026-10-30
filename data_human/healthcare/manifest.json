@@ -1,0 +1,10 @@
+{
+  "domain": "healthcare",
+  "reference_date": "2026-10-27",
+  "source": "data_md cached questions + human_spec_sheet answers",
+  "n_cached": 145,
+  "n_human": 120,
+  "sha256": {
+    "questions.jsonl": "a229cfcc9aea8e94bdece3122054b9e46ec4fa4c7fc719509867ff54045f1aeb"
+  }
+}
