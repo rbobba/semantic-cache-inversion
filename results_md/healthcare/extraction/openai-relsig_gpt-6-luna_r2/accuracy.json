@@ -1,0 +1,163 @@
+{
+  "domain": "healthcare",
+  "negation": {
+    "clinic_visits_excluding vs clinic_visits": {
+      "slot": "clinic",
+      "excluded_wrong": "1/112",
+      "excluded_wrong_rate": 0.0089,
+      "included_wrong": "0/114",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0089,
+      "difference_ci95": [
+        0.0,
+        0.0297
+      ]
+    }
+  },
+  "n_questions": 1399,
+  "frame_accuracy": 0.9986,
+  "frame_accuracy_ci95": [
+    0.9964,
+    1.0
+  ],
+  "slot_micro": {
+    "tp": 2567,
+    "fp": 0,
+    "fn": 2,
+    "precision": 1.0,
+    "recall": 0.9992,
+    "f1": 0.9996
+  },
+  "slots": {
+    "period": {
+      "tp": 1399,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "department": {
+      "tp": 345,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "clinic": {
+      "tp": 435,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.9977,
+      "f1": 0.9989
+    },
+    "payer": {
+      "tp": 88,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.9888,
+      "f1": 0.9944
+    },
+    "amount": {
+      "tp": 95,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 205,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 21,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 36,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 34,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 127,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 17,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 183,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 38,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 189,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 54,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 188,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 184,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 132,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 196,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "q0785",
+      "text": "How many visits were there across all clinics except the Downtown site in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "clinic": "downtown"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0847",
+      "text": "Visit count for private insurance patients in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "payer": "commercial"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    }
+  ],
+  "extractor": "openai-relsig:gpt-6-luna_r2"
+}

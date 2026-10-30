@@ -2,3 +2,9 @@
 results/*/embeddings_*.npy
 results_v2/*/embeddings_*.npy
 results_md/*/*/embeddings_*.npy
+
+# results_md reports are rebuilt exactly from extracted.jsonl and the local
+# embedders (pinned in results_md/EMBEDDERS.txt); at ~0.7 MB each they are
+# kept out of git. results_md/REPORTS_SHA256.txt records each one's hash, and
+# the full set goes to the release archive. report.md summaries are kept.
+results_md/**/report.json

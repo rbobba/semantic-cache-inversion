@@ -1,0 +1,307 @@
+{
+  "domain": "healthcare",
+  "negation": {
+    "clinic_visits_excluding vs clinic_visits": {
+      "slot": "clinic",
+      "excluded_wrong": "5/112",
+      "excluded_wrong_rate": 0.0446,
+      "included_wrong": "0/114",
+      "included_wrong_rate": 0.0,
+      "difference": 0.0446,
+      "difference_ci95": [
+        0.0095,
+        0.08
+      ]
+    }
+  },
+  "n_questions": 1399,
+  "frame_accuracy": 0.99,
+  "frame_accuracy_ci95": [
+    0.9834,
+    0.9964
+  ],
+  "slot_micro": {
+    "tp": 2564,
+    "fp": 9,
+    "fn": 5,
+    "precision": 0.9965,
+    "recall": 0.9981,
+    "f1": 0.9973
+  },
+  "slots": {
+    "period": {
+      "tp": 1399,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "department": {
+      "tp": 345,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "clinic": {
+      "tp": 431,
+      "fp": 0,
+      "fn": 5,
+      "precision": 1.0,
+      "recall": 0.9885,
+      "f1": 0.9942
+    },
+    "payer": {
+      "tp": 89,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 95,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 205,
+      "fp": 9,
+      "fn": 0,
+      "precision": 0.9579,
+      "recall": 1.0,
+      "f1": 0.9785
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 21,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 36,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 34,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 127,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 17,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 183,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 38,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 189,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 54,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 188,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 184,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 132,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 196,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "q0685",
+      "text": "Visits at every site but the Southgate site this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "clinic": "southgate"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0689",
+      "text": "How many visits were there across all clinics except the Southgate clinic last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "clinic": "southgate"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0698",
+      "text": "How many visits were there across all clinics except the Southgate site last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "clinic": "southgate"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0735",
+      "text": "Visits at every site but the Riverside site this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "clinic": "riverside"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0747",
+      "text": "How many visits were there across all clinics except the Midtown site this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "clinic": "midtown"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q1064",
+      "text": "Show the single longest patient wait last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1066",
+      "text": "Show the single longest patient wait last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1071",
+      "text": "Show the single longest patient wait this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1077",
+      "text": "Show the single longest patient wait this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1080",
+      "text": "Show the single longest patient wait last week",
+      "gold": {
+        "period": "2026-10-19/2026-10-25"
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-25",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1082",
+      "text": "Show the single longest patient wait this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1092",
+      "text": "Show the single longest patient wait in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1095",
+      "text": "Show the single longest patient wait in Q2 2026",
+      "gold": {
+        "period": "2026-04-01/2026-06-30"
+      },
+      "pred": {
+        "period": "2026-04-01/2026-06-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q1097",
+      "text": "Show the single longest patient wait in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    }
+  ],
+  "extractor": "gemini-rel:gemini-3.1-flash-lite_r2"
+}

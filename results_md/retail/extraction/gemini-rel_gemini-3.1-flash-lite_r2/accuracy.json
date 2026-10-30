@@ -1,0 +1,775 @@
+{
+  "domain": "retail",
+  "negation": {
+    "region_revenue_excluding vs region_revenue": {
+      "slot": "region",
+      "excluded_wrong": "40/105",
+      "excluded_wrong_rate": 0.381,
+      "included_wrong": "0/104",
+      "included_wrong_rate": 0.0,
+      "difference": 0.381,
+      "difference_ci95": [
+        0.2271,
+        0.5114
+      ]
+    }
+  },
+  "n_questions": 1241,
+  "frame_accuracy": 0.9573,
+  "frame_accuracy_ci95": [
+    0.9327,
+    0.979
+  ],
+  "slot_micro": {
+    "tp": 2257,
+    "fp": 13,
+    "fn": 40,
+    "precision": 0.9943,
+    "recall": 0.9826,
+    "f1": 0.9884
+  },
+  "slots": {
+    "period": {
+      "tp": 1241,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "product": {
+      "tp": 449,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "region": {
+      "tp": 169,
+      "fp": 0,
+      "fn": 40,
+      "precision": 1.0,
+      "recall": 0.8086,
+      "f1": 0.8942
+    },
+    "channel": {
+      "tp": 92,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 105,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 201,
+      "fp": 13,
+      "fn": 0,
+      "precision": 0.9393,
+      "recall": 1.0,
+      "f1": 0.9687
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 27,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 29,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 37,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 118,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 19,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 212,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 42,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 150,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 28,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 113,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 156,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 141,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 169,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "q0468",
+      "text": "What was our total revenue in the last 3 months, not counting the Midwest?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0525",
+      "text": "What was our total revenue in the last 3 months, not counting the Southeast?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "region": "southeast"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0568",
+      "text": "Total revenue from every region but the West last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0571",
+      "text": "Total revenue from every region but the West in 2025",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0572",
+      "text": "Total revenue from every region but the West during 2025",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0573",
+      "text": "Total revenue from every region but the West in the previous year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0574",
+      "text": "Total revenue from every region but the West this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0576",
+      "text": "Total revenue from every region but the West in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0578",
+      "text": "Total revenue from every region but the Midwest last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0581",
+      "text": "Total revenue from every region but the Midwest last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0583",
+      "text": "Total revenue from every region but the Midwest in the previous month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0584",
+      "text": "Total revenue from every region but the Midwest in September 2026",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0585",
+      "text": "Total revenue from every region but the Midwest this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0587",
+      "text": "Total revenue from every region but the Midwest in August 2026",
+      "gold": {
+        "period": "2026-08-01/2026-08-31",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-08-01/2026-08-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0588",
+      "text": "Total revenue from every region but the Midwest in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0590",
+      "text": "Total revenue from every region but the West last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0613",
+      "text": "Total revenue from every region but the Midwest this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0614",
+      "text": "What was our total revenue this week, not counting the Midwest?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0616",
+      "text": "Total revenue from every region but the Midwest so far this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0619",
+      "text": "Total revenue from every region but the Midwest region this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0620",
+      "text": "Total revenue from every region but the West this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0623",
+      "text": "Total revenue from every region but the Midwest this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0625",
+      "text": "Total revenue from every region but the Midwest so far this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0626",
+      "text": "Total revenue from every region but the Midwest year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0627",
+      "text": "Total revenue from every region but the Midwest in 2026",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0628",
+      "text": "Total revenue from every region but the Midwest in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0629",
+      "text": "Total revenue from every region but the Midwest region this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "midwest"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0631",
+      "text": "What was our total revenue in the last 3 months, not counting the West?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0635",
+      "text": "What were sales everywhere except the West region in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "region": "west"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0636",
+      "text": "Total revenue from every region but the Northeast last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0638",
+      "text": "Total revenue from every region but the Northeast in the previous month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0639",
+      "text": "Total revenue from every region but the Northeast in September 2026",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0642",
+      "text": "Total revenue from every region but the Northeast in August 2026",
+      "gold": {
+        "period": "2026-08-01/2026-08-31",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-08-01/2026-08-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0643",
+      "text": "Total revenue from every region but the Northeast in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0645",
+      "text": "Total revenue from every region but the Southeast last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "southeast"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0649",
+      "text": "Total revenue from every region but the Northeast so far this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0650",
+      "text": "Total revenue from every region but the Northeast year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0654",
+      "text": "Total revenue from every region but the Northeast in the last 12 months",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "region": "northeast"
+      },
+      "pred": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0660",
+      "text": "Total revenue from every region but the Southeast in September 2026",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "region": "southeast"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0661",
+      "text": "Total revenue from every region but the Southeast this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "region": "southeast"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0793",
+      "text": "What was our largest order this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0808",
+      "text": "What was our largest order last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0895",
+      "text": "Show the biggest single order last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0898",
+      "text": "Show the biggest single order during 2025",
+      "gold": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0902",
+      "text": "Largest sale in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0904",
+      "text": "Largest sale in the third quarter of 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0908",
+      "text": "Largest sale this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0911",
+      "text": "Largest sale year to date",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0918",
+      "text": "Show the biggest single order last week",
+      "gold": {
+        "period": "2026-10-19/2026-10-25"
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-25",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0923",
+      "text": "Show the biggest single order in October 2026",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0924",
+      "text": "Show the biggest single order last month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0931",
+      "text": "Largest sale in the previous month",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0933",
+      "text": "Largest sale this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    }
+  ],
+  "extractor": "gemini-rel:gemini-3.1-flash-lite_r2"
+}

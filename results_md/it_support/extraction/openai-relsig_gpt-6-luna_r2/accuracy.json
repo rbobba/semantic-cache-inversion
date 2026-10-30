@@ -1,0 +1,368 @@
+{
+  "domain": "it_support",
+  "negation": {
+    "priority_count_excluding vs priority_count": {
+      "slot": "priority",
+      "excluded_wrong": "10/116",
+      "excluded_wrong_rate": 0.0862,
+      "included_wrong": "8/122",
+      "included_wrong_rate": 0.0656,
+      "difference": 0.0206,
+      "difference_ci95": [
+        -0.0,
+        0.0491
+      ]
+    }
+  },
+  "n_questions": 1202,
+  "frame_accuracy": 0.9842,
+  "frame_accuracy_ci95": [
+    0.9773,
+    0.9903
+  ],
+  "slot_micro": {
+    "tp": 2152,
+    "fp": 1,
+    "fn": 19,
+    "precision": 0.9995,
+    "recall": 0.9912,
+    "f1": 0.9954
+  },
+  "slots": {
+    "period": {
+      "tp": 1202,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "team": {
+      "tp": 326,
+      "fp": 0,
+      "fn": 1,
+      "precision": 1.0,
+      "recall": 0.9969,
+      "f1": 0.9985
+    },
+    "priority": {
+      "tp": 220,
+      "fp": 1,
+      "fn": 18,
+      "precision": 0.9955,
+      "recall": 0.9244,
+      "f1": 0.9586
+    },
+    "service": {
+      "tp": 102,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 106,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 196,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 19,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 39,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 27,
+      "accuracy": 1.0
+    },
+    "last_3_months": {
+      "n": 92,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 13,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 152,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 48,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 189,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 87,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 129,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 166,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 217,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "q0314",
+      "text": "Average time to resolve for the help desk last year",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "team": "service_desk"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0346",
+      "text": "How many medium-priority tickets were opened last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0362",
+      "text": "Number of medium-priority tickets this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0377",
+      "text": "How many low-priority tickets were opened last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0412",
+      "text": "How many medium-priority tickets were opened this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0425",
+      "text": "Number of critical tickets this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p1"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0437",
+      "text": "How many medium-priority tickets were opened this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0451",
+      "text": "How many high-priority tickets were opened last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0462",
+      "text": "How many critical tickets were opened in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p1"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0477",
+      "text": "How many tickets were opened last year, excluding critical ones?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "priority": "p1"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0489",
+      "text": "How many tickets were opened in the last 3 months, excluding high-priority ones?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0503",
+      "text": "How many tickets of every priority except medium-priority did we get last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0516",
+      "text": "How many tickets were opened last month, excluding low-priority ones?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0525",
+      "text": "How many tickets were opened this week, excluding critical ones?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p1"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0535",
+      "text": "How many tickets of every priority except high-priority did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p1"
+      },
+      "note": null
+    },
+    {
+      "id": "q0546",
+      "text": "How many tickets of every priority except medium-priority did we get in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0558",
+      "text": "How many tickets of every priority except low-priority did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0569",
+      "text": "How many tickets of every priority except low-priority did we get this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0576",
+      "text": "How many tickets of every priority except medium-priority did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    }
+  ],
+  "extractor": "openai-relsig:gpt-6-luna_r2"
+}

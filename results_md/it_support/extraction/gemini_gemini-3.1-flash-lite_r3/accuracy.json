@@ -1,0 +1,1110 @@
+{
+  "domain": "it_support",
+  "negation": {
+    "priority_count_excluding vs priority_count": {
+      "slot": "priority",
+      "excluded_wrong": "45/116",
+      "excluded_wrong_rate": 0.3879,
+      "included_wrong": "1/122",
+      "included_wrong_rate": 0.0082,
+      "difference": 0.3797,
+      "difference_ci95": [
+        0.1466,
+        0.5893
+      ]
+    }
+  },
+  "n_questions": 1202,
+  "frame_accuracy": 0.9334,
+  "frame_accuracy_ci95": [
+    0.9006,
+    0.959
+  ],
+  "slot_micro": {
+    "tp": 2098,
+    "fp": 36,
+    "fn": 73,
+    "precision": 0.9831,
+    "recall": 0.9664,
+    "f1": 0.9747
+  },
+  "slots": {
+    "period": {
+      "tp": 1175,
+      "fp": 27,
+      "fn": 27,
+      "precision": 0.9775,
+      "recall": 0.9775,
+      "f1": 0.9775
+    },
+    "team": {
+      "tp": 327,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "priority": {
+      "tp": 192,
+      "fp": 1,
+      "fn": 46,
+      "precision": 0.9948,
+      "recall": 0.8067,
+      "f1": 0.891
+    },
+    "service": {
+      "tp": 102,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "amount": {
+      "tp": 106,
+      "fp": 0,
+      "fn": 0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1": 1.0
+    },
+    "n": {
+      "tp": 196,
+      "fp": 8,
+      "fn": 0,
+      "precision": 0.9608,
+      "recall": 1.0,
+      "f1": 0.98
+    }
+  },
+  "period_accuracy_by_value": {
+    "aug_2026": {
+      "n": 19,
+      "accuracy": 1.0
+    },
+    "last_12_months": {
+      "n": 39,
+      "accuracy": 1.0
+    },
+    "last_30_days": {
+      "n": 27,
+      "accuracy": 0.0
+    },
+    "last_3_months": {
+      "n": 92,
+      "accuracy": 1.0
+    },
+    "last_6_months": {
+      "n": 13,
+      "accuracy": 1.0
+    },
+    "last_month": {
+      "n": 152,
+      "accuracy": 1.0
+    },
+    "last_week": {
+      "n": 48,
+      "accuracy": 1.0
+    },
+    "last_year": {
+      "n": 189,
+      "accuracy": 1.0
+    },
+    "q2_2026": {
+      "n": 24,
+      "accuracy": 1.0
+    },
+    "q3_2026": {
+      "n": 87,
+      "accuracy": 1.0
+    },
+    "this_month": {
+      "n": 129,
+      "accuracy": 1.0
+    },
+    "this_week": {
+      "n": 166,
+      "accuracy": 1.0
+    },
+    "this_year": {
+      "n": 217,
+      "accuracy": 1.0
+    }
+  },
+  "unmasked_or_bad_spans": 0,
+  "errors": [
+    {
+      "id": "q0046",
+      "text": "Ticket intake for the cloud team in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "cloud"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "cloud"
+      },
+      "note": null
+    },
+    {
+      "id": "q0117",
+      "text": "Resolved ticket count for the database team in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "database"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "database"
+      },
+      "note": null
+    },
+    {
+      "id": "q0154",
+      "text": "Resolved ticket count for the security team in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "security"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "security"
+      },
+      "note": null
+    },
+    {
+      "id": "q0222",
+      "text": "How many tickets did the database team resolve in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "database"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "database"
+      },
+      "note": null
+    },
+    {
+      "id": "q0236",
+      "text": "Average time to resolve for the security team in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "security"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "security"
+      },
+      "note": null
+    },
+    {
+      "id": "q0272",
+      "text": "Average time to resolve for the network team in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "network"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "network"
+      },
+      "note": null
+    },
+    {
+      "id": "q0323",
+      "text": "How long did the database team take to resolve tickets on average in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "team": "database"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "team": "database"
+      },
+      "note": null
+    },
+    {
+      "id": "q0359",
+      "text": "Number of P3 tickets in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "priority": "p3"
+      },
+      "note": null
+    },
+    {
+      "id": "q0375",
+      "text": "How many P4 tickets were opened in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "priority": "p4"
+      },
+      "note": null
+    },
+    {
+      "id": "q0449",
+      "text": "How many P2 tickets were opened in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "priority": "p2"
+      },
+      "note": null
+    },
+    {
+      "id": "q0451",
+      "text": "How many high-priority tickets were opened last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p1"
+      },
+      "note": null
+    },
+    {
+      "id": "q0489",
+      "text": "How many tickets were opened in the last 3 months, excluding high-priority ones?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0493",
+      "text": "How many tickets of every priority except P3 did we get last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0496",
+      "text": "How many tickets of every priority except P3 did we get in the previous month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0497",
+      "text": "How many tickets of every priority except P3 did we get in September 2026?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0498",
+      "text": "How many tickets of every priority except P3 did we get this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0500",
+      "text": "How many tickets of every priority except P3 did we get in August 2026?",
+      "gold": {
+        "period": "2026-08-01/2026-08-31",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-08-01/2026-08-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0501",
+      "text": "How many tickets of every priority except P3 did we get in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0502",
+      "text": "How many tickets of every priority except priority 3 did we get last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0503",
+      "text": "How many tickets of every priority except medium-priority did we get last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0504",
+      "text": "How many tickets of every priority except P2 did we get last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0506",
+      "text": "How many tickets of every priority except P4 did we get last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0514",
+      "text": "How many tickets were opened in the last 30 days, excluding P4 ones?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "priority": "p4"
+      },
+      "note": null
+    },
+    {
+      "id": "q0528",
+      "text": "How many tickets of every priority except P2 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0530",
+      "text": "How many tickets of every priority except P2 did we get so far this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0533",
+      "text": "How many tickets of every priority except P2 did we get this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0534",
+      "text": "How many tickets of every priority except priority 2 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0535",
+      "text": "How many tickets of every priority except high-priority did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0536",
+      "text": "How many tickets of every priority except P1 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p1"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0537",
+      "text": "How many tickets of every priority except P3 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0538",
+      "text": "How many tickets of every priority except P3 did we get in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0541",
+      "text": "How many tickets of every priority except P3 did we get over the past three months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0542",
+      "text": "How many tickets of every priority except P3 did we get in Q3 2026?",
+      "gold": {
+        "period": "2026-07-01/2026-09-30",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "note": null
+    },
+    {
+      "id": "q0544",
+      "text": "How many tickets of every priority except P3 did we get in the last 6 months?",
+      "gold": {
+        "period": "2026-04-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-04-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0545",
+      "text": "How many tickets of every priority except priority 3 did we get in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0546",
+      "text": "How many tickets of every priority except medium-priority did we get in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0547",
+      "text": "How many tickets of every priority except P2 did we get in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p2"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0548",
+      "text": "How many tickets of every priority except P4 did we get in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0550",
+      "text": "How many tickets of every priority except P4 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0553",
+      "text": "How many tickets of every priority except P4 did we get so far this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0554",
+      "text": "How many tickets of every priority except P4 did we get last week?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-25"
+      },
+      "note": null
+    },
+    {
+      "id": "q0556",
+      "text": "How many tickets of every priority except P4 did we get this month?",
+      "gold": {
+        "period": "2026-10-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0557",
+      "text": "How many tickets of every priority except priority 4 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0558",
+      "text": "How many tickets of every priority except low-priority did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0560",
+      "text": "How many tickets of every priority except P4 did we get this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0563",
+      "text": "How many tickets of every priority except P4 did we get so far this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0564",
+      "text": "How many tickets of every priority except P4 did we get year to date?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0565",
+      "text": "How many tickets of every priority except P4 did we get in 2026?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0566",
+      "text": "How many tickets of every priority except P4 did we get last year?",
+      "gold": {
+        "period": "2025-01-01/2025-12-31",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2025-01-01/2025-12-31"
+      },
+      "note": null
+    },
+    {
+      "id": "q0567",
+      "text": "How many tickets of every priority except P4 did we get in the last 12 months?",
+      "gold": {
+        "period": "2025-10-28/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2025-10-28/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0568",
+      "text": "How many tickets of every priority except priority 4 did we get this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0569",
+      "text": "How many tickets of every priority except low-priority did we get this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p4"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0570",
+      "text": "How many tickets of every priority except P3 did we get this year?",
+      "gold": {
+        "period": "2026-01-01/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0572",
+      "text": "How many tickets of every priority except P3 did we get so far this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0573",
+      "text": "How many tickets of every priority except P3 did we get last week?",
+      "gold": {
+        "period": "2026-10-19/2026-10-25",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-25"
+      },
+      "note": null
+    },
+    {
+      "id": "q0575",
+      "text": "How many tickets of every priority except priority 3 did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0576",
+      "text": "How many tickets of every priority except medium-priority did we get this week?",
+      "gold": {
+        "period": "2026-10-26/2026-10-27",
+        "priority": "p3"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0680",
+      "text": "What was our overall ticket volume in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0731",
+      "text": "Resolved tickets in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0765",
+      "text": "How many tickets were resolved in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0773",
+      "text": "What was the net change in open tickets in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0827",
+      "text": "Show the slowest-resolved ticket this week",
+      "gold": {
+        "period": "2026-10-26/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-26/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0834",
+      "text": "Average time to resolve in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0850",
+      "text": "How long did tickets take to resolve on average in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0856",
+      "text": "Show the slowest-resolved ticket in the last 3 months",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0858",
+      "text": "Which ticket took longest to resolve last month?",
+      "gold": {
+        "period": "2026-09-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-09-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0862",
+      "text": "Show the slowest-resolved ticket this month",
+      "gold": {
+        "period": "2026-10-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-10-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0864",
+      "text": "What was the longest resolution time in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0869",
+      "text": "Maximum time to resolve in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27"
+      },
+      "note": null
+    },
+    {
+      "id": "q0875",
+      "text": "Show the slowest-resolved ticket last week",
+      "gold": {
+        "period": "2026-10-19/2026-10-25"
+      },
+      "pred": {
+        "period": "2026-10-19/2026-10-25",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0877",
+      "text": "Show the slowest-resolved ticket in Q3 2026",
+      "gold": {
+        "period": "2026-07-01/2026-09-30"
+      },
+      "pred": {
+        "period": "2026-07-01/2026-09-30",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0883",
+      "text": "Show the slowest-resolved ticket this year",
+      "gold": {
+        "period": "2026-01-01/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-01-01/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0890",
+      "text": "Which ticket took longest to resolve in the last 3 months?",
+      "gold": {
+        "period": "2026-07-28/2026-10-27"
+      },
+      "pred": {
+        "period": "2026-07-28/2026-10-27",
+        "n": 1
+      },
+      "note": null
+    },
+    {
+      "id": "q0939",
+      "text": "Top 2 teams by ticket volume in the last 30 days",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 2
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1033",
+      "text": "What were the 5 services with the most issues in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 5
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "n": 5
+      },
+      "note": null
+    },
+    {
+      "id": "q1044",
+      "text": "Which 2 services had the most tickets in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 2
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "n": 2
+      },
+      "note": null
+    },
+    {
+      "id": "q1063",
+      "text": "What were the 3 services with the most issues in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "n": 3
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "n": 3
+      },
+      "note": null
+    },
+    {
+      "id": "q1104",
+      "text": "Any tickets taking over 48 hours to close in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "amount": 48
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "amount": 48
+      },
+      "note": null
+    },
+    {
+      "id": "q1149",
+      "text": "Any tickets taking over 24 hours to close in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "amount": 24
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "amount": 24
+      },
+      "note": null
+    },
+    {
+      "id": "q1200",
+      "text": "Which tickets stayed open more than 48 hours in the last 30 days?",
+      "gold": {
+        "period": "2026-09-28/2026-10-27",
+        "amount": 48
+      },
+      "pred": {
+        "period": "2026-09-27/2026-10-27",
+        "amount": 48
+      },
+      "note": null
+    }
+  ],
+  "extractor": "gemini:gemini-3.1-flash-lite_r3"
+}
