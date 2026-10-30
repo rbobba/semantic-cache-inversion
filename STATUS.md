@@ -11,9 +11,9 @@ Semantic caching of text-to-SQL fails on the **small words that change the
 SQL**, and similarity cannot be tuned around them.
 
 1. **Period words (this/last).** On the raw question, a one-word period swap
-   outscores genuine rewordings for 82–98% of cached questions, in all 15
-   embedding configurations from 2021 to 2026 (comparison A). This was
-   confirmed on dataset v2 (H-A, section 12).
+   outscores genuine rewordings for 78–100% of cached questions, in all 15
+   embedding configurations from 2021 to 2026 and all four domains
+   (comparison A; G1, section 19). The older "82–98%" was finance v1 only.
    - Fixable by design: mask the period out of the similarity, have the model
      *label* it, and let code or SQL compute the dates. That gives 0 period
      errors on 2,653 questions (section 13).
@@ -34,6 +34,9 @@ SQL**, and similarity cannot be tuned around them.
 | Relative-date arm, Part 1 | **R2**: broader than dates. Prediction R1 was **wrong**. | section 13 |
 | v2 held-out replication, Part 2b | 3 of 4; **not met as registered**, because MiniLM reuses nothing | section 13 |
 | Comparison A on v2 | **Confirmed**, lower bounds 0.81–0.96 | section 12 |
+| Four domains: G1, G2, G3 / G4 | **Generalise** / **partially** (IT support's G4 is an artefact) | section 19 |
+| Guarded cache: H-N, H-N-O / H-S, H-S-O | **Generalise** / **partially: finance only**, both vendors | section 19 |
+| Full-signature guard on human questions | Pre-registered, **draft**; pilot running | section 18 |
 
 ## Corrections already made (keep them made)
 
@@ -59,6 +62,13 @@ SQL**, and similarity cannot be tuned around them.
 
 ## Open, in priority order
 
+**Now (2026-10-30):** pilot 1 of the full-signature prompt is done (no
+wrong reuse on held-out wording; five definitions tightened, commit
+`cd15afe`). Pilot 2 (`-Tag pilot2`) is running. The agent then checks it,
+fills in section 18's pilot paragraph, adds the secondary embedders to HQ-P,
+records the section's hash, and asks for a commit. Only then are the
+writers' sheets ingested (`human.py`). Items 0 and 1 below are otherwise done.
+
 0. **Four-domain generalisation (README section 14, pre-registered).**
    - Domains: finance, retail, healthcare and IT support, in `data_md/`.
    - The author runs `.\run_extractions.ps1`: 24 flash-lite runs plus 4
@@ -77,10 +87,18 @@ SQL**, and similarity cannot be tuned around them.
    - `data_v2/human_spec_sheet.csv` is **superseded**. Do not send it.
    - Each writer gets their **own copy** and answers all 160 rows.
    - Write the analysis pre-registration **before** opening the filled sheets.
-   - Ingestion code is not written yet.
-   - **Writer 1 returned the sheet on 2026-10-29, unopened.** It is kept outside
-     the repo, SHA-256 `2a6af411070beb86e358ad710de24401f1daaa1219ac5a9153338fbeb1b531ba`
-     (38,204 bytes). It had been saved over the blank in `data_md/`; the blank
+   - Ingestion (`human.py`) and analysis (`human_eval.py`) were written and
+     committed (`0c4edcf`) before any sheet was opened.
+   - **All three sheets returned on 2026-10-29, unopened.** They are kept
+     outside the repo. Recorded before the analysis pre-registration:
+
+     | Writer | Saved | Bytes | SHA-256 |
+     |---|---|---:|---|
+     | 1 | 14:56 | 38,204 | `2a6af411070beb86e358ad710de24401f1daaa1219ac5a9153338fbeb1b531ba` |
+     | 2 | 19:40 | 37,646 | `b4b93b68637c5cbce57854afd662b9cbcb94d54b1ea608be90396da54f3b80ac` |
+     | 3 | 19:59 | 36,192 | `2c7dbdfc2e1bfc5d6f7917488f062940a66cb0184cdf9f0e3183ce9aa0846087` |
+
+     Writer 1's sheet had been saved over the blank in `data_md/`; the blank
      was restored.
    - The committed blank had LF line endings, while the manifest and the
      generator use CRLF. The rows are identical. The generator's output was
@@ -116,6 +134,18 @@ claim is final.
 - Tag v1.0, then archive on Zenodo for a DOI.
 - Post an arXiv preprint citing the repo and the DOI.
 - Later: a workshop or conference submission, and a blog post.
+
+## Results in git (from 2026-10-30)
+
+- Committed: every `raw.jsonl` (what the model returned, which a rerun cannot
+  reproduce), `extracted.jsonl`, `accuracy.*` and each `report.md`.
+- Not committed: `results_md/**/report.json` (about 0.7 MB each). Each is
+  rebuilt exactly from `extracted.jsonl` and the embedders pinned in
+  `results_md/EMBEDDERS.txt`; `results_md/REPORTS_SHA256.txt` holds the hash
+  of every one. Regenerate that file whenever reports are added. The full set
+  goes to the release archive.
+- `results_v2` keeps its committed `report.json` files, from before this
+  rule.
 
 ## How the work is split
 

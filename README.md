@@ -1613,3 +1613,327 @@ against its full text on 2026-10-29:
 
 No rule or number changes. The frozen sections are left as written, so their
 recorded hashes still hold, and this note corrects them.
+
+---
+
+## 18. Pre-registration: the human-written questions, and a full-signature guard (frozen DRAFT)
+
+### Why
+
+Every result so far was measured on wording the study generated itself. The
+held-out split keeps a query's template away from the cache, which is the
+nearest a generated dataset gets to new phrasing, but the templates were all
+written by one author. The obvious objection to every claim in this README is
+that real people do not talk like templates. This section answers that
+objection, and it is decided before anyone reads what the writers wrote.
+
+It also tests a corrected design. Sections 15 and 16 found that the guarded
+cache leaks outside finance, with both extractor vendors (section 19 has the
+numbers). The cause is the same everywhere: the signature records the
+operation but leaves the measure (visits or referrals) and the grouping
+(teams or services) to similarity, and similarity confuses them on unseen
+wording. The fix is to stop leaving them to similarity. The writers'
+questions are the only data neither the author nor the agent has seen, so
+they are the only place left where that fix can be tested fairly.
+
+### The writers
+
+Three volunteers, none of them the author: an analytics director, a software
+engineer and an architect. Each filled in their own copy of the same 160-row
+sheet (`data_md/human_spec_sheet.csv`), following
+`data_md/human_writer_instructions.md`, which asks them to work alone and not
+to use an AI assistant. The sheets came back on 2026-10-29. Their SHA-256
+hashes were recorded in `STATUS.md` before this section was written, and none
+of them has been opened.
+
+### The data
+
+`human.py` turns the three sheets into one dataset per domain under
+`data_human/`:
+- the domain's cached questions from `data_md`, unchanged;
+- each writer's questions as queries. A domain has 40 specs, 20 asking the
+  same thing as a cached question and 20 asking it over a neighbouring
+  period, so with three writers it has up to 120 queries.
+
+A writer's question takes its gold parameters from its spec: the cached
+question's parameters, with the period replaced where the spec changes it.
+It is grouped with the cached question it was written from, so the bootstrap
+resamples a spec's three versions together. Writers are labelled A, B and C;
+their initials are not copied.
+
+### The full-signature guard
+
+The design is section 15's, with a different signature:
+
+```
+signature = (operation, measure, group_by, excludes)
+```
+
+- **measure** and **group_by** come from a closed list per domain, written
+  from the domain's schema the way a semantic layer would define it
+  (`guards.py`, `FULL_MEASURES` and `FULL_GROUPINGS`). Healthcare's measures,
+  for example, are visits, wait time, charges, referrals received, referrals
+  sent and no-shows.
+- **flow is dropped.** The measure carries direction (refunds or spending,
+  referrals received or sent), and section 15's "inbound" had two readings
+  outside finance.
+- **The operation definitions are clearer.** Section 15 left "units sold"
+  between a sum and a count; it is now listed as a count.
+- **Every value is shown with all its known wordings,** as a semantic layer's
+  synonym list would be. Section 15's prompt showed only the first, so
+  "critical" was never tied to p1.
+- Everything else is unchanged: the same slot guard, negation guard and 0.50
+  shortlist floor, with section 16's floor sweep reported.
+
+The new arms are `gemini-relfull:gemini-3.1-flash-lite` and
+`openai-relfull:gpt-6-luna`. Two things were checked: the existing arms'
+prompts and schemas are byte-identical to their committed versions in all
+four domains, and a report from section 15's runs reproduces exactly under
+the changed `evaluate.py`.
+
+**What the design can and cannot get wrong.** With the reference signatures,
+the slot set plus the full signature tells every intent apart in all four
+domains (14, 14, 16 and 14 distinct keys, checked mechanically). On
+healthcare's held-out wording it then gives no false reuse and 100% correct
+reuse, against 0.6% for an exact-key cache. Similarity is left only to break
+ties between templates of the same intent, so the design can fail in one way:
+the extractor reading a signature or a value wrong. That is what this test
+measures.
+
+### Development before freezing (disclosed)
+
+The full-signature prompt was piloted on the synthetic data, which has
+already been seen, with one run per vendor in all four domains
+(`run_fullsig_pilot.ps1`, tag `pilot`). The pilot checks that each measure
+and grouping definition has one reading. It is development, not a result.
+
+PILOT RESULTS AND ANY DEFINITION CHANGES GO HERE BEFORE FREEZING.
+
+### Hypotheses
+
+Each hypothesis is decided on all the writers' questions together. The cache
+hypotheses use section 14's four open embedders; the commercial embedders are
+not run on this data.
+
+| Id | Hypothesis | Holds when |
+|---|---|---|
+| **HQ-P** | Raw similarity cannot reliably tell a person's rewording from their period change | The AUC for "a same-meaning question is closer to its cached question than a period-changed question is to its own" has a 95% CI upper bound below 0.80, in each of the four embedders, all domains pooled. 0.80 is where the conventional "excellent" band begins (Hosmer and Lemeshow). |
+| **HQ-D** | Period labels still remove date errors on people's wording | At most 0.5% of the writers' questions have a period error, in each of r1–r3, for both vendors' `relfull` runs. This is G2's rule. |
+| **HQ-C** | The negation cue list covers how people phrase an exclusion | It catches at least 95% of the questions written for an "except" spec, and fires on at most 1% of the rest. |
+| **HQ-S** | Section 15's guarded cache works on people's wording | H-S's rule on the `relsig` runs: false share ≤ 1% and correct reuse ≥ the exact-key cache + 0.10, in all four embedders, in ≥ 2 of r1–r3. Judged per domain and per vendor. |
+| **HQ-F** | **The full-signature guard works on people's wording** | The same rule, for `split_template_fullsig` on the `relfull` runs. Judged per domain and per vendor. It may be called extractor-independent in a domain only where it holds for both vendors. |
+
+HQ-F is the primary hypothesis. The verdict words are section 15's:
+generalises, partially, does not generalise.
+
+**Predictions, written down and not part of any rule:**
+- HQ-P holds. People reword more freely than templates do, which lowers the
+  similarity of genuine rewordings, while a period change still leaves most
+  of a question's words in place.
+- HQ-D holds. Dates are resolved in code.
+- HQ-C: no confident prediction. The cue list has no "not including",
+  "without" or "leaving out".
+- HQ-S does not hold in retail, healthcare or IT support, for the reasons
+  section 19 gives.
+- HQ-F: no confident prediction. It depends on how often each extractor reads
+  people's wording into the right measure and grouping.
+
+**Reported without a hypothesis:**
+- results per writer;
+- per-field agreement of each vendor's full signature with the reference;
+- the reference-signature upper bound, and the floor sweep;
+- every wrong reuse by `split_template_fullsig`, with its cause;
+- every period error, and every exclusion question the cue list missed, with
+  its text.
+
+### Which rows count
+
+- **Every non-empty row is analysed.** No row is dropped for its wording.
+- A row whose spec columns differ from the blank sheet is scored against the
+  blank spec, and listed.
+- **The naturalness screen** (`human.py`, written before any sheet was
+  opened):
+  - a row is flagged as copied if it repeats five or more consecutive words
+    of its spec's goal. Thirty-two of the 160 goals are shorter than five
+    words, so those rows cannot be flagged;
+  - a row is flagged as a duplicate if another writer wrote the same words
+    for the same spec;
+  - per writer: the median length in words and its interquartile range, the
+    share of rows without a question mark, and the share starting in lower
+    case.
+- **A meaning check.** Before any extraction result is opened, the agent
+  reads every question against its spec and marks whether it keeps the
+  meaning (`data_human/meaning_check.csv`). The file is committed before the
+  analysis runs.
+- The hypotheses are decided on all rows. They are then re-run without the
+  flagged rows, and again without the rows marked as changing the meaning. If
+  a verdict changes, the paper reports both.
+
+### Order of work
+
+1. This section is frozen and committed.
+2. The agent runs `human.py` on the three sheets, then writes and commits the
+   meaning check.
+3. The author runs `run_human_extractions.ps1` for each vendor.
+4. The agent runs `human_eval.py` and reports.
+
+### Commands
+
+```
+python human.py --sheet A=<sheet 1> --sheet B=<sheet 2> --sheet C=<sheet 3>
+.\run_human_extractions.ps1 -Vendor gemini
+.\run_human_extractions.ps1 -Vendor openai
+python human_eval.py --embedder <e> [--prefix "query: "] [--exclude copied|meaning]
+python human_eval.py --embedder <e> [--prefix "query: "] --domain <d> --extracted results_human/<d>/extraction/<arm>_<tag>/extracted.jsonl [--exclude copied|meaning]
+```
+
+---
+
+## 19. Results of sections 14–16, and mistakes found after the runs (2026-10-29)
+
+### The runs
+
+All runs registered in sections 14–16 completed, and every one was checked
+for completeness: each question answered exactly once, and no empty or failed
+responses.
+- **Extraction:** 28 Gemini runs (section 14), 12 Gemini signature runs
+  (section 15) and 12 OpenAI signature runs (section 16). The OpenAI runs
+  logged about $2.95 of tokens, close to the $2.84 the smoke test projected.
+- **Evaluation:** 288 reports from the four open embedders on the extraction
+  runs, plus 120 inversion reports from all 15 embedding configurations in
+  four domains.
+- Two runs hung after the PC went into standby: their connections were
+  dropped and the clients had no timeout. Both were restarted and resumed
+  from their saved responses, so nothing was lost or repeated. The extractors
+  now time out and retry (section 18). Results are unaffected.
+
+Repeat runs barely differ. Most counts are identical across r1–r3, and the
+largest difference in any extraction count is two questions.
+
+### Verdicts, as registered
+
+| Id | Verdict | Notes |
+|---|---|---|
+| G1 | **Generalises** (3/3) | As predicted |
+| G2 | **Generalises** (3/3) | As predicted |
+| G3 | **Generalises** (3/3) | Small in healthcare |
+| G4 | **Partially** (2/3: retail, IT support) | IT support's result is an artefact; see mistake 4 |
+| H-N | **Generalises** (3/3) | As predicted |
+| H-S | **Partially** (1/4: finance only) | Finance is the development domain |
+| H-N-O | **Generalises** (3/3) | As predicted |
+| H-S-O | **Partially** (1/4: finance only) | |
+| Extractor-independent | Finance only | |
+| Robust to the floor | Finance only, both vendors | |
+
+### What the numbers say
+
+**The period problem is real in every domain (G1).** Across all 15
+embedding configurations and all four domains, comparison A runs from 0.78 to
+1.00, and its lowest 95% lower bound is 0.70 (voyage-3-large, finance). The
+range quoted earlier, 0.82–0.98, came from finance v1. **The figure to cite
+is now 0.78–1.00, in 15 configurations and 4 domains.**
+
+**Period labels remove date errors (G2).** The relative arm made no period
+error in any of 15,411 extractions. The absolute arm got 2.2–3.0% of
+questions wrong, the same in every repeat. The count was checked twice: from
+`accuracy.json`, and directly against the gold parameters.
+
+**The negation drop is real, but its size varies a lot (G3).**
+
+| Domain | Excluded value dropped | Included value wrong | Difference [95% CI] |
+|---|---|---|---|
+| finance | 39/111 | 0/111 | 0.35 [0.21, 0.49] |
+| retail | 39–40/105 | 0/104 | 0.37–0.38 |
+| healthcare | 5/112 | 0/114 | 0.045 [0.009, 0.080] |
+| IT support | 45–46/116 | 3/122 | 0.36–0.37 [0.14, 0.57] |
+
+gemini-3.5-flash dropped no excluded value in finance, retail or healthcare.
+
+**The template cache's remaining risk is negation (G4).** Every false reuse
+behind G4 was traced to its cause, in r1 for finance and retail and in all
+three repeats for IT support:
+- finance (0.8–3.6%) and retail (3.9–4.7%): all of them are "everything
+  except X" questions whose X was dropped, which is G3's failure;
+- IT support (3.4–5.0%): all of them are priority values read wrong, which is
+  mistake 4 below. Without it, IT support has no false reuse;
+- healthcare: none.
+
+The negation guard removes exactly these errors, with no loss of correct
+reuse, in every domain and with both vendors (H-N, H-N-O).
+
+**The guarded cache reuses far more, but not safely (H-S, H-S-O).** On
+held-out wording, across r1–r3 and the four embedders:
+
+| Domain | Vendor | Wrong reuses | Correct reuse | Exact-key cache, correct reuse |
+|---|---|---|---|---|
+| finance | Gemini / OpenAI | 0% / 0.4% | 100% / 98–99% | 0–4% |
+| retail | Gemini / OpenAI | 0–5.7% / 2.1–2.6% | 94–100% / 85–88% | 0–3% |
+| healthcare | Gemini / OpenAI | 0.4–7.6% / 0–8.8% | 90–98% / 91–100% | 0–1% |
+| IT support | Gemini / OpenAI | 0–11.8% / 0–13.4% | 88–98% / 77–87% | 0–1% |
+
+The false share is the same at every floor from none to 0.70, so the leak
+does not come from the similarity threshold. It comes from what the guards
+do not check.
+
+**Why it leaks.** Every wrong reuse on held-out wording reuses a template of
+the wrong intent with the right values. With the reference signatures in
+place of the extractor's, the leak falls in two domains and stays in one:
+
+| Domain | Confused | Leak with the extractor's signatures | With reference signatures | Cause |
+|---|---|---|---|---|
+| retail | units sold → revenue | 0–5.7% | 0% | The model read "units sold" as a sum 52 times and a count 59 times (mistake 3) |
+| healthcare | clinic visits → referrals received; visits ↔ no-shows | 0.4–7.6% | 0–1.5% | The model called visits "inbound" 83 times out of 114 (mistake 2). The rest is mistake 1. |
+| IT support | top teams ↔ top services | 0–11.8% | 0–11.8% | The same signature by design (mistake 1) |
+
+**An observation, not a hypothesis.** Asking for the operator signature in
+the same call nearly removed the negation drop:
+
+| Domain | Excluded value dropped, relative prompt | With the signature block | gpt-6-luna, signature block |
+|---|---|---|---|
+| finance | 39/111 | 0/111 | 0–1/111 |
+| retail | 39–40/105 | 0/105 | 0/105 |
+| healthcare | 5/112 | 0/112 | 0–1/112 |
+| IT support | 45–46/116 | 4/116 | 10/116 |
+
+The signature asks whether the question excludes something, which seems to
+make the model look for the excluded value. Section 13 found that an
+unrelated prompt change doubled the drop rate; this is the same sensitivity
+working in the other direction. It was not predicted and is reported as
+observed.
+
+### Mistakes found after the runs
+
+The frozen sections are left as written. Each mistake is listed with what it
+affects.
+
+1. **The signature left the measure and the grouping to similarity.**
+   Section 15 assumed that embeddings judge topic well and operators badly.
+   That came from finance, and it does not hold on held-out wording
+   elsewhere: visits and no-shows, and teams and services, have the same
+   signature, and similarity confuses them. This was a design error by the
+   agent, and it accounts for all of IT support's guarded-cache leak.
+   *Affects:* H-S, H-S-O. *Corrected in:* section 18.
+2. **"flow" had two readings outside finance.** The prompt defines inbound as
+   "what comes in to the user or organisation", and a patient visit fits
+   that as well as an incoming referral does. *Affects:* H-S and H-S-O in
+   healthcare. *Corrected in:* section 18, by dropping flow.
+3. **"Units sold" was neither clearly a sum nor clearly a count.** *Affects:*
+   H-S in retail (e5 only). *Corrected in:* section 18.
+4. **The IT support prompt never said that "critical" means p1.** It lists
+   each priority by its id and its first wording ("p1 (P1)"), while the gold
+   labels follow the common convention critical = P1, high = P2, medium = P3,
+   low = P4. flash-lite guesses the mapping and is sometimes off by one;
+   gpt-6-luna and gemini-3.5-flash leave the priority empty.
+   *Affects:* G4 in IT support (its whole leak), and the IT support extraction
+   and negation figures of gpt-6-luna and gemini-3.5-flash. It does not make
+   the guarded cache unsafe, because an empty value fails the slot guard.
+   *Corrected in:* section 18, which shows every value with all its wordings.
+5. **Sections 9 and 15 called arXiv:2601.11687 an NL-to-SQL cache.** It
+   generates pandas code. Corrected in section 17; no number changes.
+6. **The committed blank human sheet had LF line endings,** so it did not
+   match `manifest.json`. The rows were identical, so the writers' sheets are
+   unaffected. The generator's output was restored.
+
+Mistakes 1–4 are the agent's: the agent wrote the design, the prompts and the
+domain definitions, and none of them was piloted outside finance before it
+was frozen. Section 18 adds that pilot.
