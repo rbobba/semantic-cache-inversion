@@ -314,16 +314,19 @@ flow: one of
 _FULL_SIGNATURE = """\
 Also describe what the question computes, independently of its values:
 operation: one of
-- sum: a total amount of money (total spent, revenue, refunds, charges billed)
-- count: how many of something (transactions, orders, units sold, visits,
-  referrals, no-shows, tickets)
+- sum: a total amount of money (total spent, revenue, refunds, charges billed).
+  A total of anything that is not money is a count.
+- count: how many of something, including totals of things that are not money
+  (transactions, orders, units sold, visits, referrals, no-shows, tickets)
 - average: an average or mean (average price, average wait, average resolution time)
 - maximum: the single largest, longest or most expensive item
-- rate: a share or percentage
-- list: every item above a threshold
+- rate: a share or percentage, or how often something happens
+- list: every item above a threshold, or whether any exist
 - rank: the top N items by some measure
-- difference: one quantity minus another
-measure: what is being added up, counted, averaged or ranked. One of
+- difference: one quantity minus another, including any net figure (net sales,
+  net cash flow, what is left after something)
+measure: what is being added up, counted, averaged or ranked. For list and
+maximum, it is the quantity compared with the threshold or maximised. One of
 {measures}
 group_by: what the question ranks or breaks its answer down by. One of
 {groupings}
