@@ -64,7 +64,14 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 import numpy as np
-from guards import GOLD_SIGNATURES, has_negation_cue, negation_consistent, signature_key
+from guards import (
+    GOLD_FULL_SIGNATURES,
+    GOLD_SIGNATURES,
+    full_signature_key,
+    has_negation_cue,
+    negation_consistent,
+    signature_key,
+)
 
 HERE = Path(__file__).parent
 THRESHOLDS = np.round(np.arange(0.50, 1.0001, 0.005), 3)
@@ -569,7 +576,7 @@ def cache_simulation(
         correct_slots = same_intent & slots_right[:, None]
         designs["split_template_negguard"] = (S_ext, e_same_slots & neg_guard, correct_slots)
         calibrate_from["split_template_negguard"] = "split_template"
-        if all("signature" in ext[q["id"]] for q in questions):
+        if all("flow" in (ext[q["id"]].get("signature") or {}) for q in questions):
             # Signature guard: the extractor's own (operation, excludes, flow)
             # must match. Similarity only shortlists, at the fixed 0.50.
             sq = [signature_key(ext[q["id"]]["signature"]) for q in queries]
@@ -593,6 +600,28 @@ def cache_simulation(
                 correct_slots,
             )
             fixed_thresholds["split_template_guarded_goldsig"] = GUARD_SHORTLIST_THRESHOLD
+        if all("measure" in (ext[q["id"]].get("signature") or {}) for q in questions):
+            # Full signature (README section 18): the measure and grouping too,
+            # so similarity only breaks ties between same-intent templates.
+            fq = [full_signature_key(ext[q["id"]]["signature"]) for q in queries]
+            fa = [full_signature_key(ext[a["id"]]["signature"]) for a in anchors]
+            full_eq = np.array([[x is not None and x == y for y in fa] for x in fq])
+            designs["split_template_fullsig"] = (
+                S_ext,
+                e_same_slots & neg_guard & full_eq,
+                correct_slots,
+            )
+            fixed_thresholds["split_template_fullsig"] = GUARD_SHORTLIST_THRESHOLD
+            gf = GOLD_FULL_SIGNATURES[domain]
+            gold_full_eq = np.array(
+                [[gf[q["intent"]] == gf[a["intent"]] for a in anchors] for q in queries]
+            )
+            designs["split_template_fullsig_gold"] = (
+                S_ext,
+                e_same_slots & neg_guard & gold_full_eq,
+                correct_slots,
+            )
+            fixed_thresholds["split_template_fullsig_gold"] = GUARD_SHORTLIST_THRESHOLD
     group = np.array([a_index[q["group"]] for q in queries])
 
     # Routing does not depend on the resample — the cache is fixed and only
@@ -677,7 +706,12 @@ def cache_simulation(
     # The guarded designs at other shortlist floors. Uses no randomness, so
     # it changes no other number in a report.
     shortlist_sweep = {}
-    for name in ("split_template_guarded", "split_template_guarded_goldsig"):
+    for name in (
+        "split_template_guarded",
+        "split_template_guarded_goldsig",
+        "split_template_fullsig",
+        "split_template_fullsig_gold",
+    ):
         if name not in routed:
             continue
         _, best, ok, _ = routed[name]

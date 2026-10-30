@@ -25,13 +25,16 @@ Extractors:
   gemini-relsig:<model>
                     gemini-rel plus an operator signature (operation, excludes,
                     flow) for the guarded cache of README section 15.
+  gemini-relfull:<model>
+                    gemini-rel plus the full signature (operation, measure,
+                    group_by, excludes) of README section 18.
   gemini:<model>    Vertex AI the way the application calls Gemini:
                     temperature 0, JSON output enforced with
                     response_json_schema, location "global". The prompt states
                     the dataset's date conventions, as a deployed system's
                     prompt would state its own.
-  openai:<model>, openai-rel:<model>, openai-relsig:<model>
-                    The same three arms with the same prompt and schema
+  openai:<model>, openai-rel:<model>, openai-relsig:<model>, openai-relfull:<model>
+                    The same arms with the same prompt and schema
                     through OpenAI's Responses API (README section 16), at the
                     vendor's default settings. Needs OPENAI_API_KEY.
 
@@ -304,16 +307,59 @@ flow: one of
 - net: inbound minus outbound
 - none: neither applies"""
 
+# The full signature (README section 18): the operation, plus the measure and
+# grouping from the domain's own lists, so that no part of what a question
+# computes is left to similarity. Definitions are written to have one reading
+# each; section 15's "flow" had two outside finance.
+_FULL_SIGNATURE = """\
+Also describe what the question computes, independently of its values:
+operation: one of
+- sum: a total amount of money (total spent, revenue, refunds, charges billed)
+- count: how many of something (transactions, orders, units sold, visits,
+  referrals, no-shows, tickets)
+- average: an average or mean (average price, average wait, average resolution time)
+- maximum: the single largest, longest or most expensive item
+- rate: a share or percentage
+- list: every item above a threshold
+- rank: the top N items by some measure
+- difference: one quantity minus another
+measure: what is being added up, counted, averaged or ranked. One of
+{measures}
+group_by: what the question ranks or breaks its answer down by. One of
+{groupings}
+- none: the question asks for a single number, a single item or a list
+excludes: true if the question asks about everything EXCEPT a named value, otherwise false."""
 
-def _gemini_prompt(ref: date, relative: bool = False, signature: bool = False) -> str:
+
+def _full_signature_block() -> str:
+    from guards import FULL_GROUPINGS, FULL_MEASURES
+
+    def lines(d: dict[str, str]) -> str:
+        return "\n".join(f"- {k}: {v}" for k, v in d.items())
+
+    return _FULL_SIGNATURE.format(
+        measures=lines(FULL_MEASURES[DOMAIN.name]), groupings=lines(FULL_GROUPINGS[DOMAIN.name])
+    )
+
+
+def _gemini_prompt(
+    ref: date, relative: bool = False, signature: bool = False, full: bool = False
+) -> str:
     def ids(slot: str) -> str:
-        return ", ".join(f"{v} ({ss[0]})" for v, ss in SLOTS[slot][0].items())
+        # The full arm lists every known wording of a value, as a semantic
+        # layer's synonyms would. The other arms show only the first, which
+        # left "critical" = p1 unstated (section 19).
+        return ", ".join(
+            f"{v} ({', '.join(ss if full else ss[:1])})" for v, ss in SLOTS[slot][0].items()
+        )
 
     slot_lines = "\n".join(
         f"{s}: {DOMAIN.slot_prompts[s].format(ids=ids(s))}" for s in SLOT_ORDER if s != "period"
     )
     if signature:
         slot_lines += "\n\n" + _SIGNATURE
+    if full:
+        slot_lines += "\n\n" + _full_signature_block()
     return f"""\
 {DOMAIN.prompt_intro}
 
@@ -384,7 +430,7 @@ def resolve_relative(v: dict, ref: date) -> str:
     raise ValueError(f"unknown period kind {kind!r}")
 
 
-def _gemini_schema(relative: bool = False, signature: bool = False) -> dict:
+def _gemini_schema(relative: bool = False, signature: bool = False, full: bool = False) -> dict:
     def slot(value: dict) -> dict:
         return {
             "type": ["object", "null"],
@@ -428,11 +474,27 @@ def _gemini_schema(relative: bool = False, signature: bool = False) -> dict:
         properties["excludes"] = {"type": "boolean"}
         properties["flow"] = {"type": "string", "enum": SIGNATURE_FLOWS}
         required += ["operation", "excludes", "flow"]
+    if full:
+        from guards import FULL_GROUPINGS, FULL_MEASURES
+
+        properties["operation"] = {"type": "string", "enum": SIGNATURE_OPERATIONS}
+        properties["measure"] = {"type": "string", "enum": list(FULL_MEASURES[DOMAIN.name])}
+        properties["group_by"] = {
+            "type": "string",
+            "enum": [*FULL_GROUPINGS[DOMAIN.name], "none"],
+        }
+        properties["excludes"] = {"type": "boolean"}
+        required += ["operation", "measure", "group_by", "excludes"]
     return {"type": "object", "properties": properties, "required": required}
 
 
 def _from_llm_json(
-    text: str, out: dict, ref: date, relative: bool = False, signature: bool = False
+    text: str,
+    out: dict,
+    ref: date,
+    relative: bool = False,
+    signature: bool = False,
+    full: bool = False,
 ) -> dict:
     """Model JSON -> gold-format params and masked text.
 
@@ -477,6 +539,9 @@ def _from_llm_json(
     result = {"params": params, "masked_text": mask(text, kept), "note": "; ".join(notes) or None}
     if signature:
         result["signature"] = {k: out.get(k) for k in ("operation", "excludes", "flow")}
+    if full:
+        keys = ("operation", "measure", "group_by", "excludes")
+        result["signature"] = {k: out.get(k) for k in keys}
     return result
 
 
@@ -490,16 +555,25 @@ def extract_gemini(
     workers: int,
     relative: bool = False,
     signature: bool = False,
+    full: bool = False,
 ) -> dict[str, dict]:
     from google import genai
     from google.genai import types
 
-    client = genai.Client(vertexai=True, project=project, location=location)
+    # A timeout, so a connection dropped by sleep or a network blip fails and
+    # is retried instead of hanging the run (seen 2026-10-29). Results are
+    # unaffected.
+    client = genai.Client(
+        vertexai=True,
+        project=project,
+        location=location,
+        http_options=types.HttpOptions(timeout=120_000),
+    )
     cfg = types.GenerateContentConfig(
         temperature=0.0,
         response_mime_type="application/json",
-        response_json_schema=_gemini_schema(relative, signature),
-        system_instruction=_gemini_prompt(ref, relative, signature),
+        response_json_schema=_gemini_schema(relative, signature, full),
+        system_instruction=_gemini_prompt(ref, relative, signature, full),
         # Gemini 3 bills thinking against max_output_tokens (config.py notes
         # this for the agent); leave room so a long think cannot truncate JSON.
         max_output_tokens=4096,
@@ -550,7 +624,9 @@ def extract_gemini(
     if failed:
         raise SystemExit(f"{len(failed)} questions failed, e.g. {failed[0]}; rerun to resume")
     return {
-        q["id"]: _from_llm_json(q["text"], done[q["id"]]["response"], ref, relative, signature)
+        q["id"]: _from_llm_json(
+            q["text"], done[q["id"]]["response"], ref, relative, signature, full
+        )
         for q in questions
     }
 
@@ -558,7 +634,7 @@ def extract_gemini(
 # ── openai (README section 16: a second extractor vendor) ────────────────
 
 
-def _openai_schema(relative: bool = False, signature: bool = False) -> dict:
+def _openai_schema(relative: bool = False, signature: bool = False, full: bool = False) -> dict:
     """The Gemini schema in OpenAI's strict dialect, with nothing else changed.
 
     Strict structured outputs need additionalProperties false on every object,
@@ -573,7 +649,7 @@ def _openai_schema(relative: bool = False, signature: bool = False) -> dict:
         obj["properties"] = {k: strict(v) for k, v in s["properties"].items()}
         return {"anyOf": [obj, {"type": "null"}]} if s["type"] == ["object", "null"] else obj
 
-    return strict(_gemini_schema(relative, signature))
+    return strict(_gemini_schema(relative, signature, full))
 
 
 def extract_openai(
@@ -584,6 +660,7 @@ def extract_openai(
     workers: int,
     relative: bool = False,
     signature: bool = False,
+    full: bool = False,
 ) -> dict[str, dict]:
     """The same prompt and schema as the Gemini arms, through the Responses API.
 
@@ -593,14 +670,16 @@ def extract_openai(
     """
     from openai import OpenAI
 
-    client = OpenAI(max_retries=0)  # the backoff below is the only retry
+    # The backoff below is the only retry; the timeout stops a dropped
+    # connection from hanging the run (seen 2026-10-29).
+    client = OpenAI(max_retries=0, timeout=120.0)
     fmt = {
         "type": "json_schema",
         "name": "parameters",
         "strict": True,
-        "schema": _openai_schema(relative, signature),
+        "schema": _openai_schema(relative, signature, full),
     }
-    instructions = _gemini_prompt(ref, relative, signature)
+    instructions = _gemini_prompt(ref, relative, signature, full)
     done: dict[str, dict] = {}
     if raw_path.exists():
         for line in raw_path.read_text(encoding="utf-8").splitlines():
@@ -658,7 +737,9 @@ def extract_openai(
     if failed:
         raise SystemExit(f"{len(failed)} questions failed, e.g. {failed[0]}; rerun to resume")
     return {
-        q["id"]: _from_llm_json(q["text"], done[q["id"]]["response"], ref, relative, signature)
+        q["id"]: _from_llm_json(
+            q["text"], done[q["id"]]["response"], ref, relative, signature, full
+        )
         for q in questions
     }
 
@@ -874,7 +955,7 @@ def main() -> None:
         ext = extract_gold(questions, ref)
     elif kind == "duckling":
         ext = extract_duckling(questions, ref, args.duckling_url)
-    elif kind in ("gemini", "gemini-rel", "gemini-relsig"):
+    elif kind in ("gemini", "gemini-rel", "gemini-relsig", "gemini-relfull"):
         if not args.project:
             raise SystemExit("--project is required for gemini extractors")
         ext = extract_gemini(
@@ -885,18 +966,20 @@ def main() -> None:
             args.location,
             out_dir / "raw.jsonl",
             args.workers,
-            relative=kind in ("gemini-rel", "gemini-relsig"),
+            relative=kind in ("gemini-rel", "gemini-relsig", "gemini-relfull"),
             signature=kind == "gemini-relsig",
+            full=kind == "gemini-relfull",
         )
-    elif kind in ("openai", "openai-rel", "openai-relsig"):
+    elif kind in ("openai", "openai-rel", "openai-relsig", "openai-relfull"):
         ext = extract_openai(
             questions,
             ref,
             model,
             out_dir / "raw.jsonl",
             args.workers,
-            relative=kind in ("openai-rel", "openai-relsig"),
+            relative=kind in ("openai-rel", "openai-relsig", "openai-relfull"),
             signature=kind == "openai-relsig",
+            full=kind == "openai-relfull",
         )
     else:
         raise SystemExit(f"unknown extractor {args.extractor!r}")
