@@ -36,7 +36,7 @@ SQL**, and similarity cannot be tuned around them.
 | Comparison A on v2 | **Confirmed**, lower bounds 0.81–0.96 | section 12 |
 | Four domains: G1, G2, G3 / G4 | **Generalise** / **partially** (IT support's G4 is an artefact) | section 19 |
 | Guarded cache: H-N, H-N-O / H-S, H-S-O | **Generalise** / **partially: finance only**, both vendors | section 19 |
-| Full-signature guard on human questions | Pre-registered, **draft**; pilot running | section 18 |
+| Full-signature guard on human questions | Pre-registered, **frozen 2026-10-30** (`af42f97e…`) after two pilots | section 18 |
 
 ## Corrections already made (keep them made)
 
@@ -62,12 +62,12 @@ SQL**, and similarity cannot be tuned around them.
 
 ## Open, in priority order
 
-**Now (2026-10-30):** pilot 1 of the full-signature prompt is done (no
-wrong reuse on held-out wording; five definitions tightened, commit
-`cd15afe`). Pilot 2 (`-Tag pilot2`) is running. The agent then checks it,
-fills in section 18's pilot paragraph, adds the secondary embedders to HQ-P,
-records the section's hash, and asks for a commit. Only then are the
-writers' sheets ingested (`human.py`). Items 0 and 1 below are otherwise done.
+**Now (2026-10-30):** section 18 is frozen after two pilots of the
+full-signature prompt (no wrong reuse on held-out wording, either vendor).
+Next, in order: the agent runs `human.py` on the three sheets and commits the
+meaning check; the author runs `run_human_extractions.ps1` for each vendor
+and `run_human_embeddings.ps1`; the agent runs `human_eval.py` and applies
+section 18's rules. Items 0 and 1 below are otherwise done.
 
 0. **Four-domain generalisation (README section 14, pre-registered).**
    - Domains: finance, retail, healthcare and IT support, in `data_md/`.

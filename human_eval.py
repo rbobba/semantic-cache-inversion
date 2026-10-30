@@ -2,6 +2,7 @@
 
 Raw similarity (no extraction needed), all four domains at once:
   python human_eval.py --embedder <e> [--prefix "query: "] [--exclude copied|meaning]
+  (commercial embedders take evaluate.py's --task-type and --project as well)
 
 The cache designs on one extraction run:
   python human_eval.py --embedder <e> [--prefix ...] --domain <d>
@@ -77,16 +78,21 @@ def args_for(a: argparse.Namespace) -> argparse.Namespace:
     return argparse.Namespace(
         embedder=a.embedder,
         prefix=a.prefix,
-        task_type=None,
+        task_type=a.task_type,
         dimensions=None,
-        project="",
-        location="",
+        project=a.project,
+        location=a.location,
         region=None,
     )
 
 
 def label(a: argparse.Namespace) -> str:
-    return a.embedder + (f" prefix={a.prefix!r}" if a.prefix else "")
+    # The same label evaluate.py gives the configuration, so slugs match.
+    return (
+        a.embedder
+        + (f" prefix={a.prefix!r}" if a.prefix else "")
+        + (f" task_type={a.task_type}" if a.task_type else "")
+    )
 
 
 def similarity(a: argparse.Namespace) -> None:
@@ -181,6 +187,9 @@ def main() -> None:
     ap.add_argument("--out", type=Path, default=HERE / "results_human")
     ap.add_argument("--embedder", required=True)
     ap.add_argument("--prefix", default="")
+    ap.add_argument("--task-type", default=None)
+    ap.add_argument("--project", default="", help="GCP project, for vertex embedders")
+    ap.add_argument("--location", default="us-central1", help="Vertex location")
     ap.add_argument("--domain", choices=DOMAIN_NAMES)
     ap.add_argument("--extracted", type=Path)
     ap.add_argument("--exclude", choices=("copied", "meaning"))

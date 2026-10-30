@@ -1616,7 +1616,7 @@ recorded hashes still hold, and this note corrects them.
 
 ---
 
-## 18. Pre-registration: the human-written questions, and a full-signature guard (frozen DRAFT)
+## 18. Pre-registration: the human-written questions, and a full-signature guard (frozen 2026-10-30)
 
 ### Why
 
@@ -1678,7 +1678,8 @@ signature = (operation, measure, group_by, excludes)
   referrals received or sent), and section 15's "inbound" had two readings
   outside finance.
 - **The operation definitions are clearer.** Section 15 left "units sold"
-  between a sum and a count; it is now listed as a count.
+  between a sum and a count; it is now listed as a count. The pilots below
+  tightened five more definitions.
 - **Every value is shown with all its known wordings,** as a semantic layer's
   synonym list would be. Section 15's prompt showed only the first, so
   "critical" was never tied to p1.
@@ -1703,17 +1704,110 @@ measures.
 ### Development before freezing (disclosed)
 
 The full-signature prompt was piloted on the synthetic data, which has
-already been seen, with one run per vendor in all four domains
-(`run_fullsig_pilot.ps1`, tag `pilot`). The pilot checks that each measure
-and grouping definition has one reading. It is development, not a result.
+already been seen (`run_fullsig_pilot.ps1`). The pilots check that each
+definition has one reading. They are development, not results, and nothing
+in them counts towards a hypothesis below.
 
-PILOT RESULTS AND ANY DEFINITION CHANGES GO HERE BEFORE FREEZING.
+There were two pilots, each one run per vendor in all four domains. Every
+question was answered exactly once, with no failed calls.
+
+**Pilot 1** (commit `0c4edcf`). How often the full signature matched the
+reference:
+
+| Domain | gemini-3.1-flash-lite | gpt-6-luna |
+|---|---|---|
+| finance | 99.2% | 99.8% |
+| retail | 89.1% | 93.0% |
+| healthcare | 93.8% | 98.3% |
+| IT support | 92.7% | 99.7% |
+
+Most misses followed the wording, often the same way for both vendors, which
+points to the definition rather than the model:
+- "net sales", "net cash flow" and "after refunds" were read as a sum, not a
+  difference;
+- "Total visits" and "Total missed appointments" were read as a sum, not a
+  count;
+- "How often did patients miss appointments?" was read as a count, not a
+  rate. That is total no-shows' signature;
+- "Any orders above $X?" was read as a count, not a list;
+- in threshold questions ("visits with waits over X"), the measure was read
+  as the thing listed rather than the quantity compared.
+
+On held-out wording the full-signature cache made no wrong reuse in any
+domain, with either vendor or any embedder. On in-distribution wording
+Gemini made 5 in healthcare (in each of the four embedders): "Total missed
+appointments" was answered from the cached "How often did patients miss
+appointments?". It took two misreadings at once: the cached "how often"
+question was read as a count, and the cached "Total missed appointments" as
+a sum, so the right entry no longer matched and the wrong one did.
+
+**The changes** (commit `cd15afe`). One clarifying phrase each, in the
+full-signature block only; no other arm's prompt changed:
+- sum is money only: "A total of anything that is not money is a count";
+- rate includes "how often something happens";
+- list includes "whether any exist";
+- difference includes "any net figure";
+- for list and maximum, the measure is "the quantity compared with the
+  threshold or maximised".
+
+**Pilot 2** (tag `pilot2`) ran the changed prompt:
+
+| Domain | gemini-3.1-flash-lite | gpt-6-luna |
+|---|---|---|
+| finance | 99.2% → 99.8% | 99.8% → 98.6% |
+| retail | 89.1% → 90.7% | 93.0% → 96.5% |
+| healthcare | 93.8% → 98.4% | 98.3% → 100% |
+| IT support | 92.7% → 99.2% | 99.7% → 99.8% |
+
+The full-signature cache on pilot 2, held-out wording, at the 0.50 floor
+(ranges over the four open embedders):
+
+| Domain | Wrong reuses (Gemini / OpenAI) | Correct reuse (Gemini / OpenAI) | Reference signatures | Exact-key cache |
+|---|---|---|---|---|
+| finance | 0 / 0 | 1.00 / 0.97 | 1.00 | 0.00–0.04 |
+| retail | 0 / 0 | 0.90–0.91 / 0.91–0.92 | 0.99–1.00 | 0.00–0.03 |
+| healthcare | 0 / 0 | 0.99 / 1.00 | 1.00 | 0.00–0.01 |
+| IT support | 0 / 0 | 0.98–1.00 / 0.98–1.00 | 0.98–1.00 | 0.00–0.01 |
+
+On in-distribution wording one wrong reuse remained. Gemini read one of the
+49 "How often did patients miss appointments?" questions as a count, and
+each embedder answered it from a cached total-no-shows question (1 of about
+1,250 reuses per embedder). This is the one way the design can still fail:
+an extractor misreading that lands exactly on another intent's signature.
+
+Extraction itself stayed as good as or better than before in all eight runs:
+no period error, slot F1 1.000, and 0 or 1 excluded value dropped per
+domain. IT support's priorities are read correctly by both vendors now that
+every wording is shown, which fixes the cause of section 19's mistake 4.
+
+**One trade-off, kept on purpose.** The dataset uses "how often" both ways:
+in finance "How often did I buy from X?" is a count, and in healthcare "How
+often did patients miss appointments?" is a rate. No definition reads both
+correctly. Reading it as a rate fails safe: finance has no rate question, so
+a misread finance question only misses the cache, while a misread healthcare
+question took total no-shows' signature and was answered wrongly. The rule
+behind this, kept for the future: when a phrase has two readings, choose the
+one whose mistake is a miss, not a wrong answer.
+
+**What is left, and why it was not changed.** Gemini still reads "unit
+sales" as a sum, and "best-selling products" is read as ranking by units by
+both vendors while the reference ranks by revenue (a template ambiguity in
+the dataset, which is frozen). No other intent has those signatures, so they
+cost reuse, not correctness. Definitions were not changed after pilot 2.
+More rounds on data already seen would turn development into fitting.
 
 ### Hypotheses
 
-Each hypothesis is decided on all the writers' questions together. The cache
-hypotheses use section 14's four open embedders; the commercial embedders are
-not run on this data.
+Each hypothesis is decided on all the writers' questions together. All of
+them use section 14's four open embedders.
+
+HQ-P is also computed with the other 11 configurations of section 14,
+addendum A (three open models, run by the agent; text-embedding-004 with and
+without `SEMANTIC_SIMILARITY`, gemini-embedding-001, text-embedding-3-small
+and -large, voyage-3-large, voyage-3.5 and voyage-4, run by the author with
+`run_human_embeddings.ps1`). They are **secondary**: reported beside HQ-P and
+not part of its rule, as in section 14. The cache hypotheses are not run on
+them.
 
 | Id | Hypothesis | Holds when |
 |---|---|---|
@@ -1735,8 +1829,11 @@ generalises, partially, does not generalise.
   "without" or "leaving out".
 - HQ-S does not hold in retail, healthcare or IT support, for the reasons
   section 19 gives.
-- HQ-F: no confident prediction. It depends on how often each extractor reads
-  people's wording into the right measure and grouping.
+- HQ-F: no confident prediction. The pilots show the design holds when the
+  extractor reads the question right, but they were run on the study's own
+  templates. It depends on how often each extractor reads people's wording
+  into the right measure and grouping, and on whether a misreading lands on
+  another intent's signature, as "how often" did.
 
 **Reported without a hypothesis:**
 - results per writer;
@@ -1774,7 +1871,8 @@ generalises, partially, does not generalise.
 1. This section is frozen and committed.
 2. The agent runs `human.py` on the three sheets, then writes and commits the
    meaning check.
-3. The author runs `run_human_extractions.ps1` for each vendor.
+3. The author runs `run_human_extractions.ps1` for each vendor, and
+   `run_human_embeddings.ps1`.
 4. The agent runs `human_eval.py` and reports.
 
 ### Commands
@@ -1783,9 +1881,15 @@ generalises, partially, does not generalise.
 python human.py --sheet A=<sheet 1> --sheet B=<sheet 2> --sheet C=<sheet 3>
 .\run_human_extractions.ps1 -Vendor gemini
 .\run_human_extractions.ps1 -Vendor openai
+.\run_human_embeddings.ps1
 python human_eval.py --embedder <e> [--prefix "query: "] [--exclude copied|meaning]
 python human_eval.py --embedder <e> [--prefix "query: "] --domain <d> --extracted results_human/<d>/extraction/<arm>_<tag>/extracted.jsonl [--exclude copied|meaning]
 ```
+
+The SHA-256 of this section, from its heading to the end of the commands
+block, was recorded in the working session before any writer's sheet was
+opened:
+`af42f97edea25fd351131da2238da81df8ac59b9f79f2998145cbce98b9e1327`.
 
 ---
 
