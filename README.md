@@ -2323,3 +2323,69 @@ exploratory and does not change a verdict.
   answerable from it. Real traffic has questions with no cached match.
 - One reference date and one schema per domain.
 - At about 100 reuses per domain, a 1% bar resolves to a single question.
+
+## 22. Reproduction check (2026-10-30)
+
+`verify_claims.py` recomputes the numbers this README cites from the files
+on disk, and checks the README still says them. `REPRODUCE.md` is the
+runbook for checking, recomputing and replaying the study.
+
+### What it checks
+
+- Every dataset file against its manifest.
+- The three recorded pre-registration hashes.
+- Every frozen section against the commit that froze it.
+- The gitignored `results_md` reports against their hashes.
+- Both verdict files against a fresh run of their scripts.
+- The results tables of sections 7, 8, 10, 12, 13, 19 and 21, with their
+  headline sentences.
+
+With `--deep`, it also resolves every saved model answer again (121 runs)
+and compares the output byte for byte.
+
+To test the checker itself, a false number was planted in each of those
+sections in turn; all 13 were caught.
+
+It does not check numbers quoted in prose outside those tables, or section
+19's per-domain H-S and signature tables, which `md_verdicts.py` prints.
+
+### What building it found
+
+None of these changes a number or a verdict.
+
+1. **Section 8's A/B intervals cannot be reproduced exactly.** They were
+   computed by code written in that session and never committed;
+   `ab_comparisons` was added later (`7888f1c`), when A and B were
+   pre-registered for v2.
+   - Recomputed from the cached vectors, all 30 point estimates match.
+   - The interval bounds differ by at most 0.014: a different bootstrap draw.
+   - The check holds the points exactly and the intervals within 0.015.
+2. **Section 11's recorded hash uses a different boundary.** It was taken
+   with the newline after the commands block, while 16 and 18 were taken
+   without it. The text has not changed since its freeze commit.
+3. **Reports stored an absolute path** (mistake 8), including the author's
+   user name. Every report made with `--extracted` recorded the path as the
+   command line gave it, and the runner scripts gave absolute paths. So 415
+   of the 539 hashes in `REPORTS_SHA256.txt` could be reproduced only in the
+   same folder on the same machine.
+   - `evaluate.py` and `human_eval.py` now record the path relative to this
+     folder.
+   - The 1,279 affected reports had that one line rewritten to the same
+     relative form. A script refused any file where the path appeared
+     elsewhere, and confirmed that every other line was byte-identical.
+   - The hashes were regenerated. One `results_md` and one `results_human`
+     report were then rebuilt from scratch and matched byte for byte.
+4. **The open models were not pinned** (mistake 9). `evaluate.py` loaded the
+   latest revision, so a fresh download could change the vectors.
+   - It now pins the revision every report used. Each local model cache held
+     exactly one snapshot, so these are certain.
+   - `EMBEDDERS.txt` lists all seven open models, not four.
+   - With the pin, the v1 MiniLM vectors recompute bit-identically.
+5. **Older reports lack fields that later code adds.** Comparison A/B and
+   newer cache designs are examples. Regenerating a v1 report adds them, and
+   leaves every value it already held unchanged: 314 of 314 and 391 of 391
+   in the two reports tested. `verify_claims.py --same-values` checks this.
+6. **The extraction scripts could not write a replay.** They hard-coded
+   r1–r3. Each now takes `-Tags`, so a replay writes to its own folders.
+
+Mistakes 8 and 9 are the agent's.

@@ -1,7 +1,7 @@
 {
   "domain": "it_support",
   "embedder": "st:sentence-transformers/all-MiniLM-L6-v2",
-  "extracted": "C:/Users/ramak/source/repos/financial-insights/research/semantic-cache-inversion/results_human/it_support/extraction/gemini-relfull_gemini-3.1-flash-lite_r1/extracted.jsonl",
+  "extracted": "results_human/it_support/extraction/gemini-relfull_gemini-3.1-flash-lite_r1/extracted.jsonl",
   "exclude": "copied",
   "n_human": 118,
   "period_errors": {

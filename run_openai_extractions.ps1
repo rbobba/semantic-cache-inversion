@@ -7,11 +7,15 @@
 #   .\run_openai_extractions.ps1 -SmokeOnly     # 20 questions, prints the projected cost
 #   .\run_openai_extractions.ps1                # the full 12 runs
 #
+# -Tags replay1 writes a separately tagged replay and never touches r1-r3
+# (REPRODUCE.md).
+#
 # Independent of the Gemini scripts, so it can run alongside them.
 # Safe to stop and rerun: each run resumes from its own raw.jsonl, and the
 # smoke test's 20 responses are reused by finance r1.
 
 param(
+    [string[]]$Tags = @("r1", "r2", "r3"),
     [string]$Model = "gpt-6-luna",
     [int]$Workers = 4,
     [switch]$SmokeOnly
@@ -21,10 +25,10 @@ $ErrorActionPreference = "Stop"
 if (-not $env:OPENAI_API_KEY) { throw "Set `$env:OPENAI_API_KEY first" }
 
 $extractor = "openai-relsig:$Model"
-$smokeDir = "results_md/finance/extraction/openai-relsig_${Model}_r1"
+$smokeDir = "results_md/finance/extraction/openai-relsig_${Model}_$($Tags[0])"
 
 python extract.py --data data_md/finance --out results_md/finance/extraction `
-    --extractor $extractor --tag r1 --limit 20 --workers $Workers
+    --extractor $extractor --tag $($Tags[0]) --limit 20 --workers $Workers
 if ($LASTEXITCODE -ne 0) { throw "smoke test failed; see the error above" }
 
 # Projected cost of all 12 runs from the smoke test's own token counts, at
@@ -41,7 +45,7 @@ print(f'projected for 12 runs ({calls} calls): about USD {calls * (p * 0.10 + (o
 if ($SmokeOnly) { return }
 
 foreach ($d in @("finance", "retail", "healthcare", "it_support")) {
-    foreach ($t in @("r1", "r2", "r3")) {
+    foreach ($t in $Tags) {
         $args_ = @(
             "extract.py", "--data", "data_md/$d", "--out", "results_md/$d/extraction",
             "--extractor", $extractor, "--tag", $t, "--workers", $Workers

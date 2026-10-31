@@ -1,7 +1,7 @@
 {
   "domain": "it_support",
   "embedder": "st:BAAI/bge-base-en-v1.5",
-  "extracted": "C:/Users/ramak/source/repos/financial-insights/research/semantic-cache-inversion/results_human/it_support/extraction/openai-relfull_gpt-6-luna_r2-yearfix/extracted.jsonl",
+  "extracted": "results_human/it_support/extraction/openai-relfull_gpt-6-luna_r2-yearfix/extracted.jsonl",
   "exclude": null,
   "n_human": 120,
   "period_errors": {

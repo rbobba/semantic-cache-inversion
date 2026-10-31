@@ -1,0 +1,222 @@
+
+== G1: comparison A, 95% CI lower bound > 0.5 in all four primary embedders
+  finance     sentence-transformers_all-Mi primary   A=0.984 [0.961,1.000] n=128  B=0.625 [0.547,0.711]
+  finance     sentence-transformers_all-mp primary   A=0.992 [0.977,1.000] n=128  B=0.727 [0.656,0.789]
+  finance     BAAI_bge-base-en-v1.5        primary   A=0.875 [0.812,0.930] n=128  B=0.672 [0.594,0.750]
+  finance     intfloat_e5-base-v2_prefix_q primary   A=0.922 [0.875,0.969] n=128  B=0.633 [0.547,0.719]
+  finance     Qwen_Qwen3-Embedding-0.6B    secondary A=0.945 [0.906,0.984] n=128  B=0.125 [0.070,0.180]
+  finance     Snowflake_snowflake-arctic-e secondary A=0.812 [0.742,0.875] n=128  B=0.555 [0.469,0.641]
+  finance     mixedbread-ai_mxbai-embed-la secondary A=0.836 [0.773,0.898] n=128  B=0.602 [0.516,0.688]
+  finance     text-embedding-004           secondary A=0.891 [0.836,0.945] n=128  B=0.594 [0.500,0.672]
+  finance     text-embedding-004_task_type secondary A=0.836 [0.766,0.898] n=128  B=0.562 [0.477,0.641]
+  finance     gemini-embedding-001         secondary A=0.898 [0.844,0.945] n=128  B=0.469 [0.383,0.547]
+  finance     text-embedding-3-small       secondary A=0.984 [0.961,1.000] n=128  B=0.711 [0.633,0.781]
+  finance     text-embedding-3-large       secondary A=0.945 [0.906,0.984] n=128  B=0.562 [0.477,0.648]
+  finance     voyage-3-large               secondary A=0.781 [0.703,0.852] n=128  B=0.398 [0.312,0.477]
+  finance     voyage-3.5                   secondary A=0.883 [0.820,0.938] n=128  B=0.555 [0.469,0.641]
+  finance     voyage-4                     secondary A=0.789 [0.719,0.859] n=128  B=0.086 [0.039,0.141]
+  -> finance: HOLDS
+  retail      sentence-transformers_all-Mi primary   A=0.992 [0.977,1.000] n=128  B=0.586 [0.500,0.672]
+  retail      sentence-transformers_all-mp primary   A=0.992 [0.977,1.000] n=128  B=0.672 [0.586,0.758]
+  retail      BAAI_bge-base-en-v1.5        primary   A=0.922 [0.875,0.969] n=128  B=0.688 [0.609,0.766]
+  retail      intfloat_e5-base-v2_prefix_q primary   A=0.930 [0.883,0.969] n=128  B=0.695 [0.617,0.781]
+  retail      Qwen_Qwen3-Embedding-0.6B    secondary A=0.953 [0.914,0.984] n=128  B=0.289 [0.211,0.367]
+  retail      Snowflake_snowflake-arctic-e secondary A=0.875 [0.812,0.930] n=128  B=0.570 [0.484,0.664]
+  retail      mixedbread-ai_mxbai-embed-la secondary A=0.859 [0.789,0.914] n=128  B=0.641 [0.562,0.727]
+  retail      text-embedding-004           secondary A=0.922 [0.875,0.969] n=128  B=0.703 [0.625,0.781]
+  retail      text-embedding-004_task_type secondary A=0.891 [0.836,0.945] n=128  B=0.672 [0.594,0.750]
+  retail      gemini-embedding-001         secondary A=0.930 [0.883,0.969] n=128  B=0.586 [0.500,0.672]
+  retail      text-embedding-3-small       secondary A=1.000 [1.000,1.000] n=128  B=0.742 [0.664,0.820]
+  retail      text-embedding-3-large       secondary A=0.984 [0.961,1.000] n=128  B=0.656 [0.578,0.742]
+  retail      voyage-3-large               secondary A=0.844 [0.781,0.906] n=128  B=0.547 [0.461,0.633]
+  retail      voyage-3.5                   secondary A=0.938 [0.891,0.977] n=128  B=0.633 [0.547,0.719]
+  retail      voyage-4                     secondary A=0.836 [0.766,0.891] n=128  B=0.062 [0.023,0.102]
+  -> retail: HOLDS
+  healthcare  sentence-transformers_all-Mi primary   A=0.986 [0.966,1.000] n=145  B=0.517 [0.441,0.600]
+  healthcare  sentence-transformers_all-mp primary   A=1.000 [1.000,1.000] n=145  B=0.772 [0.703,0.841]
+  healthcare  BAAI_bge-base-en-v1.5        primary   A=0.945 [0.910,0.979] n=145  B=0.731 [0.655,0.800]
+  healthcare  intfloat_e5-base-v2_prefix_q primary   A=0.931 [0.890,0.972] n=145  B=0.593 [0.510,0.662]
+  healthcare  Qwen_Qwen3-Embedding-0.6B    secondary A=0.966 [0.938,0.993] n=145  B=0.276 [0.207,0.352]
+  healthcare  Snowflake_snowflake-arctic-e secondary A=0.835 [0.772,0.890] n=145  B=0.524 [0.448,0.600]
+  healthcare  mixedbread-ai_mxbai-embed-la secondary A=0.890 [0.841,0.938] n=145  B=0.607 [0.524,0.683]
+  healthcare  text-embedding-004           secondary A=0.938 [0.897,0.972] n=145  B=0.579 [0.503,0.655]
+  healthcare  text-embedding-004_task_type secondary A=0.903 [0.855,0.952] n=145  B=0.538 [0.462,0.614]
+  healthcare  gemini-embedding-001         secondary A=0.931 [0.890,0.966] n=145  B=0.497 [0.414,0.572]
+  healthcare  text-embedding-3-small       secondary A=1.000 [1.000,1.000] n=145  B=0.731 [0.655,0.800]
+  healthcare  text-embedding-3-large       secondary A=0.972 [0.945,0.993] n=145  B=0.566 [0.483,0.641]
+  healthcare  voyage-3-large               secondary A=0.835 [0.772,0.890] n=145  B=0.579 [0.503,0.662]
+  healthcare  voyage-3.5                   secondary A=0.910 [0.862,0.952] n=145  B=0.614 [0.531,0.683]
+  healthcare  voyage-4                     secondary A=0.793 [0.731,0.855] n=145  B=0.090 [0.048,0.138]
+  -> healthcare: HOLDS
+  it_support  sentence-transformers_all-Mi primary   A=1.000 [1.000,1.000] n=125  B=0.552 [0.464,0.640]
+  it_support  sentence-transformers_all-mp primary   A=0.976 [0.952,1.000] n=125  B=0.640 [0.560,0.728]
+  it_support  BAAI_bge-base-en-v1.5        primary   A=0.960 [0.920,0.992] n=125  B=0.824 [0.760,0.888]
+  it_support  intfloat_e5-base-v2_prefix_q primary   A=0.968 [0.936,1.000] n=125  B=0.688 [0.608,0.768]
+  it_support  Qwen_Qwen3-Embedding-0.6B    secondary A=0.960 [0.920,0.992] n=125  B=0.216 [0.144,0.288]
+  it_support  Snowflake_snowflake-arctic-e secondary A=0.912 [0.864,0.960] n=125  B=0.560 [0.480,0.648]
+  it_support  mixedbread-ai_mxbai-embed-la secondary A=0.928 [0.880,0.968] n=125  B=0.624 [0.536,0.712]
+  it_support  text-embedding-004           secondary A=0.968 [0.936,0.992] n=125  B=0.600 [0.512,0.688]
+  it_support  text-embedding-004_task_type secondary A=0.936 [0.888,0.976] n=125  B=0.512 [0.432,0.600]
+  it_support  gemini-embedding-001         secondary A=0.984 [0.960,1.000] n=125  B=0.584 [0.496,0.672]
+  it_support  text-embedding-3-small       secondary A=1.000 [1.000,1.000] n=125  B=0.600 [0.512,0.680]
+  it_support  text-embedding-3-large       secondary A=0.992 [0.976,1.000] n=125  B=0.584 [0.504,0.672]
+  it_support  voyage-3-large               secondary A=0.864 [0.800,0.920] n=125  B=0.416 [0.336,0.504]
+  it_support  voyage-3.5                   secondary A=0.912 [0.856,0.960] n=125  B=0.552 [0.464,0.640]
+  it_support  voyage-4                     secondary A=0.912 [0.856,0.960] n=125  B=0.016 [0.000,0.040]
+  -> it_support: HOLDS
+G1 verdict (new domains): GENERALISES (3/3)
+
+== G2: relative arm period-slot errors <= 0.5% of questions, each of r1-r3
+== G3: excluded-minus-included error rate, 95% CI lower bound > 0, in >= 2 of r1-r3
+  finance     r1 period errors 0/1295 = 0.0000%   negation: excluded 39/111 included 0/111 diff 0.351 [0.221,0.487] >0
+  finance     r2 period errors 0/1295 = 0.0000%   negation: excluded 39/111 included 0/111 diff 0.351 [0.213,0.494] >0
+  finance     r3 period errors 0/1295 = 0.0000%   negation: excluded 39/111 included 0/111 diff 0.351 [0.215,0.494] >0
+  -> finance: G2 HOLDS; G3 HOLDS (3/3)
+  retail      r1 period errors 0/1241 = 0.0000%   negation: excluded 39/105 included 0/104 diff 0.371 [0.202,0.516] >0
+  retail      r2 period errors 0/1241 = 0.0000%   negation: excluded 40/105 included 0/104 diff 0.381 [0.227,0.511] >0
+  retail      r3 period errors 0/1241 = 0.0000%   negation: excluded 39/105 included 0/104 diff 0.371 [0.218,0.500] >0
+  -> retail: G2 HOLDS; G3 HOLDS (3/3)
+  healthcare  r1 period errors 0/1399 = 0.0000%   negation: excluded 5/112 included 0/114 diff 0.045 [0.009,0.080] >0
+  healthcare  r2 period errors 0/1399 = 0.0000%   negation: excluded 5/112 included 0/114 diff 0.045 [0.009,0.080] >0
+  healthcare  r3 period errors 0/1399 = 0.0000%   negation: excluded 5/112 included 0/114 diff 0.045 [0.009,0.080] >0
+  -> healthcare: G2 HOLDS; G3 HOLDS (3/3)
+  it_support  r1 period errors 0/1202 = 0.0000%   negation: excluded 46/116 included 3/122 diff 0.372 [0.150,0.573] >0
+  it_support  r2 period errors 0/1202 = 0.0000%   negation: excluded 45/116 included 3/122 diff 0.363 [0.138,0.570] >0
+  it_support  r3 period errors 0/1202 = 0.0000%   negation: excluded 45/116 included 3/122 diff 0.363 [0.138,0.570] >0
+  -> it_support: G2 HOLDS; G3 HOLDS (3/3)
+G2 verdict: GENERALISES (3/3);  G3 verdict: GENERALISES (3/3)
+
+  absolute arm period errors and 3.5-flash negation (reported, no rule):
+  finance     gemini_gemini-3.1-flash-lite_r1    period errors 29/1295  negation excl 23/111 incl 0/111
+  finance     gemini_gemini-3.1-flash-lite_r2    period errors 29/1295  negation excl 22/111 incl 0/111
+  finance     gemini_gemini-3.1-flash-lite_r3    period errors 29/1295  negation excl 22/111 incl 0/111
+  finance     gemini-rel_gemini-3.5-flash_r1     period errors 0/1295  negation excl 0/111 incl 0/111
+  retail      gemini_gemini-3.1-flash-lite_r1    period errors 37/1241  negation excl 35/105 incl 0/104
+  retail      gemini_gemini-3.1-flash-lite_r2    period errors 37/1241  negation excl 35/105 incl 0/104
+  retail      gemini_gemini-3.1-flash-lite_r3    period errors 37/1241  negation excl 36/105 incl 0/104
+  retail      gemini-rel_gemini-3.5-flash_r1     period errors 0/1241  negation excl 0/105 incl 0/104
+  healthcare  gemini_gemini-3.1-flash-lite_r1    period errors 34/1399  negation excl 9/112 incl 0/114
+  healthcare  gemini_gemini-3.1-flash-lite_r2    period errors 34/1399  negation excl 9/112 incl 0/114
+  healthcare  gemini_gemini-3.1-flash-lite_r3    period errors 34/1399  negation excl 11/112 incl 0/114
+  healthcare  gemini-rel_gemini-3.5-flash_r1     period errors 0/1399  negation excl 0/112 incl 0/114
+  it_support  gemini_gemini-3.1-flash-lite_r1    period errors 27/1202  negation excl 45/116 incl 1/122
+  it_support  gemini_gemini-3.1-flash-lite_r2    period errors 27/1202  negation excl 45/116 incl 1/122
+  it_support  gemini_gemini-3.1-flash-lite_r3    period errors 27/1202  negation excl 45/116 incl 1/122
+  it_support  gemini-rel_gemini-3.5-flash_r1     period errors 0/1202  negation excl 11/116 incl 9/122
+
+== G4: F_slots (non-held-out, calibrated) > 1% in all four embedders, in >= 2 of r1-r3
+  finance     r1 F_slots 0.0100  0.0355  0.0199  0.0186
+  finance     r2 F_slots 0.0100  0.0357  0.0226  0.0215
+  finance     r3 F_slots 0.0083  0.0354  0.0212  0.0200
+  -> finance: does not hold (0/3)
+  retail      r1 F_slots 0.0468  0.0468  0.0423  0.0414  all >1%
+  retail      r2 F_slots 0.0463  0.0463  0.0422  0.0414  all >1%
+  retail      r3 F_slots 0.0433  0.0433  0.0394  0.0386  all >1%
+  -> retail: HOLDS (3/3)
+  healthcare  r1 F_slots 0.0000  0.0000  0.0000  0.0000
+  healthcare  r2 F_slots 0.0000  0.0000  0.0000  0.0000
+  healthcare  r3 F_slots 0.0000  0.0000  0.0000  0.0000
+  -> healthcare: does not hold (0/3)
+  it_support  r1 F_slots 0.0361  0.0500  0.0339  0.0379  all >1%
+  it_support  r2 F_slots 0.0360  0.0499  0.0338  0.0377  all >1%
+  it_support  r3 F_slots 0.0360  0.0499  0.0338  0.0377  all >1%
+  -> it_support: HOLDS (3/3)
+G4 verdict: PARTIALLY (2/3)
+
+== H-N: negguard F_slots <= 1% AND correct reuse >= slots-only - 0.02, held-out and non-held-out, all four embedders, >= 2 of r1-r3
+  retail      r1 N F=0.000 c=0.494/0.494 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.494/0.494 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.590/0.590 | H F=0.000 c=0.121/0.121 | N F=0.000 c=0.603/0.603 | H F=0.000 c=0.146/0.146
+  retail      r2 N F=0.000 c=0.500/0.500 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.500/0.500 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.592/0.592 | H F=0.000 c=0.123/0.123 | N F=0.000 c=0.604/0.604 | H F=0.000 c=0.146/0.146
+  retail      r3 N F=0.000 c=0.496/0.496 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.496/0.496 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.592/0.592 | H F=0.000 c=0.123/0.123 | N F=0.000 c=0.604/0.604 | H F=0.000 c=0.146/0.146
+  -> retail: HOLDS (3/3)
+  healthcare  r1 N F=0.000 c=0.553/0.553 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.522/0.522 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.538/0.538 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.496/0.496 | H F=0.000 c=0.000/0.000
+  healthcare  r2 N F=0.000 c=0.555/0.555 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.517/0.517 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.537/0.537 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.492/0.492 | H F=0.000 c=0.000/0.000
+  healthcare  r3 N F=0.000 c=0.553/0.553 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.522/0.522 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.538/0.538 | H F=0.000 c=0.030/0.030 | N F=0.000 c=0.498/0.498 | H F=0.000 c=0.000/0.000
+  -> healthcare: HOLDS (3/3)
+  it_support  r1 N F=0.002 c=0.546/0.546 | H F=0.000 c=0.000/0.000 | N F=0.002 c=0.582/0.582 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.582/0.582 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.519/0.519 | H F=0.000 c=0.000/0.000
+  it_support  r2 N F=0.002 c=0.547/0.547 | H F=0.000 c=0.000/0.000 | N F=0.002 c=0.583/0.583 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.583/0.583 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.521/0.521 | H F=0.000 c=0.000/0.000
+  it_support  r3 N F=0.002 c=0.547/0.547 | H F=0.000 c=0.000/0.000 | N F=0.002 c=0.583/0.583 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.583/0.583 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.521/0.521 | H F=0.000 c=0.000/0.000
+  -> it_support: HOLDS (3/3)
+H-N verdict: GENERALISES (3/3)
+
+== H-S: guarded, held-out: F_slots <= 1% AND correct reuse >= exact-key + 0.10, all four embedders, >= 2 of r1-r3
+  finance     r1 F=0.000 c=1.000 exact=0.000 | F=0.000 c=1.000 exact=0.004 | F=0.000 c=1.000 exact=0.015 | F=0.000 c=1.000 exact=0.038
+  finance     r2 F=0.000 c=1.000 exact=0.000 | F=0.000 c=1.000 exact=0.004 | F=0.000 c=1.000 exact=0.015 | F=0.000 c=1.000 exact=0.038
+  finance     r3 F=0.000 c=1.000 exact=0.000 | F=0.000 c=1.000 exact=0.004 | F=0.000 c=1.000 exact=0.015 | F=0.000 c=1.000 exact=0.038
+  -> finance: HOLDS (3/3)
+  retail      r1 F=0.000 c=0.981 exact=0.000 | F=0.000 c=0.996 exact=0.000 | F=0.000 c=0.996 exact=0.029 | F=0.057 c=0.940 exact=0.019 X
+  retail      r2 F=0.000 c=0.981 exact=0.000 | F=0.000 c=0.996 exact=0.000 | F=0.000 c=0.996 exact=0.029 | F=0.057 c=0.940 exact=0.019 X
+  retail      r3 F=0.000 c=0.981 exact=0.000 | F=0.000 c=0.996 exact=0.000 | F=0.000 c=0.996 exact=0.029 | F=0.057 c=0.940 exact=0.019 X
+  -> retail: does not hold (0/3)
+  healthcare  r1 F=0.044 c=0.912 exact=0.006 X | F=0.018 c=0.966 exact=0.006 X | F=0.046 c=0.939 exact=0.006 X | F=0.070 c=0.916 exact=0.000 X
+  healthcare  r2 F=0.052 c=0.903 exact=0.006 X | F=0.004 c=0.977 exact=0.006 | F=0.047 c=0.937 exact=0.006 X | F=0.076 c=0.908 exact=0.000 X
+  healthcare  r3 F=0.048 c=0.908 exact=0.006 X | F=0.006 c=0.979 exact=0.006 | F=0.045 c=0.941 exact=0.006 X | F=0.070 c=0.916 exact=0.000 X
+  -> healthcare: does not hold (0/3)
+  it_support  r1 F=0.084 c=0.899 exact=0.000 X | F=0.000 c=0.981 exact=0.010 | F=0.118 c=0.882 exact=0.010 X | F=0.077 c=0.923 exact=0.000 X
+  it_support  r2 F=0.084 c=0.899 exact=0.000 X | F=0.000 c=0.981 exact=0.010 | F=0.118 c=0.882 exact=0.010 X | F=0.077 c=0.923 exact=0.000 X
+  it_support  r3 F=0.084 c=0.899 exact=0.000 X | F=0.000 c=0.981 exact=0.010 | F=0.118 c=0.882 exact=0.010 X | F=0.077 c=0.923 exact=0.000 X
+  -> it_support: does not hold (0/3)
+H-S verdict: PARTIALLY (1/4)
+
+== H-N-O: negguard F_slots <= 1% AND correct reuse >= slots-only - 0.02, held-out and non-held-out, all four embedders, >= 2 of r1-r3
+  retail      r1 N F=0.000 c=0.531/0.531 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.531/0.531 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.602/0.602 | H F=0.000 c=0.121/0.121 | N F=0.000 c=0.632/0.632 | H F=0.000 c=0.148/0.148
+  retail      r2 N F=0.000 c=0.522/0.522 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.522/0.522 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.616/0.616 | H F=0.000 c=0.123/0.123 | N F=0.000 c=0.631/0.631 | H F=0.000 c=0.146/0.146
+  retail      r3 N F=0.000 c=0.544/0.544 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.544/0.544 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.618/0.618 | H F=0.000 c=0.123/0.123 | N F=0.000 c=0.632/0.632 | H F=0.000 c=0.148/0.148
+  -> retail: HOLDS (3/3)
+  healthcare  r1 N F=0.000 c=0.582/0.582 | H F=0.000 c=0.029/0.029 | N F=0.000 c=0.549/0.549 | H F=0.000 c=0.029/0.029 | N F=0.000 c=0.560/0.560 | H F=0.000 c=0.029/0.029 | N F=0.000 c=0.506/0.506 | H F=0.000 c=0.000/0.000
+  healthcare  r2 N F=0.000 c=0.585/0.585 | H F=0.000 c=0.027/0.027 | N F=0.000 c=0.544/0.544 | H F=0.000 c=0.027/0.027 | N F=0.000 c=0.553/0.553 | H F=0.000 c=0.027/0.027 | N F=0.000 c=0.502/0.502 | H F=0.000 c=0.000/0.000
+  healthcare  r3 N F=0.000 c=0.584/0.584 | H F=0.000 c=0.027/0.027 | N F=0.000 c=0.557/0.557 | H F=0.000 c=0.027/0.027 | N F=0.000 c=0.565/0.565 | H F=0.000 c=0.027/0.027 | N F=0.000 c=0.527/0.527 | H F=0.000 c=0.000/0.000
+  -> healthcare: HOLDS (3/3)
+  it_support  r1 N F=0.000 c=0.563/0.563 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.607/0.607 | H F=0.000 c=0.048/0.048 | N F=0.000 c=0.613/0.613 | H F=0.000 c=0.048/0.048 | N F=0.000 c=0.560/0.560 | H F=0.000 c=0.000/0.000
+  it_support  r2 N F=0.002 c=0.568/0.568 | H F=0.000 c=0.000/0.000 | N F=0.002 c=0.609/0.609 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.614/0.614 | H F=0.000 c=0.048/0.048 | N F=0.002 c=0.554/0.554 | H F=0.000 c=0.000/0.000
+  it_support  r3 N F=0.000 c=0.571/0.571 | H F=0.000 c=0.000/0.000 | N F=0.000 c=0.605/0.605 | H F=0.000 c=0.048/0.048 | N F=0.000 c=0.614/0.614 | H F=0.000 c=0.048/0.048 | N F=0.000 c=0.555/0.555 | H F=0.000 c=0.000/0.000
+  -> it_support: HOLDS (3/3)
+H-N-O verdict: GENERALISES (3/3)
+
+== H-S-O: guarded, held-out: F_slots <= 1% AND correct reuse >= exact-key + 0.10, all four embedders, >= 2 of r1-r3
+  finance     r1 F=0.004 c=0.989 exact=0.000 | F=0.004 c=0.989 exact=0.004 | F=0.004 c=0.989 exact=0.015 | F=0.004 c=0.989 exact=0.036
+  finance     r2 F=0.004 c=0.981 exact=0.000 | F=0.004 c=0.981 exact=0.004 | F=0.004 c=0.981 exact=0.015 | F=0.004 c=0.981 exact=0.038
+  finance     r3 F=0.004 c=0.981 exact=0.000 | F=0.004 c=0.981 exact=0.004 | F=0.004 c=0.981 exact=0.015 | F=0.004 c=0.981 exact=0.034
+  -> finance: HOLDS (3/3)
+  retail      r1 F=0.021 c=0.856 exact=0.000 X | F=0.021 c=0.871 exact=0.000 X | F=0.021 c=0.871 exact=0.029 X | F=0.021 c=0.871 exact=0.019 X
+  retail      r2 F=0.026 c=0.854 exact=0.000 X | F=0.026 c=0.869 exact=0.000 X | F=0.026 c=0.869 exact=0.027 X | F=0.026 c=0.869 exact=0.017 X
+  retail      r3 F=0.026 c=0.869 exact=0.000 X | F=0.025 c=0.883 exact=0.000 X | F=0.025 c=0.883 exact=0.029 X | F=0.025 c=0.883 exact=0.019 X
+  -> retail: does not hold (0/3)
+  healthcare  r1 F=0.059 c=0.912 exact=0.006 X | F=0.013 c=0.987 exact=0.006 X | F=0.057 c=0.943 exact=0.006 X | F=0.088 c=0.912 exact=0.000 X
+  healthcare  r2 F=0.000 c=0.966 exact=0.006 | F=0.015 c=0.981 exact=0.006 X | F=0.015 c=0.981 exact=0.006 X | F=0.000 c=0.996 exact=0.000
+  healthcare  r3 F=0.000 c=0.966 exact=0.006 | F=0.015 c=0.981 exact=0.006 X | F=0.015 c=0.981 exact=0.006 X | F=0.000 c=0.996 exact=0.000
+  -> healthcare: does not hold (0/3)
+  it_support  r1 F=0.038 c=0.787 exact=0.000 X | F=0.000 c=0.858 exact=0.010 | F=0.052 c=0.831 exact=0.010 X | F=0.072 c=0.814 exact=0.000 X
+  it_support  r2 F=0.095 c=0.783 exact=0.000 X | F=0.067 c=0.802 exact=0.010 X | F=0.109 c=0.787 exact=0.010 X | F=0.134 c=0.766 exact=0.000 X
+  it_support  r3 F=0.094 c=0.787 exact=0.000 X | F=0.003 c=0.870 exact=0.010 | F=0.103 c=0.797 exact=0.010 X | F=0.084 c=0.814 exact=0.000 X
+  -> it_support: does not hold (0/3)
+H-S-O verdict: PARTIALLY (1/4)
+
+== Floor sweep, gemini: split_template_guarded false share <= 1% at every floor, every embedder, >= 2 of r1-r3
+  [held-out]
+    finance     robust=YES (3/3)  worst false share by floor: none:0.0000  0.3:0.0000  0.4:0.0000  0.5:0.0000  0.6:0.0000  0.7:0.0000
+    retail      robust=no  (0/3)  worst false share by floor: none:0.0566  0.3:0.0566  0.4:0.0566  0.5:0.0566  0.6:0.0566  0.7:0.0566
+    healthcare  robust=no  (0/3)  worst false share by floor: none:0.0757  0.3:0.0757  0.4:0.0757  0.5:0.0757  0.6:0.0757  0.7:0.0757
+    it_support  robust=no  (0/3)  worst false share by floor: none:0.1184  0.3:0.1184  0.4:0.1184  0.5:0.1184  0.6:0.1184  0.7:0.1207
+  [non-held-out]
+    finance     robust=YES (3/3)  worst false share by floor: none:0.0000  0.3:0.0000  0.4:0.0000  0.5:0.0000  0.6:0.0000  0.7:0.0000
+    retail      robust=no  (0/3)  worst false share by floor: none:0.0243  0.3:0.0243  0.4:0.0243  0.5:0.0243  0.6:0.0243  0.7:0.0243
+    healthcare  robust=no  (0/3)  worst false share by floor: none:0.0345  0.3:0.0345  0.4:0.0345  0.5:0.0345  0.6:0.0345  0.7:0.0345
+    it_support  robust=no  (0/3)  worst false share by floor: none:0.0493  0.3:0.0493  0.4:0.0493  0.5:0.0493  0.6:0.0493  0.7:0.0497
+
+== Floor sweep, openai: split_template_guarded false share <= 1% at every floor, every embedder, >= 2 of r1-r3
+  [held-out]
+    finance     robust=YES (3/3)  worst false share by floor: none:0.0039  0.3:0.0039  0.4:0.0039  0.5:0.0039  0.6:0.0040  0.7:0.0045
+    retail      robust=no  (0/3)  worst false share by floor: none:0.0258  0.3:0.0258  0.4:0.0258  0.5:0.0262  0.6:0.0266  0.7:0.0280
+    healthcare  robust=no  (0/3)  worst false share by floor: none:0.0878  0.3:0.0878  0.4:0.0878  0.5:0.0878  0.6:0.0878  0.7:0.0878
+    it_support  robust=no  (0/3)  worst false share by floor: none:0.1339  0.3:0.1339  0.4:0.1339  0.5:0.1339  0.6:0.1339  0.7:0.1339
+  [non-held-out]
+    finance     robust=YES (3/3)  worst false share by floor: none:0.0017  0.3:0.0017  0.4:0.0017  0.5:0.0017  0.6:0.0018  0.7:0.0018
+    retail      robust=no  (1/3)  worst false share by floor: none:0.0114  0.3:0.0114  0.4:0.0114  0.5:0.0114  0.6:0.0114  0.7:0.0114
+    healthcare  robust=YES (2/3)  worst false share by floor: none:0.0375  0.3:0.0375  0.4:0.0375  0.5:0.0375  0.6:0.0375  0.7:0.0375
+    it_support  robust=no  (0/3)  worst false share by floor: none:0.0600  0.3:0.0600  0.4:0.0600  0.5:0.0600  0.6:0.0600  0.7:0.0600
+
+== Extractor-independent (H-S holds for both vendors):
+  finance     gemini True  openai True  -> YES
+  retail      gemini False  openai False  -> no
+  healthcare  gemini False  openai False  -> no
+  it_support  gemini False  openai False  -> no

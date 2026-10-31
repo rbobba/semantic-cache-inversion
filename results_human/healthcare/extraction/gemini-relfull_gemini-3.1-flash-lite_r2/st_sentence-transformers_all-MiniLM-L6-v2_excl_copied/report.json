@@ -1,7 +1,7 @@
 {
   "domain": "healthcare",
   "embedder": "st:sentence-transformers/all-MiniLM-L6-v2",
-  "extracted": "C:/Users/ramak/source/repos/financial-insights/research/semantic-cache-inversion/results_human/healthcare/extraction/gemini-relfull_gemini-3.1-flash-lite_r2/extracted.jsonl",
+  "extracted": "results_human/healthcare/extraction/gemini-relfull_gemini-3.1-flash-lite_r2/extracted.jsonl",
   "exclude": "copied",
   "n_human": 113,
   "period_errors": {

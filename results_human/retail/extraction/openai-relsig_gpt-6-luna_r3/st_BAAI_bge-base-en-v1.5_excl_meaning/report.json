@@ -1,7 +1,7 @@
 {
   "domain": "retail",
   "embedder": "st:BAAI/bge-base-en-v1.5",
-  "extracted": "C:/Users/ramak/source/repos/financial-insights/research/semantic-cache-inversion/results_human/retail/extraction/openai-relsig_gpt-6-luna_r3/extracted.jsonl",
+  "extracted": "results_human/retail/extraction/openai-relsig_gpt-6-luna_r3/extracted.jsonl",
   "exclude": "meaning",
   "n_human": 116,
   "period_errors": {

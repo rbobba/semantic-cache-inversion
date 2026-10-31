@@ -5,9 +5,13 @@
 #   .venv\Scripts\activate
 #   .\run_guard_extractions.ps1
 #
+# -Tags replay1 writes a separately tagged replay and never touches r1-r3
+# (REPRODUCE.md).
+#
 # Safe to stop and rerun: each run resumes from its own raw.jsonl.
 
 param(
+    [string[]]$Tags = @("r1", "r2", "r3"),
     [string]$Project = "financial-insights-967",
     [int]$Workers = 2
 )
@@ -15,7 +19,7 @@ param(
 $ErrorActionPreference = "Stop"
 
 foreach ($d in @("finance", "retail", "healthcare", "it_support")) {
-    foreach ($t in @("r1", "r2", "r3")) {
+    foreach ($t in $Tags) {
         $args_ = @(
             "extract.py", "--data", "data_md/$d", "--out", "results_md/$d/extraction",
             "--extractor", "gemini-relsig:gemini-3.1-flash-lite", "--tag", $t,

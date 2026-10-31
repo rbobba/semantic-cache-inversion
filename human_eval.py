@@ -28,7 +28,7 @@ from pathlib import Path
 
 import numpy as np
 from domains import DOMAINS
-from evaluate import cache_simulation, embed, slug
+from evaluate import cache_simulation, embed, slug, study_path
 from guards import has_negation_cue
 
 HERE = Path(__file__).parent
@@ -161,7 +161,7 @@ def cache(a: argparse.Namespace) -> None:
     report = {
         "domain": a.domain,
         "embedder": label(a),
-        "extracted": a.extracted.as_posix(),
+        "extracted": study_path(a.extracted),
         "exclude": a.exclude,
         "n_human": len(human),
         "period_errors": {"n": len(period_errors), "ids": period_errors},

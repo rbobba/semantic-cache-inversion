@@ -5,10 +5,14 @@
 #   .\run_extractions.ps1                       # everything (about $50)
 #   .\run_extractions.ps1 -SkipFlash            # flash-lite only (about $16)
 #
+# -Tags replay1 writes a separately tagged replay and never touches r1-r3
+# (REPRODUCE.md).
+#
 # Safe to stop and rerun: each run resumes from its own raw.jsonl, and a run
 # that is already complete makes no API calls.
 
 param(
+    [string[]]$Tags = @("r1", "r2", "r3"),
     [string]$Project = "financial-insights-967",
     [int]$Workers = 2,
     [switch]$SkipFlash
@@ -33,12 +37,12 @@ function Invoke-Extraction([string]$Domain, [string]$Extractor, [string]$Tag) {
 }
 
 foreach ($d in $domains) {
-    foreach ($t in @("r1", "r2", "r3")) {
+    foreach ($t in $Tags) {
         Invoke-Extraction $d "gemini:gemini-3.1-flash-lite" $t
         Invoke-Extraction $d "gemini-rel:gemini-3.1-flash-lite" $t
     }
     if (-not $SkipFlash) {
-        Invoke-Extraction $d "gemini-rel:gemini-3.5-flash" "r1"
+        Invoke-Extraction $d "gemini-rel:gemini-3.5-flash" $($Tags[0])
     }
 }
 Write-Host "All extractions complete."

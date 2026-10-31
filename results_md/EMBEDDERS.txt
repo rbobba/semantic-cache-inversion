@@ -1,8 +1,16 @@
-Hugging Face revisions of the four open embedders used for every report in
-results_md (sentence-transformers, read from the local model cache on
-2026-10-30). Pass revision=<hash> to SentenceTransformer to load exactly these.
+Hugging Face revisions of the open embedders used for every report in this
+study (sentence-transformers, read from the local model cache on 2026-10-30;
+each cache held exactly one snapshot). evaluate.py pins these revisions in
+ST_REVISIONS, so a fresh download gets the same files.
 
-sentence-transformers/all-MiniLM-L6-v2   1110a243fdf4706b3f48f1d95db1a4f5529b4d41
-sentence-transformers/all-mpnet-base-v2  e8c3b32edf5434bc2275fc9bab85f82640a19130
-BAAI/bge-base-en-v1.5                    a5beb1e3e68b9ab74eb54cfd186867f64f240e1a
-intfloat/e5-base-v2                      f52bf8ec8c7124536f0efb74aca902b2995e5bcd
+sentence-transformers/all-MiniLM-L6-v2     1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+sentence-transformers/all-mpnet-base-v2    e8c3b32edf5434bc2275fc9bab85f82640a19130
+BAAI/bge-base-en-v1.5                      a5beb1e3e68b9ab74eb54cfd186867f64f240e1a
+intfloat/e5-base-v2                        f52bf8ec8c7124536f0efb74aca902b2995e5bcd
+Qwen/Qwen3-Embedding-0.6B                  97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3
+Snowflake/snowflake-arctic-embed-l-v2.0    ac6544c8a46e00af67e330e85a9028c66b8cfd9a
+mixedbread-ai/mxbai-embed-large-v1         b33106f585b9ce46904ad7443a3b52b7a63e231c
+
+Commercial embedders (Vertex, OpenAI, Voyage) cannot be pinned this way; a
+provider can change a model behind the same name. Their vectors are what the
+reports were made from, and a rerun may differ slightly.

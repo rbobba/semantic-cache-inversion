@@ -1,7 +1,7 @@
 {
   "domain": "it_support",
   "embedder": "st:intfloat/e5-base-v2 prefix='query: '",
-  "extracted": "C:/Users/ramak/source/repos/financial-insights/research/semantic-cache-inversion/results_human/it_support/extraction/openai-relsig_gpt-6-luna_r1-yearfix/extracted.jsonl",
+  "extracted": "results_human/it_support/extraction/openai-relsig_gpt-6-luna_r1-yearfix/extracted.jsonl",
   "exclude": null,
   "n_human": 120,
   "period_errors": {

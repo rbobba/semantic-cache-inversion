@@ -79,11 +79,15 @@ Earlier, on synthetic wording:
 ## Open, in priority order
 
 **Now (2026-10-30):** the human-question study is done and written up
-(sections 20 and 21). Next, in order:
-1. `REPRODUCE.md` and `verify_claims.py`.
-2. The paper draft.
-3. The guided replay with the author.
-4. Update RELATED_WORK.
+(sections 20 and 21). `verify_claims.py` and `REPRODUCE.md` exist, and every
+check passes (section 22). Next, in order:
+1. The paper draft.
+2. The guided replay with the author: level 2, then level 3 (a written rule
+   first, then `-Tags replay1`).
+3. Update RELATED_WORK.
+
+Before any commit or release: `python verify_claims.py --deep` must report 0
+failed.
 
 The next experiment, if any, is the period schema: an explicit-range kind
 and a stated reading of "the past year", tested on new questions under a new

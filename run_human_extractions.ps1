@@ -8,13 +8,17 @@
 #   .\run_human_extractions.ps1 -Vendor gemini                 # about $3
 #   $env:OPENAI_API_KEY = "<key>"; .\run_human_extractions.ps1 -Vendor openai   # about $1.50
 #
+# -Tags replay1 writes a separately tagged replay and never touches r1-r3
+# (REPRODUCE.md).
+#
 # Needs data_human\ (human.py). The two vendors can run at the same time in
 # separate windows. Safe to stop and rerun: each run resumes from its raw.jsonl.
 
 param(
     [Parameter(Mandatory = $true)][ValidateSet("gemini", "openai")][string]$Vendor,
     [string]$Project = "financial-insights-967",
-    [int]$Workers = 0
+    [int]$Workers = 0,
+    [string[]]$Tags = @("r1", "r2", "r3")
 )
 
 $ErrorActionPreference = "Stop"
@@ -32,7 +36,7 @@ if ($Vendor -eq "gemini") {
 
 foreach ($d in @("finance", "retail", "healthcare", "it_support")) {
     foreach ($arm in $arms) {
-        foreach ($t in @("r1", "r2", "r3")) {
+        foreach ($t in $Tags) {
             $done = $false
             for ($attempt = 1; $attempt -le 3 -and -not $done; $attempt++) {
                 Write-Host "== $d  $arm  $t  (attempt $attempt)"

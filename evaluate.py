@@ -136,10 +136,24 @@ def embed_tfidf(texts: list[str]) -> np.ndarray:
     return _normalise(m)
 
 
+# The Hugging Face revision of each open model, as every report used it: read
+# from the local model cache on 2026-10-30, where each held one snapshot. A
+# later revision could change the vectors (README section 22).
+ST_REVISIONS = {
+    "sentence-transformers/all-MiniLM-L6-v2": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+    "sentence-transformers/all-mpnet-base-v2": "e8c3b32edf5434bc2275fc9bab85f82640a19130",
+    "BAAI/bge-base-en-v1.5": "a5beb1e3e68b9ab74eb54cfd186867f64f240e1a",
+    "intfloat/e5-base-v2": "f52bf8ec8c7124536f0efb74aca902b2995e5bcd",
+    "Qwen/Qwen3-Embedding-0.6B": "97b0c614be4d77ee51c0cef4e5f07c00f9eb65b3",
+    "Snowflake/snowflake-arctic-embed-l-v2.0": "ac6544c8a46e00af67e330e85a9028c66b8cfd9a",
+    "mixedbread-ai/mxbai-embed-large-v1": "b33106f585b9ce46904ad7443a3b52b7a63e231c",
+}
+
+
 def embed_sentence_transformers(texts: list[str], model: str, prefix: str) -> np.ndarray:
     from sentence_transformers import SentenceTransformer
 
-    st = SentenceTransformer(model)
+    st = SentenceTransformer(model, revision=ST_REVISIONS.get(model))
     return _normalise(st.encode([prefix + t for t in texts], batch_size=64, show_progress_bar=True))
 
 
@@ -894,6 +908,15 @@ def slug(s: str) -> str:
     return re.sub(r"[^A-Za-z0-9._-]+", "_", s).strip("_")
 
 
+def study_path(p: Path) -> str:
+    """A path inside this folder, relative to it, so a report is the same
+    wherever the study is checked out (README section 22)."""
+    try:
+        return p.resolve().relative_to(HERE.resolve()).as_posix()
+    except ValueError:
+        return p.as_posix()
+
+
 def write_markdown(report: dict, path: Path) -> None:
     inv = report["pairs"]["inversion"]
     sim = report["pairs"]["similarity_by_pair_type"]
@@ -1214,7 +1237,7 @@ def main() -> None:
     }
     report["pairs"]["ab"] = ab_comparisons(pairs, qidx, raw, args.seed + 1, args.bootstrap)
     if args.extracted:
-        report["extracted"] = str(args.extracted.as_posix())
+        report["extracted"] = study_path(args.extracted)
     out_dir.mkdir(parents=True, exist_ok=True)
     (out_dir / "report.json").write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     write_markdown(report, out_dir / "report.md")
