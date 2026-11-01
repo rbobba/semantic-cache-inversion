@@ -1,0 +1,16 @@
+cff-version: 1.2.0
+title: "Similarity Cannot Tell a Rewording from a Period Change: A Pre-Registered Study of Semantic Caching for Text-to-SQL"
+message: "If you use this dataset, code or results, please cite as below."
+type: dataset
+authors:
+  - family-names: Bobba
+    given-names: Ramakrishna
+date-released: "2026-11-01"
+url: "https://github.com/rbobba/semantic-cache-inversion"
+license: MIT
+keywords:
+  - semantic caching
+  - text-to-SQL
+  - embedding similarity
+  - parameter near-miss
+  - pre-registered study
