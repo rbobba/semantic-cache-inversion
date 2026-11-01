@@ -16,7 +16,7 @@
 
 param(
     [Parameter(Mandatory = $true)][ValidateSet("gemini", "openai")][string]$Vendor,
-    [string]$Project = "financial-insights-967",
+    [string]$Project = "",  # your GCP project ID
     [int]$Workers = 0,
     [string]$Tag = "pilot"
 )

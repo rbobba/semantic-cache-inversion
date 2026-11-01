@@ -167,9 +167,9 @@ def embed_vertex(
 ) -> np.ndarray:
     """Vertex AI, called the way the application calls it.
 
-    The defaults (768 dimensions, no task type) mirror EmbeddingService in
-    backend/src/fin_insights/adapters/llm/embedding_service.py, so the result
-    describes the production configuration rather than a tuned variant.
+    The defaults (768 dimensions, no task type) mirror the production
+    embedding configuration, so the result describes what the application
+    uses rather than a tuned variant.
     --task-type SEMANTIC_SIMILARITY is the variant worth trying second.
     """
     from google import genai

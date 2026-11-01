@@ -217,6 +217,65 @@ guarded cache.
 
 ---
 
+## 6. Second search (2026-10-31), and what it changes
+
+Done after the paper draft, because the first search was too thin. Every
+paper below was opened (arXiv abstract or HTML full text); Semantic Scholar's
+citation lists were read for Bindschaedler, Rathore et al., TeCoD, VaryGen
+and Cao. Still not Google Scholar or proceedings browsing.
+
+**Missed; not a cache, but overlaps on two points:**
+- **TeCoD** (template-constrained *generation*: the LLM still generates SQL
+  for every question, so no call is skipped; its related work has no
+  semantic caching). S. Jivani, S. Maheshwari, S. Sarawagi. *Reliable Answers for
+  Recurring Questions: Boosting Text-to-SQL Accuracy with Template
+  Constrained Decoding*. PACMMOD 3(6), article 357. arXiv:2604.28028.
+  - Reuses templates built from past NL-SQL pairs for recurring questions:
+    a cosine shortlist, then a fine-tuned NLI model accepts or rejects.
+  - Reports a cosine-threshold baseline for template selection: selection
+    63.5 / rejection 82.9 on BIRD, 74.7 / 75.2 on Spider.
+  - "The bulk of the error is due to the wrong literal generation even
+    after matching with the correct template."
+  - BIRD and Spider dev, with o3-mini-synthesised pool questions. No
+    negation, exclusion or time-period analysis; no human-written held-out
+    wording.
+
+**Missed, adjacent:**
+- Basu, *Why Agent Caching Fails and How to Fix It*, arXiv:2602.18922. Agent
+  intent caching, not SQL. Template fingerprinting: 69.3% hits, 48.1%
+  precision. No parameter-variation tests.
+- Rasool et al., *LLMs for Test Input Generation for Semantic Caches*
+  (VaryGen), CAIN 2024, arXiv:2401.08138. Generates subtle query variants to
+  expose cache failures; general Q&A, not SQL.
+- vllm-project/semantic-router issue #2691 (practitioner, not reviewed). A
+  paraphrase can score lower than its negation, so raising the threshold
+  removes paraphrases first; 8 of 12 negation pairs false-hit at 0.80. This
+  is comparison A's finding, on 12 pairs.
+- Practitioner text-to-SQL guides and ProSPy (arXiv:2606.05836) already
+  resolve relative dates to constants in code.
+
+**Rechecked:** Rathore et al.'s "an embedding-only cache ... would admit all
+146 negatives" is an inference, not a run: "we have not run GPTCache as a
+direct baseline". Section 1's note stands.
+
+**What this does to section 5's "new" list:**
+1. Comparison A: **not news.** Measured more broadly here, but TeCoD
+   measures cosine template selection and practitioners report the same
+   inversion. Supporting evidence only.
+2. Template cache with real extractors: **not anticipated, but not alone.**
+   TeCoD, in generation rather than caching, also finds that similarity
+   picks templates poorly and that wrong literals carry most remaining
+   error. Cite it for both points. (A note on 2026-10-31 first said
+   "largely anticipated"; that overstated it.)
+3. Exclusion-drop asymmetry: **still not found anywhere.** Caveat: it is
+   mainly a small-model effect (flash-lite 16–40%, gemini-3.5-flash 1%).
+4. Relative-date labels: **known practice.** Only the measurement is ours.
+5. Gated designs on human, held-out wording, two vendors: **not found
+   elsewhere.** Our guarded design is the published idea, not those
+   systems' code.
+
+---
+
 ## Search queries used (2026-10-29)
 
 - semantic cache text-to-SQL LLM arXiv

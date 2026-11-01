@@ -80,11 +80,18 @@ Earlier, on synthetic wording:
 
 **Now (2026-10-30):** the human-question study is done and written up
 (sections 20 and 21). `verify_claims.py` and `REPRODUCE.md` exist, and every
-check passes (section 22). Next, in order:
-1. The paper draft.
+check passes (section 22). The paper's first draft is `paper/PAPER.md`
+(about 4,100 words before references), with every number mapped to its
+source in `paper/EVIDENCE.md`. Next, in order:
+1. The author reviews the draft: byline, framing, venue.
 2. The guided replay with the author: level 2, then level 3 (a written rule
    first, then `-Tags replay1`).
-3. Update RELATED_WORK.
+3. Before submission: a systematic literature search, full reference
+   titles, and LaTeX for the chosen venue.
+
+Owed: sections 15 and 16 pre-registered a cost break-even as a reported
+item, and section 19 never reported it. Either report it, which needs the
+generation cost a hit saves, or record why not.
 
 Before any commit or release: `python verify_claims.py --deep` must report 0
 failed.
@@ -102,7 +109,7 @@ commercial similarity reports need `run_human_embeddings.ps1` (the author).
    - Domains: finance, retail, healthcare and IT support, in `data_md/`.
    - The author runs `.\run_extractions.ps1`: 24 flash-lite runs plus 4
      3.5-flash runs.
-   - The agent then runs the embedders and tests G1–G4.
+   - Then run the open embedders locally and test G1–G4.
    - This also covers run-to-run variance, with three repeats.
    - Section 15 (guarded cache): the author runs `.\run_guard_extractions.ps1`
      after the Gemini runs above finish.
@@ -178,12 +185,11 @@ claim is final.
 
 ## How the work is split
 
-- **Credentialed runs (Vertex/Gemini, OpenAI, Voyage) are run by the author**
-  (CLAUDE.md rule 1). Project `financial-insights-967`, `--workers 2`, which
-  avoids 429s. Use `--limit 5` for a smoke test.
-- Local runs (open embedders, Duckling in Docker on port 8010, evaluation) can
-  be run by the agent.
-- Commits only on an explicit request. Never push to `main`.
+- **Credentialed runs (Vertex/Gemini, OpenAI, Voyage)** need a GCP project
+  and API keys. Use `--workers 2` to avoid 429s. Use `--limit 5` for a
+  smoke test.
+- **Local runs** (open embedders, Duckling in Docker on port 8010,
+  evaluation) need no credentials.
 
 ## Key commands
 

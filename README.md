@@ -20,7 +20,7 @@ its three sentences overclaim:
 
 - *"score higher"* is, so far, one measurement on one embedding model
   (text-embedding-004: 0.9953 for "this month" against "last month", 0.9780 for
-  the best correct rephrasing, recorded in `backend/src/fin_insights/config.py`).
+  the best correct rephrasing, observed in the production configuration).
 - *"No threshold … can"* is only provable **at zero false reuse**, and only
   against an oracle bound (section 4). vCache trades a user-set error rate for
   hits; at a non-zero error rate it can and will reuse.
@@ -169,9 +169,9 @@ python evaluate.py --embedder vertex:text-embedding-004 --project <your-project>
 ```
 
 The first call mirrors the application exactly: 768 dimensions and no task
-type, as in `backend/src/fin_insights/adapters/llm/embedding_service.py`. The
+type, matching the production embedding configuration. The
 second shows whether the task type changes the picture. About 1,500 short texts
-cost a fraction of a cent at the rate in `observability/pricing.py`.
+cost a fraction of a cent.
 
 **Any other model** (OpenAI, Cohere, a local server): write an `.npz` file with
 two arrays, `texts` and `vectors`, covering every `text` and `masked_text` in
@@ -2038,9 +2038,9 @@ affects.
    match `manifest.json`. The rows were identical, so the writers' sheets are
    unaffected. The generator's output was restored.
 
-Mistakes 1–4 are the agent's: the agent wrote the design, the prompts and the
-domain definitions, and none of them was piloted outside finance before it
-was frozen. Section 18 adds that pilot.
+Mistakes 1–4 are in the automated analysis: the design, prompts and domain
+definitions were not piloted outside finance before they were frozen.
+Section 18 adds that pilot.
 
 ## 20. Deviation from section 18: a month or quarter with no year (2026-10-30)
 
@@ -2062,8 +2062,8 @@ happened on 56–62 of the 480 writers' questions in each OpenAI run, and on
 none in Gemini's. A row without a period has no period slot, so the cache
 never reuses it: the defect costs reuse, not correctness.
 
-This is mistake 7, and it is the agent's: the resolver was never given a
-question without a year, because every synthetic question states one.
+This is mistake 7: the resolver was never given a question without a year,
+because every synthetic question states one.
 
 ### The registered results stand
 
@@ -2317,7 +2317,7 @@ exploratory and does not change a verdict.
 - Three writers, one spec sheet. The sheet showed exact dates beside each
   period, which invited the explicit-date wording, and a writer working
   from a spec writes differently from a person asking freely.
-- The meaning check was done by the agent alone, not blind. It was lenient
+- The meaning check was done by the author alone, not blind. It was lenient
   on "the past year" (section 20), and it was written before any extraction.
 - The cache holds the study's synthetic questions, and every query is
   answerable from it. Real traffic has questions with no cached match.
@@ -2388,4 +2388,4 @@ None of these changes a number or a verdict.
 6. **The extraction scripts could not write a replay.** They hard-coded
    r1–r3. Each now takes `-Tags`, so a replay writes to its own folders.
 
-Mistakes 8 and 9 are the agent's.
+Mistakes 8 and 9 are in the automated analysis.

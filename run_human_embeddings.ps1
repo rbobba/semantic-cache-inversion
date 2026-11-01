@@ -1,7 +1,7 @@
 # HQ-P's secondary embedders on the writers' questions (README section 18):
 # the eight commercial configurations of section 14, addendum A, with the
 # same settings. Secondary: HQ-P is decided on the four open models only.
-# The three secondary open models are run locally by the agent.
+# The three secondary open models are run locally.
 #
 #   cd research\semantic-cache-inversion
 #   .venv\Scripts\activate
@@ -13,7 +13,7 @@
 # About 2,000 short texts per model; total cost is cents.
 
 param(
-    [string]$Project = "financial-insights-967",
+    [string]$Project = "",  # your GCP project ID
     [switch]$SkipOpenAI,
     [switch]$SkipVoyage
 )

@@ -12,7 +12,7 @@
 
 param(
     [string[]]$Tags = @("r1", "r2", "r3"),
-    [string]$Project = "financial-insights-967",
+    [string]$Project = "",  # your GCP project ID
     [int]$Workers = 2
 )
 

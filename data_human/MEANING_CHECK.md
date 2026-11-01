@@ -1,6 +1,6 @@
 # Meaning check (README section 18)
 
-Done by the agent on 2026-10-30, after `human.py` and before any extraction
+Done on 2026-10-30, after `human.py` and before any extraction
 of these questions was run. Each of the 480 questions was read against its
 spec (goal, details, period) in `meaning_check.csv`.
 

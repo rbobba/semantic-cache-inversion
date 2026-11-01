@@ -1,5 +1,5 @@
 # Runs the commercial embedding models on all four domains (README section 14,
-# addendum A). Secondary to G1-G4. Open models are run locally by the agent.
+# addendum A). Secondary to G1-G4. Open models are run locally.
 #
 #   cd research\semantic-cache-inversion
 #   .venv\Scripts\activate
@@ -10,7 +10,7 @@
 # skips what is already embedded. Total cost is cents.
 
 param(
-    [string]$Project = "financial-insights-967",
+    [string]$Project = "",  # your GCP project ID
     [switch]$SkipOpenAI,
     [switch]$SkipVoyage
 )
