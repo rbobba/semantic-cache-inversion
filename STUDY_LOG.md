@@ -6,6 +6,34 @@ parameter look more alike than questions that mean the same thing?**
 
 ---
 
+## How to read this document
+
+This is a **chronological lab notebook**, not a polished paper. Its value is the
+pre-registration evidence: hypotheses, decision rules and predictions were
+committed before their results, and three stages recorded SHA-256 hashes of
+their pre-registration text. The chronological order is the proof.
+
+**If you want the headline results**, start here:
+- [Section 21](#21-results-of-section-18-the-human-written-questions-2026-10-30) — the human-question results (the strongest findings)
+- [Section 19](#19-results-of-sections-1416-and-mistakes-found-after-the-runs-2026-10-29) — four-domain results on synthetic questions
+- [Section 7](#7-gate-result--2026-10-28-go) — the initial go/no-go gate
+
+> **Start with the figures below** if you want the visual story in two minutes.
+
+**If you want the method**, read sections 1 (problem statement), 9
+(extraction pre-registration) and 18 (human-question pre-registration).
+
+**If you want the figures**, four diagrams summarise the key results:
+- [Figure 1](figures/fig1_inversion_concept.svg) — what "inversion" means, in one picture
+- [Figure 2](figures/fig2_comparison_a_heatmap.svg) — comparison A across 15 models and 4 domains
+- [Figure 3](figures/fig3_auc_coin_toss.svg) — human-question AUC: similarity is a coin toss
+- [Figure 4](figures/fig4_guard_effect.svg) — the full-signature guard: problem → solution → residual risk
+
+Sections 1–6 are planning documents written before any neural model was run.
+They are part of the pre-registration record and are kept for that reason.
+
+---
+
 ## 1. The problem statement
 
 The sentence we started from —
@@ -486,6 +514,8 @@ are shown; the seventh, `last_month`, ranges from 0.57 to 0.71.
   no date knowledge. For example: "What were my overall expenses **this** year?"
   scores 0.984 against "… **last** year?", while "What was my total spending last
   year?" scores 0.875 (mpnet).
+
+![Figure 1: The inversion concept — a period swap outscores every rewording](figures/fig1_inversion_concept.svg)
 
 **4. Secondary hypotheses, under the step-5 caveats** (oracle parameters,
 templated wording):
@@ -1937,6 +1967,8 @@ embedding configurations and all four domains, comparison A runs from 0.78 to
 range quoted earlier, 0.82–0.98, came from finance v1. **The figure to cite
 is now 0.78–1.00, in 15 configurations and 4 domains.**
 
+![Figure 2: Comparison A — period swap outscores every rewording, 15 models × 4 domains](figures/fig2_comparison_a_heatmap.svg)
+
 **Period labels remove date errors (G2).** The relative arm made no period
 error in any of 15,411 extractions. The absolute arm got 2.2–3.0% of
 questions wrong, the same in every repeat. The count was checked twice: from
@@ -2168,6 +2200,8 @@ This is the strongest form of the near-miss result so far. It rests on
 people's wording, not the study's templates, and holds in every model from
 2021 to 2026.
 
+![Figure 3: AUC across 15 embedding models — all cluster near the coin-toss line](figures/fig3_auc_coin_toss.svg)
+
 ### HQ-D: three causes, none of them random
 
 | Cause | Questions | Vendor | Effect in the cache |
@@ -2241,6 +2275,8 @@ period reading might.
 Against an exact-key cache, which is safe but rarely reuses anything
 (0.01–0.33), the full-signature cache answers 80–97% of people's questions
 from the cache.
+
+![Figure 4: Problem → solution → residual risk across four domains](figures/fig4_guard_effect.svg)
 
 ### The 1% rule at this sample size
 

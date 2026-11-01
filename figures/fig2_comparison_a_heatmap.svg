@@ -1,0 +1,191 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 580" font-family="system-ui, -apple-system, sans-serif">
+  <style>
+    text { font-size: 11px; fill: #333; }
+    .title { font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+    .subtitle { font-size: 12px; fill: #666; }
+    .model-label { font-size: 10.5px; fill: #444; text-anchor: end; }
+    .domain-label { font-size: 11px; fill: #444; font-weight: 600; text-anchor: middle; }
+    .cell-text { font-size: 10px; fill: #fff; text-anchor: middle; font-weight: 500; }
+    .cell-text-dark { font-size: 10px; fill: #333; text-anchor: middle; font-weight: 500; }
+    .year { font-size: 9px; fill: #999; }
+    .legend-text { font-size: 10px; fill: #666; }
+  </style>
+
+  <text x="380" y="28" text-anchor="middle" class="title">Comparison A: Period Swap Outscores Every Rewording</text>
+  <text x="380" y="46" text-anchor="middle" class="subtitle">Share of cached questions where a one-word period change scores above all reworded correct questions</text>
+
+  <!-- Domain headers -->
+  <text x="380" y="82" class="domain-label">Finance</text>
+  <text x="480" y="82" class="domain-label">Retail</text>
+  <text x="580" y="82" class="domain-label">Healthcare</text>
+  <text x="680" y="82" class="domain-label">IT Support</text>
+
+  <!-- Row definitions: model name, year, finance, retail, healthcare, it_support -->
+  <!-- Row 1: MiniLM -->
+  <text x="320" y="110" class="model-label">all-MiniLM-L6-v2 <tspan class="year">(2021)</tspan></text>
+  <rect x="340" y="94" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="380" y="110" class="cell-text">.984</text>
+  <rect x="440" y="94" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="480" y="110" class="cell-text">.992</text>
+  <rect x="540" y="94" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="580" y="110" class="cell-text">.986</text>
+  <rect x="640" y="94" width="80" height="24" rx="3" fill="#c0392b" opacity="1.0"/>
+  <text x="680" y="110" class="cell-text">1.00</text>
+
+  <!-- Row 2: mpnet -->
+  <text x="320" y="140" class="model-label">all-mpnet-base-v2 <tspan class="year">(2021)</tspan></text>
+  <rect x="340" y="124" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="380" y="140" class="cell-text">.992</text>
+  <rect x="440" y="124" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="480" y="140" class="cell-text">.992</text>
+  <rect x="540" y="124" width="80" height="24" rx="3" fill="#c0392b" opacity="1.0"/>
+  <text x="580" y="140" class="cell-text">1.00</text>
+  <rect x="640" y="124" width="80" height="24" rx="3" fill="#c0392b" opacity="0.93"/>
+  <text x="680" y="140" class="cell-text">.976</text>
+
+  <!-- Row 3: e5 -->
+  <text x="320" y="170" class="model-label">e5-base-v2 <tspan class="year">(2023)</tspan></text>
+  <rect x="340" y="154" width="80" height="24" rx="3" fill="#c0392b" opacity="0.88"/>
+  <text x="380" y="170" class="cell-text">.922</text>
+  <rect x="440" y="154" width="80" height="24" rx="3" fill="#c0392b" opacity="0.89"/>
+  <text x="480" y="170" class="cell-text">.930</text>
+  <rect x="540" y="154" width="80" height="24" rx="3" fill="#c0392b" opacity="0.89"/>
+  <text x="580" y="170" class="cell-text">.931</text>
+  <rect x="640" y="154" width="80" height="24" rx="3" fill="#c0392b" opacity="0.93"/>
+  <text x="680" y="170" class="cell-text">.968</text>
+
+  <!-- Row 4: bge -->
+  <text x="320" y="200" class="model-label">bge-base-en-v1.5 <tspan class="year">(2023)</tspan></text>
+  <rect x="340" y="184" width="80" height="24" rx="3" fill="#c0392b" opacity="0.83"/>
+  <text x="380" y="200" class="cell-text">.875</text>
+  <rect x="440" y="184" width="80" height="24" rx="3" fill="#c0392b" opacity="0.88"/>
+  <text x="480" y="200" class="cell-text">.922</text>
+  <rect x="540" y="184" width="80" height="24" rx="3" fill="#c0392b" opacity="0.90"/>
+  <text x="580" y="200" class="cell-text">.945</text>
+  <rect x="640" y="184" width="80" height="24" rx="3" fill="#c0392b" opacity="0.92"/>
+  <text x="680" y="200" class="cell-text">.960</text>
+
+  <!-- Row 5: text-embedding-3-small -->
+  <text x="320" y="230" class="model-label">text-embedding-3-small <tspan class="year">(2024)</tspan></text>
+  <rect x="340" y="214" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="380" y="230" class="cell-text">.984</text>
+  <rect x="440" y="214" width="80" height="24" rx="3" fill="#c0392b" opacity="1.0"/>
+  <text x="480" y="230" class="cell-text">1.00</text>
+  <rect x="540" y="214" width="80" height="24" rx="3" fill="#c0392b" opacity="1.0"/>
+  <text x="580" y="230" class="cell-text">1.00</text>
+  <rect x="640" y="214" width="80" height="24" rx="3" fill="#c0392b" opacity="1.0"/>
+  <text x="680" y="230" class="cell-text">1.00</text>
+
+  <!-- Row 6: text-embedding-3-large -->
+  <text x="320" y="260" class="model-label">text-embedding-3-large <tspan class="year">(2024)</tspan></text>
+  <rect x="340" y="244" width="80" height="24" rx="3" fill="#c0392b" opacity="0.90"/>
+  <text x="380" y="260" class="cell-text">.945</text>
+  <rect x="440" y="244" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="480" y="260" class="cell-text">.984</text>
+  <rect x="540" y="244" width="80" height="24" rx="3" fill="#c0392b" opacity="0.93"/>
+  <text x="580" y="260" class="cell-text">.972</text>
+  <rect x="640" y="244" width="80" height="24" rx="3" fill="#c0392b" opacity="0.96"/>
+  <text x="680" y="260" class="cell-text">.992</text>
+
+  <!-- Row 7: mxbai -->
+  <text x="320" y="290" class="model-label">mxbai-embed-large-v1 <tspan class="year">(2024)</tspan></text>
+  <rect x="340" y="274" width="80" height="24" rx="3" fill="#c0392b" opacity="0.80"/>
+  <text x="380" y="290" class="cell-text">.836</text>
+  <rect x="440" y="274" width="80" height="24" rx="3" fill="#c0392b" opacity="0.82"/>
+  <text x="480" y="290" class="cell-text">.859</text>
+  <rect x="540" y="274" width="80" height="24" rx="3" fill="#c0392b" opacity="0.85"/>
+  <text x="580" y="290" class="cell-text">.890</text>
+  <rect x="640" y="274" width="80" height="24" rx="3" fill="#c0392b" opacity="0.89"/>
+  <text x="680" y="290" class="cell-text">.928</text>
+
+  <!-- Row 8: snowflake -->
+  <text x="320" y="320" class="model-label">snowflake-arctic-embed-l <tspan class="year">(2024)</tspan></text>
+  <rect x="340" y="304" width="80" height="24" rx="3" fill="#c0392b" opacity="0.77"/>
+  <text x="380" y="320" class="cell-text">.812</text>
+  <rect x="440" y="304" width="80" height="24" rx="3" fill="#c0392b" opacity="0.83"/>
+  <text x="480" y="320" class="cell-text">.875</text>
+  <rect x="540" y="304" width="80" height="24" rx="3" fill="#c0392b" opacity="0.80"/>
+  <text x="580" y="320" class="cell-text">.835</text>
+  <rect x="640" y="304" width="80" height="24" rx="3" fill="#c0392b" opacity="0.87"/>
+  <text x="680" y="320" class="cell-text">.912</text>
+
+  <!-- Row 9: text-embedding-004 -->
+  <text x="320" y="350" class="model-label">text-embedding-004 <tspan class="year">(2024)</tspan></text>
+  <rect x="340" y="334" width="80" height="24" rx="3" fill="#c0392b" opacity="0.85"/>
+  <text x="380" y="350" class="cell-text">.891</text>
+  <rect x="440" y="334" width="80" height="24" rx="3" fill="#c0392b" opacity="0.88"/>
+  <text x="480" y="350" class="cell-text">.922</text>
+  <rect x="540" y="334" width="80" height="24" rx="3" fill="#c0392b" opacity="0.90"/>
+  <text x="580" y="350" class="cell-text">.938</text>
+  <rect x="640" y="334" width="80" height="24" rx="3" fill="#c0392b" opacity="0.93"/>
+  <text x="680" y="350" class="cell-text">.968</text>
+
+  <!-- Row 10: gemini-embedding-001 -->
+  <text x="320" y="380" class="model-label">gemini-embedding-001 <tspan class="year">(2025)</tspan></text>
+  <rect x="340" y="364" width="80" height="24" rx="3" fill="#c0392b" opacity="0.86"/>
+  <text x="380" y="380" class="cell-text">.898</text>
+  <rect x="440" y="364" width="80" height="24" rx="3" fill="#c0392b" opacity="0.89"/>
+  <text x="480" y="380" class="cell-text">.930</text>
+  <rect x="540" y="364" width="80" height="24" rx="3" fill="#c0392b" opacity="0.89"/>
+  <text x="580" y="380" class="cell-text">.931</text>
+  <rect x="640" y="364" width="80" height="24" rx="3" fill="#c0392b" opacity="0.95"/>
+  <text x="680" y="380" class="cell-text">.984</text>
+
+  <!-- Row 11: Qwen3 -->
+  <text x="320" y="410" class="model-label">Qwen3-Embedding-0.6B <tspan class="year">(2025)</tspan></text>
+  <rect x="340" y="394" width="80" height="24" rx="3" fill="#c0392b" opacity="0.90"/>
+  <text x="380" y="410" class="cell-text">.945</text>
+  <rect x="440" y="394" width="80" height="24" rx="3" fill="#c0392b" opacity="0.91"/>
+  <text x="480" y="410" class="cell-text">.953</text>
+  <rect x="540" y="394" width="80" height="24" rx="3" fill="#c0392b" opacity="0.93"/>
+  <text x="580" y="410" class="cell-text">.966</text>
+  <rect x="640" y="394" width="80" height="24" rx="3" fill="#c0392b" opacity="0.92"/>
+  <text x="680" y="410" class="cell-text">.960</text>
+
+  <!-- Row 12: voyage-3-large -->
+  <text x="320" y="440" class="model-label">voyage-3-large <tspan class="year">(2025)</tspan></text>
+  <rect x="340" y="424" width="80" height="24" rx="3" fill="#c0392b" opacity="0.74"/>
+  <text x="380" y="440" class="cell-text">.781</text>
+  <rect x="440" y="424" width="80" height="24" rx="3" fill="#c0392b" opacity="0.80"/>
+  <text x="480" y="440" class="cell-text">.844</text>
+  <rect x="540" y="424" width="80" height="24" rx="3" fill="#c0392b" opacity="0.80"/>
+  <text x="580" y="440" class="cell-text">.835</text>
+  <rect x="640" y="424" width="80" height="24" rx="3" fill="#c0392b" opacity="0.82"/>
+  <text x="680" y="440" class="cell-text">.864</text>
+
+  <!-- Row 13: voyage-3.5 -->
+  <text x="320" y="470" class="model-label">voyage-3.5 <tspan class="year">(2025)</tspan></text>
+  <rect x="340" y="454" width="80" height="24" rx="3" fill="#c0392b" opacity="0.84"/>
+  <text x="380" y="470" class="cell-text">.883</text>
+  <rect x="440" y="454" width="80" height="24" rx="3" fill="#c0392b" opacity="0.90"/>
+  <text x="480" y="470" class="cell-text">.938</text>
+  <rect x="540" y="454" width="80" height="24" rx="3" fill="#c0392b" opacity="0.87"/>
+  <text x="580" y="470" class="cell-text">.910</text>
+  <rect x="640" y="454" width="80" height="24" rx="3" fill="#c0392b" opacity="0.87"/>
+  <text x="680" y="470" class="cell-text">.912</text>
+
+  <!-- Row 14: voyage-4 -->
+  <text x="320" y="500" class="model-label">voyage-4 <tspan class="year">(2026)</tspan></text>
+  <rect x="340" y="484" width="80" height="24" rx="3" fill="#c0392b" opacity="0.75"/>
+  <text x="380" y="500" class="cell-text">.789</text>
+  <rect x="440" y="484" width="80" height="24" rx="3" fill="#c0392b" opacity="0.80"/>
+  <text x="480" y="500" class="cell-text">.836</text>
+  <rect x="540" y="484" width="80" height="24" rx="3" fill="#c0392b" opacity="0.75"/>
+  <text x="580" y="500" class="cell-text">.793</text>
+  <rect x="640" y="484" width="80" height="24" rx="3" fill="#c0392b" opacity="0.87"/>
+  <text x="680" y="500" class="cell-text">.912</text>
+
+  <!-- Row 15: text-embedding-004 SemSim -->
+  <text x="320" y="530" class="model-label">text-embedding-004 (SemSim) <tspan class="year">(2024)</tspan></text>
+  <rect x="340" y="514" width="80" height="24" rx="3" fill="#c0392b" opacity="0.80"/>
+  <text x="380" y="530" class="cell-text">.836</text>
+  <rect x="440" y="514" width="80" height="24" rx="3" fill="#c0392b" opacity="0.85"/>
+  <text x="480" y="530" class="cell-text">.891</text>
+  <rect x="540" y="514" width="80" height="24" rx="3" fill="#c0392b" opacity="0.86"/>
+  <text x="580" y="530" class="cell-text">.903</text>
+  <rect x="640" y="514" width="80" height="24" rx="3" fill="#c0392b" opacity="0.90"/>
+  <text x="680" y="530" class="cell-text">.936</text>
+
+  <!-- Annotation -->
+  <text x="380" y="565" text-anchor="middle" class="subtitle">Minimum 0.78 across all 60 cells. Every model, every domain: the period swap wins.</text>
+</svg>

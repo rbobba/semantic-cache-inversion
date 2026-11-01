@@ -1,0 +1,126 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 380" font-family="system-ui, -apple-system, sans-serif">
+  <style>
+    text { font-size: 12px; fill: #333; }
+    .title { font-size: 16px; font-weight: 600; fill: #1a1a1a; }
+    .subtitle { font-size: 12px; fill: #666; }
+    .model-label { font-size: 10px; fill: #444; text-anchor: end; }
+    .axis-label { font-size: 10px; fill: #888; }
+    .annotation { font-size: 11px; fill: #666; font-style: italic; }
+    .val { font-size: 9px; fill: #555; font-weight: 500; }
+  </style>
+
+  <text x="380" y="28" text-anchor="middle" class="title">Can Similarity Tell a Rewording from a Period Change?</text>
+  <text x="380" y="46" text-anchor="middle" class="subtitle">AUC on 480 human-written questions. 0.5 = coin toss. All 15 models cluster near chance.</text>
+
+  <!-- Axis: AUC from 0.3 to 0.9 -->
+  <!-- x mapping: 0.3 -> 120, 0.9 -> 680. Per 0.1: 93.3px -->
+  <line x1="120" y1="340" x2="680" y2="340" stroke="#ccc" stroke-width="1"/>
+  <line x1="120" y1="60" x2="120" y2="345" stroke="#eee"/>
+  <text x="120" y="358" text-anchor="middle" class="axis-label">0.30</text>
+  <line x1="213" y1="60" x2="213" y2="345" stroke="#eee"/>
+  <text x="213" y="358" text-anchor="middle" class="axis-label">0.40</text>
+  <line x1="307" y1="60" x2="307" y2="345" stroke="#eee"/>
+  <text x="307" y="358" text-anchor="middle" class="axis-label">0.50</text>
+  <line x1="400" y1="60" x2="400" y2="345" stroke="#eee"/>
+  <text x="400" y="358" text-anchor="middle" class="axis-label">0.60</text>
+  <line x1="493" y1="60" x2="493" y2="345" stroke="#eee"/>
+  <text x="493" y="358" text-anchor="middle" class="axis-label">0.70</text>
+  <line x1="587" y1="60" x2="587" y2="345" stroke="#eee"/>
+  <text x="587" y="358" text-anchor="middle" class="axis-label">0.80</text>
+  <line x1="680" y1="60" x2="680" y2="345" stroke="#eee"/>
+  <text x="680" y="358" text-anchor="middle" class="axis-label">0.90</text>
+  <text x="400" y="377" text-anchor="middle" class="axis-label">AUC (area under ROC curve)</text>
+
+  <!-- Coin toss line at 0.5 -->
+  <line x1="307" y1="55" x2="307" y2="345" stroke="#e74c3c" stroke-width="2" stroke-dasharray="6,4" opacity="0.6"/>
+  <text x="310" y="72" class="annotation" fill="#c0392b">coin toss (0.50)</text>
+
+  <!-- Scale: 0.3=120, each 0.01 = 9.33px -->
+  <!-- Row function: AUC -> x = 120 + (AUC - 0.3) * 933.3 -->
+  <!-- CI low -> x1, CI high -> x2 -->
+
+  <!-- 1. MiniLM: AUC=0.526 [0.449, 0.608] -->
+  <line x1="259" y1="90" x2="407" y2="90" stroke="#2980b9" stroke-width="2" opacity="0.5"/>
+  <circle cx="331" cy="90" r="5" fill="#2980b9"/>
+  <text x="100" y="94" class="model-label">MiniLM-L6</text>
+
+  <!-- 2. mpnet: AUC=0.522 [0.443, 0.604] -->
+  <line x1="253" y1="108" x2="404" y2="108" stroke="#2980b9" stroke-width="2" opacity="0.5"/>
+  <circle cx="327" cy="108" r="5" fill="#2980b9"/>
+  <text x="100" y="112" class="model-label">mpnet-v2</text>
+
+  <!-- 3. bge: AUC=0.580 [0.507, 0.655] -->
+  <line x1="313" y1="126" x2="451" y2="126" stroke="#2980b9" stroke-width="2" opacity="0.5"/>
+  <circle cx="381" cy="126" r="5" fill="#2980b9"/>
+  <text x="100" y="130" class="model-label">bge-base</text>
+
+  <!-- 4. e5: AUC=0.581 [0.506, 0.662] -->
+  <line x1="312" y1="144" x2="458" y2="144" stroke="#2980b9" stroke-width="2" opacity="0.5"/>
+  <circle cx="382" cy="144" r="5" fill="#2980b9"/>
+  <text x="100" y="148" class="model-label">e5-base</text>
+
+  <!-- 5. Qwen3: AUC=0.595 [0.519, 0.677] -->
+  <line x1="324" y1="162" x2="472" y2="162" stroke="#8e44ad" stroke-width="2" opacity="0.5"/>
+  <circle cx="395" cy="162" r="5" fill="#8e44ad"/>
+  <text x="100" y="166" class="model-label">Qwen3-0.6B</text>
+
+  <!-- 6. Snowflake: AUC=0.561 [0.486, 0.639] -->
+  <line x1="293" y1="180" x2="436" y2="180" stroke="#8e44ad" stroke-width="2" opacity="0.5"/>
+  <circle cx="363" cy="180" r="5" fill="#8e44ad"/>
+  <text x="100" y="184" class="model-label">Snowflake</text>
+
+  <!-- 7. mxbai: AUC=0.545 [0.474, 0.619] -->
+  <line x1="282" y1="198" x2="418" y2="198" stroke="#8e44ad" stroke-width="2" opacity="0.5"/>
+  <circle cx="349" cy="198" r="5" fill="#8e44ad"/>
+  <text x="100" y="202" class="model-label">mxbai-large</text>
+
+  <!-- 8. text-embedding-004: AUC=0.524 [0.449, 0.602] -->
+  <line x1="259" y1="216" x2="402" y2="216" stroke="#e67e22" stroke-width="2" opacity="0.5"/>
+  <circle cx="329" cy="216" r="5" fill="#e67e22"/>
+  <text x="100" y="220" class="model-label">text-emb-004</text>
+
+  <!-- 9. text-emb-004 SemSim: AUC=0.559 [0.480, 0.639] -->
+  <line x1="288" y1="234" x2="436" y2="234" stroke="#e67e22" stroke-width="2" opacity="0.5"/>
+  <circle cx="361" cy="234" r="5" fill="#e67e22"/>
+  <text x="100" y="238" class="model-label">text-emb-004 SS</text>
+
+  <!-- 10. gemini-embedding-001: AUC=0.559 [0.480, 0.634] -->
+  <line x1="288" y1="252" x2="431" y2="252" stroke="#e67e22" stroke-width="2" opacity="0.5"/>
+  <circle cx="361" cy="252" r="5" fill="#e67e22"/>
+  <text x="100" y="256" class="model-label">gemini-emb</text>
+
+  <!-- 11. text-embedding-3-small: AUC=0.581 [0.505, 0.665] -->
+  <line x1="311" y1="270" x2="461" y2="270" stroke="#e67e22" stroke-width="2" opacity="0.5"/>
+  <circle cx="382" cy="270" r="5" fill="#e67e22"/>
+  <text x="100" y="274" class="model-label">OAI 3-small</text>
+
+  <!-- 12. text-embedding-3-large: AUC=0.594 [0.513, 0.681] -->
+  <line x1="319" y1="288" x2="475" y2="288" stroke="#e67e22" stroke-width="2" opacity="0.5"/>
+  <circle cx="394" cy="288" r="5" fill="#e67e22"/>
+  <text x="100" y="292" class="model-label">OAI 3-large</text>
+
+  <!-- 13. voyage-3-large: AUC=0.595 [0.520, 0.672] -->
+  <line x1="325" y1="306" x2="467" y2="306" stroke="#16a085" stroke-width="2" opacity="0.5"/>
+  <circle cx="395" cy="306" r="5" fill="#16a085"/>
+  <text x="100" y="310" class="model-label">voyage-3-large</text>
+
+  <!-- 14. voyage-3.5: AUC=0.550 [0.475, 0.628] -->
+  <line x1="283" y1="324" x2="426" y2="324" stroke="#16a085" stroke-width="2" opacity="0.5"/>
+  <circle cx="353" cy="324" r="5" fill="#16a085"/>
+  <text x="100" y="328" class="model-label">voyage-3.5</text>
+
+  <!-- 15. voyage-4: AUC=0.595 [0.528, 0.671] -->
+  <line x1="333" y1="342" x2="466" y2="342" stroke="#16a085" stroke-width="2" opacity="0.5"/>
+  <circle cx="395" cy="342" r="5" fill="#16a085"/>
+  <text x="100" y="346" class="model-label">voyage-4</text>
+
+  <!-- Legend -->
+  <circle cx="490" cy="68" r="4" fill="#2980b9"/>
+  <text x="498" y="72" class="model-label" text-anchor="start">Open (primary)</text>
+  <circle cx="580" cy="68" r="4" fill="#8e44ad"/>
+  <text x="588" y="72" class="model-label" text-anchor="start">Open (secondary)</text>
+  <circle cx="490" cy="84" r="4" fill="#e67e22"/>
+  <text x="498" y="88" class="model-label" text-anchor="start">Commercial (Google/OpenAI)</text>
+  <circle cx="620" cy="84" r="4" fill="#16a085"/>
+  <text x="628" y="88" class="model-label" text-anchor="start">Voyage</text>
+</svg>

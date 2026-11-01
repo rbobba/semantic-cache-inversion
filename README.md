@@ -60,6 +60,7 @@ See [REPRODUCE.md](REPRODUCE.md) for the full runbook.
 | `guards.py` | Negation cue list and signature guards |
 | `human*.py` | Human-question ingestion, evaluation and verdict scripts |
 | `verify_claims.py` | Checks every number in the study log against the files |
+| `figures/` | SVG diagrams: inversion concept, comparison A heatmap, AUC forest plot, guard effect |
 | `STUDY_LOG.md` | The full study record: 22 sections of pre-registrations, results and corrections |
 | `RELATED_WORK.md` | Literature review and positioning |
 | `REPRODUCE.md` | Reproduction runbook (three levels) |
