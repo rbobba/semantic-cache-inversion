@@ -1,8 +1,8 @@
-"""Recomputes the numbers the README cites from the files on disk, and checks
-that the README still says them.
+"""Recomputes the numbers the study log cites from the files on disk, and
+checks that the study log still says them.
 
   python verify_claims.py              every check
-  python verify_claims.py --only 21    one README section (or "integrity")
+  python verify_claims.py --only 21    one study-log section (or "integrity")
   python verify_claims.py --deep       also resolve every saved raw.jsonl again
                                        and byte-compare (a few minutes)
 
@@ -12,11 +12,12 @@ says how to rebuild them. This script never computes an embedding and never
 calls an API; it reads only what is already on disk. Exit status is 1 if any
 check fails.
 
-A table check finds the README row by its first cells, takes every number in
-the rest of the row, and requires the recomputed values to appear among them
-in order, each equal to the README's number within the rounding the README
-shows (0.469 matches 0.4688; 15.5 matches 15.53). The README is hand-written,
-so this tolerates its formatting while still catching a changed value.
+A table check finds the study-log row by its first cells, takes every number
+in the rest of the row, and requires the recomputed values to appear among
+them in order, each equal to the study log's number within the rounding it
+shows (0.469 matches 0.4688; 15.5 matches 15.53). The study log is
+hand-written, so this tolerates its formatting while still catching a changed
+value.
 
 Covered: the integrity of the data, pre-registrations, reports and verdict
 files; and the results tables of sections 7, 8, 10, 12, 13, 19 and 21 with
@@ -39,7 +40,7 @@ from pathlib import Path
 import numpy as np
 
 HERE = Path(__file__).parent
-README = (HERE / "README.md").read_text(encoding="utf-8").replace("\r\n", "\n")
+README = (HERE / "STUDY_LOG.md").read_text(encoding="utf-8").replace("\r\n", "\n")
 
 OPEN4 = {
     "MiniLM": ("st:sentence-transformers/all-MiniLM-L6-v2", ""),
@@ -47,7 +48,7 @@ OPEN4 = {
     "bge": ("st:BAAI/bge-base-en-v1.5", ""),
     "e5": ("st:intfloat/e5-base-v2", "query: "),
 }
-# Section 8's 15 configurations: README row label -> (embedder, prefix, task type).
+# Section 8's 15 configurations: study-log row label -> (embedder, prefix, task type).
 ALL15 = {
     "all-MiniLM-L6-v2": ("st:sentence-transformers/all-MiniLM-L6-v2", "", None),
     "all-mpnet-base-v2": ("st:sentence-transformers/all-mpnet-base-v2", "", None),
@@ -94,7 +95,7 @@ def load(path: Path) -> dict:
     return json.loads(path.read_text(encoding="utf-8"))
 
 
-# ── README access ────────────────────────────────────────────────────────
+# ── Study-log access ─────────────────────────────────────────────────────
 
 
 def section(n: int, text: str | None = None) -> str:
@@ -149,7 +150,7 @@ class Checks:
         what = f"§{sec_n} row {' / '.join(c or '·' for c in cells)}"
         line = find_row(section(sec_n), cells, after)
         if line is None:
-            self.emit("FAIL", what, "row not found in README")
+            self.emit("FAIL", what, "row not found in study log")
             return
         toks = numbers(line)
         i = 0
@@ -474,7 +475,7 @@ def s12(c: Checks) -> None:
 
 
 def compare(a: Path, b: Path, design: str) -> list[float]:
-    """evaluate.py --compare, as the README ran it (1,000 resamples, seed 7)."""
+    """evaluate.py --compare, as the study log ran it (1,000 resamples, seed 7)."""
     import evaluate
 
     for p in (a, b):
@@ -706,7 +707,7 @@ def s21(c: Checks) -> None:
             word = re.search(rf"^{vid} {vendor}: ([A-Z ]+) \(", reg, re.M).group(1).strip().lower()
             block = reg.split(f"== {vid}:")[1].split("\n== ")[0]
             held = [names[d] for d in DOMAINS if re.search(rf"-> {vendor} {d}: HOLDS", block)]
-            # The README names the domains that hold: "partially (finance, retail)".
+            # The study log names the domains that hold: "partially (finance, retail)".
             seg = line.split(name, 1)[1].split(";")[0] if name in line else ""
             listed = [n for n in names.values() if n in seg]
             ok = seg.strip().startswith(word) and listed == held
@@ -881,7 +882,7 @@ def main() -> None:
         metavar=("COMMITTED", "REGENERATED"),
         help="check that every value of a committed report is unchanged in a regenerated one",
     )
-    ap.add_argument("--only", help='a README section number, or "integrity"')
+    ap.add_argument("--only", help='a study-log section number, or "integrity"')
     ap.add_argument(
         "--deep",
         action="store_true",
